@@ -1,3 +1,29 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap");
+
+/* * {
+  border: 1px solid black;
+} */
+/* box-sizing: border-box; */
+
+.text-bg {
+  font-family: "Fjalla One", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.text-char{
+  color: rgba(166, 34, 255, 0.7);
+  /* filter: blur(1px); */
+  padding: 3px;
+  mix-blend-mode: multiply;
+  text-shadow: 
+    -2px -2px 3px rgb(190, 190, 190),  
+     2px -2px 3px black,  
+    -2px  2px 3px rgb(190, 190, 190),  
+     2px  2px 3px black; /* Creates a sharp outline effect */
+     width: fit-content;
+     padding: 3px;
+}

@@ -1,12 +1,47 @@
-'use client'
-import React, { useEffect } from 'react'
+import { animate, motion } from "framer-motion"
+
+const bgVariants = {
+    // initial: {},
+    // animate: {},
+    // exit: {},
+    // hover: {},
+    // inView: {},
+    initial: { rotate: 0 },
+    animate: {
+        rotate: 360,
+        transition: {
+            duration: 10,
+            repeat: Infinity,
+            repeatType: "loop",
+            ease: "linear"
+        },
+    },
+    exit: {
+        rotate: 0
+    }
+
+}
 
 const Bg = () => {
-    useEffect(() => {
 
-    }, [])
     return (
-        <div className='absolute w-screen max-h-[600px] min-h-[33vh] bg-red-500'>yes</div>
+        <motion.div variants={bgVariants}
+            style={{
+                transformOrigin: 'center',  // Ensures rotation happens around the center without affecting the layout
+                willChange: 'transform' // Optimizes performance
+            }}
+            exit="exit" initial="initial" animate="animate" className='relative w-full h-full bg-transparent blur-[100px] overflow-hidden z-[0] flex items-center justify-center' >
+            {/* Center circle */}
+            <div className="rounded-full w-[25%] h-[50%] bg-gradient-to-br from-violet-500 to-fuchsia-500"></div>
+
+            {/* Lines */}
+            <div className="absolute w-full h-full flex flex-col items-center justify-center">
+                <div className="absolute w-full h-[55px] bg-gradient-to-r from-purple-500 via-purple-500 to-blue-500"></div>
+                <div className="absolute w-full rotate-45 h-[55px] bg-gradient-to-r from-purple-500 via-purple-500 to-blue-500"></div>
+                <div className="absolute w-full rotate-90 h-[55px] bg-gradient-to-r from-purple-500 via-purple-500 to-blue-500"></div>
+                <div className="absolute w-full rotate-[135deg] h-[55px] bg-gradient-to-r from-purple-500 via-purple-500 to-blue-500"></div>
+            </div>
+        </motion.div>
     )
 }
 
