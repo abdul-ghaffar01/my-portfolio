@@ -1,5 +1,6 @@
 "use client"
 import About from "@/components/about/About";
+import Contact from "@/components/contact/Contact";
 import FadeInFromTopInView from "@/components/FadeInFromTopInView";
 import Home from "@/components/home/Home";
 import Loader from "@/components/Loader";
@@ -23,6 +24,8 @@ export default function page() {
           {/* protecting the animation trigger without comming in view of below elements */}
           <div ref={dummy} className="w-screen h-screen" ></div>
           <About />
+
+          <Contact />
         </>)
       }
     </div>

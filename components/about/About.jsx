@@ -79,7 +79,7 @@ const About = () => {
               <motion.div initial={{ flex: 0 }}
                 whileInView={{ flex: 1 }}
                 transition={{ duration: 1, ease: "easeInOut", delay: .8 }}
-                  viewport={{ once: true }} className='flex-1  border-t border-b border-gray-300 ml-2 mb-0' ></motion.div>
+                viewport={{ once: true }} className='flex-1  border-t border-b border-gray-300 ml-2 mb-0' ></motion.div>
             </div>
             a passionate full-stack developer with a strong foundation in problem-solving, algorithms, and scalable web applications. With expertise in Next.js, NestJS, and TypeScript, I specialize in building high-performance solutions that prioritize user experience and functionality. Currently pursuing a Bachelor's degree in Computer Science at SZABIST, I have maintained a GPA of 3.84 in my second semester with a CGPA of 3.8, reflecting my dedication to both academics and practical development. Beyond coursework, I have solved over 180+ LeetCode problems, continuously refining my skills in data structures and algorithms. My experience spans full-stack development, API design, and database management, with a growing interest in machine learning integration. Whether it's crafting scalable web applications or optimizing system efficiency, I thrive on solving complex challenges and pushing the boundaries of innovation.
           </div>
@@ -103,7 +103,7 @@ const About = () => {
               alt='Profile'
               className='h-full w-full object-cover mb-[30px]'
             />
-            <div ref={frameRef} className=" absolute transition-all duration-300 top-0 bg-purple-800 opacity-[50%] h-full w-full"></div>
+            <div ref={frameRef} className=" absolute flex flex-col justify-evenly transition-all duration-300 top-0 bg-purple-800 opacity-[50%] h-full w-full"></div>
             <div ref={boundryRef} className="absolute transition-all duration-300 top-0 w-full h-full border-2 p-3 border-purple-700 rotate-[-15deg] origin-center "></div>
           </div>
         </motion.div>
