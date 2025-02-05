@@ -4,7 +4,8 @@ import Bg from './Bg'
 import TextBg from './TextBg'
 import FadeInFromTopInView from '../FadeInFromTopInView'
 import Image from 'next/image'
-
+import { motion } from "framer-motion"
+import Navbar from '../navbar/Navbar'
 const Home = () => {
     const containerRef = useRef(null)
     const [height, setHeight] = useState(0)
@@ -23,7 +24,7 @@ const Home = () => {
 
             // Calculating on the basis of ratio
             if (widthToHeightRatio > 1.1) {
-                calculatedHeight = 80
+                calculatedHeight = 100
             }
             else if (widthToHeightRatio > 0.9) {
                 calculatedHeight = 70
@@ -51,16 +52,16 @@ const Home = () => {
         }
     }, [height])
     return (
-        <FadeInFromTopInView>
-            <div ref={containerRef} className='w-screen relative flex flex-col items-center overflow-hidden z-[auto]'>
-                <Bg />
-                <div className='absolute flex items-center justify-center w-full lg:w-[80vw] max-w-[1200px] h-full mx-auto z-[1] p-2'>
-                    <TextBg />
-                    <Image className='absolute z-[3] bottom-0 h-[90%] w-auto' initial={{ opacity: 0 }} animate={{ opacity: 1 }} src="/profile.png" width={400} height={400} />
-                </div>
+        <motion.div initial={{ opacity: 0, y: -100 }}
+            whileInView={{ opacity: 1, y: 0, transition: { duration: .8 } }}
+            viewport={{ once: true, amount: .5 }} ref={containerRef} className='w-screen relative flex flex-col items-center overflow-hidden z-[auto]'>
+            <Bg />
+            <div className='absolute flex items-center justify-center w-full lg:w-[80vw] max-w-[1200px] h-full mx-auto z-[1] p-2'>
+                <TextBg />
+                <Image className='absolute z-[3] bottom-0 h-[90%] w-auto' initial={{ opacity: 0 }} animate={{ opacity: 1 }} src="/profile.png" width={400} height={400} />
             </div>
-            
-        </FadeInFromTopInView>
+        </motion.div>
+
     )
 }
 

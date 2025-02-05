@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import React from 'react';
 
-const computerScientist = Array.from("WELCOME");
+const computerScientist = Array.from("Abdul Ghaffar");
 
 const textVariants = {
     initial: { y: -100, opacity: 0 }, // Start from above
