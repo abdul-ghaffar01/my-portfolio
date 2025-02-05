@@ -1,7 +1,7 @@
 "use client"
 import About from "@/components/about/About";
 import Contact from "@/components/contact/Contact";
-import FadeInFromTopInView from "@/components/FadeInFromTopInView";
+import Footer from "@/components/footer/Footer";
 import Home from "@/components/home/Home";
 import Loader from "@/components/Loader";
 import Navbar from "@/components/navbar/Navbar";
@@ -26,6 +26,7 @@ export default function page() {
           <About />
 
           <Contact />
+          <Footer />
         </>)
       }
     </div>

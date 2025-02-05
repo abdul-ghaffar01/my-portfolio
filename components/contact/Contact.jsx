@@ -8,7 +8,7 @@ const Contact = () => {
             initial={{ y: -100, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1, transition: { duration: 0.8 } }}
             viewport={{ once: true, amount: 0.5 }}
-            className=" max-w-[600px] p-2 mx-auto mt-7 flex flex-col items-center"
+            className=" max-w-[600px] p-2 mx-auto my-[70px] flex flex-col items-center"
         >
 
             <div className="w-full relative flex items-center justify-center">
@@ -28,7 +28,7 @@ const Contact = () => {
                 </p>
             </div>
 
-            <Link href="mailto:agscontact777@gmail.com" className="mt-5 group p-1 px-4 text-black border border-purple-700 rounded-md font-bold relative overflow-hidden">
+            <Link href="mailto:agscontact777@gmail.com" className="mt-5 group p-1 px-4 text-purple-700 border border-purple-700 rounded-md font-bold relative overflow-hidden">
                 <span className='group-hover:text-white'>
                     Say hello
                 </span>
