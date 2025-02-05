@@ -48,7 +48,7 @@ const About = () => {
   }, [imgSize]);
 
   return (
-    <div className='bg-purple-500 h-fit py-5 flex flex-col items-center justify-center'>
+    <div id='about' className='bg-purple-500 h-fit py-5 flex flex-col items-center justify-center'>
       <Heading className="" text="About me" color="text-white" lineColor="bg-white" />
 
       {/* Full content */}
@@ -66,14 +66,23 @@ const About = () => {
             className="line w-[50px] bg-white rounded-full self-stretch"
             initial={{ height: 0 }}
             whileInView={{ height: "100px" }}
-            transition={{ duration: 1, ease: "easeInOut",delay: .8 }}
+            transition={{ duration: 1, ease: "easeInOut", delay: .8 }}
             viewport={{ once: true }}
           ></motion.div>
 
           {/* About me text */}
-          <p className="text-slate-200 text-[17px]">
-            I'm Abdul Ghaffar, a passionate full-stack developer with a strong foundation in problem-solving, algorithms, and scalable web applications. With expertise in Next.js, NestJS, and TypeScript, I specialize in building high-performance solutions that prioritize user experience and functionality. Currently pursuing a Bachelor's degree in Computer Science at SZABIST, I have maintained a GPA of 3.84 in my second semester with a CGPA of 3.8, reflecting my dedication to both academics and practical development. Beyond coursework, I have solved over 180+ LeetCode problems, continuously refining my skills in data structures and algorithms. My experience spans full-stack development, API design, and database management, with a growing interest in machine learning integration. Whether it's crafting scalable web applications or optimizing system efficiency, I thrive on solving complex challenges and pushing the boundaries of innovation.
-          </p>
+          <div className="text-slate-200 text-[17px]">
+            <div className='flex items-center'>
+              <span className='text-xl font-bold whitespace-nowrap'>
+                I'm Abdul Ghaffar,
+              </span>
+              <motion.div initial={{ flex: 0 }}
+                whileInView={{ flex: 1 }}
+                transition={{ duration: 1, ease: "easeInOut", delay: .8 }}
+                  viewport={{ once: true }} className='flex-1  border-t border-b border-gray-300 ml-2 mb-0' ></motion.div>
+            </div>
+            a passionate full-stack developer with a strong foundation in problem-solving, algorithms, and scalable web applications. With expertise in Next.js, NestJS, and TypeScript, I specialize in building high-performance solutions that prioritize user experience and functionality. Currently pursuing a Bachelor's degree in Computer Science at SZABIST, I have maintained a GPA of 3.84 in my second semester with a CGPA of 3.8, reflecting my dedication to both academics and practical development. Beyond coursework, I have solved over 180+ LeetCode problems, continuously refining my skills in data structures and algorithms. My experience spans full-stack development, API design, and database management, with a growing interest in machine learning integration. Whether it's crafting scalable web applications or optimizing system efficiency, I thrive on solving complex challenges and pushing the boundaries of innovation.
+          </div>
         </motion.div>
 
         {/* Image container */}
@@ -99,7 +108,7 @@ const About = () => {
           </div>
         </motion.div>
       </motion.div>
-    </div>
+    </div >
   )
 }
 
