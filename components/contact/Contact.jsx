@@ -5,7 +5,7 @@ import Link from "next/link"
 const Contact = () => {
     return (
         <motion.div
-            initial={{ y: -100, opacity: 0 }}
+            initial={{ y: 100, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1, transition: { duration: 0.8 } }}
             viewport={{ once: true, amount: 0.5 }}
             className=" max-w-[600px] p-2 mx-auto my-[70px] flex flex-col items-center"

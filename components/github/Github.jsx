@@ -1,4 +1,4 @@
-// components/GitHubRepos.js
+// components/Github.js
 import { useEffect, useState } from "react";
 import Followers from "./Followers";
 import ProfileSection from "./ProfileSection";
@@ -18,7 +18,7 @@ export const getUserRepositories = async (username) => {
 };
 
 
-const GitHubRepos = () => {
+const Github = () => {
     // const [repos, setRepos] = useState([]);
     // const [loading, setLoading] = useState(true);
     // const [error, setError] = useState(null);
@@ -42,13 +42,13 @@ const GitHubRepos = () => {
         >
             <Heading text="Github profile" className="z-[0]" color="text-slate-500" lineColor="bg-slate-500" />
             <motion.div
-                initial={{ opacity: 0, y: -100 }}
+                initial={{ opacity: 0, y: 100 }}
                 whileInView={{ opacity: 1, y: 0, transition: { duration: .8 } }}
                 viewport={{ once: true, amount: .5 }}
                 className="flex flex-col items-center z-[1] mt-3"
             >
                 <ProfileSection />
-                <div className="w-screen overflow-hidden">
+                <div className="w-screen overflow-hidden mt-8">
                     <Followers />
                 </div>
             </motion.div>
@@ -56,4 +56,4 @@ const GitHubRepos = () => {
     );
 };
 
-export default GitHubRepos;
+export default Github;
