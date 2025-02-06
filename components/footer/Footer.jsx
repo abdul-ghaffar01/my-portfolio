@@ -10,7 +10,7 @@ const Footer = () => {
         <div className='mx-auto w-fit text-slate-500 flex flex-col items-center'>
             {/* Social icons */}
             <div className="socials flex items-center justify-center my-2 gap-[10px]">
-                <Link href="https://github.com/abdul-ghaffar01" >
+                <Link target="_blank" href="https://github.com/abdul-ghaffar01" >
                     <GitHubIcon sx={{
                         transition: "all .3s ease",
                         '&:hover': {
@@ -20,7 +20,7 @@ const Footer = () => {
                     }} />
                 </Link>
 
-                <Link href="https://www.instagram.com/i_abdul_ghaffar/" >
+                <Link target="_blank" href="https://www.instagram.com/i_abdul_ghaffar/" >
                     <InstagramIcon sx={{
                         transition: "all .3s ease",
                         '&:hover': {
@@ -30,7 +30,7 @@ const Footer = () => {
                     }} />
                 </Link>
 
-                <Link href="https://www.linkedin.com/in/abdul-ghaffar01/" >
+                <Link target="_blank" href="https://www.linkedin.com/in/abdul-ghaffar01/" >
                     <LinkedInIcon sx={{
                         transition: "all .3s ease",
                         '&:hover': {
@@ -40,7 +40,7 @@ const Footer = () => {
                     }} />
                 </Link>
 
-                <Link
+                <Link target="_blank"
                     href="https://leetcode.com/u/abdulghaffar01/"
                     className="w-6 h-6 text-slate-500 hover:text-yellow-500 transition-all duration-300"
                 >

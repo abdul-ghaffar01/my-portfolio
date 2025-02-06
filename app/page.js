@@ -2,6 +2,7 @@
 import About from "@/components/about/About";
 import Contact from "@/components/contact/Contact";
 import Footer from "@/components/footer/Footer";
+import GitHubRepos from "@/components/github/Github";
 import Home from "@/components/home/Home";
 import Loader from "@/components/Loader";
 import Navbar from "@/components/navbar/Navbar";
@@ -24,7 +25,7 @@ export default function page() {
           {/* protecting the animation trigger without comming in view of below elements */}
           <div ref={dummy} className="w-screen h-screen" ></div>
           <About />
-
+          <GitHubRepos />
           <Contact />
           <Footer />
         </>)
