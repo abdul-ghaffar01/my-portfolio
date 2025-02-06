@@ -4,76 +4,14 @@ import React, { useEffect, useState } from 'react';
 import Slider from 'react-infinite-logo-slider';
 
 const Followers = () => {
-  const [followers, setFollowers] = useState([
-    {
-      avatar_url: "https://avatars.githubusercontent.com/u/104073101?v=4",
-      login: "Abdul Ghaffar"
-    }, {
-      avatar_url: "https://avatars.githubusercontent.com/u/148336647?v=4",
-      login: "Umair ali malik"
-    },{
-      avatar_url: "https://avatars.githubusercontent.com/u/148336647?v=4",
-      login: "Umair ali malik"
-    },{
-      avatar_url: "https://avatars.githubusercontent.com/u/148336647?v=4",
-      login: "Umair ali malik"
-    }, {
-      avatar_url: "https://avatars.githubusercontent.com/u/104073101?v=4",
-      login: "Abdul Ghaffar"
-    },{
-      avatar_url: "https://avatars.githubusercontent.com/u/104073101?v=4",
-      login: "Abdul Ghaffar"
-    }, {
-      avatar_url: "https://avatars.githubusercontent.com/u/148336647?v=4",
-      login: "Umair ali malik"
-    },{
-      avatar_url: "https://avatars.githubusercontent.com/u/148336647?v=4",
-      login: "Umair ali malik"
-    },{
-      avatar_url: "https://avatars.githubusercontent.com/u/148336647?v=4",
-      login: "Umair ali malik"
-    }, {
-      avatar_url: "https://avatars.githubusercontent.com/u/104073101?v=4",
-      login: "Abdul Ghaffar"
-    }, {
-      avatar_url: "https://avatars.githubusercontent.com/u/104073101?v=4",
-      login: "Abdul Ghaffar"
-    }, {
-      avatar_url: "https://avatars.githubusercontent.com/u/148336647?v=4",
-      login: "Umair ali malik"
-    },{
-      avatar_url: "https://avatars.githubusercontent.com/u/148336647?v=4",
-      login: "Umair ali malik"
-    },{
-      avatar_url: "https://avatars.githubusercontent.com/u/148336647?v=4",
-      login: "Umair ali malik"
-    }, {
-      avatar_url: "https://avatars.githubusercontent.com/u/104073101?v=4",
-      login: "Abdul Ghaffar"
-    },{
-      avatar_url: "https://avatars.githubusercontent.com/u/104073101?v=4",
-      login: "Abdul Ghaffar"
-    }, {
-      avatar_url: "https://avatars.githubusercontent.com/u/148336647?v=4",
-      login: "Umair ali malik"
-    },{
-      avatar_url: "https://avatars.githubusercontent.com/u/148336647?v=4",
-      login: "Umair ali malik"
-    },{
-      avatar_url: "https://avatars.githubusercontent.com/u/148336647?v=4",
-      login: "Umair ali malik"
-    }, {
-      avatar_url: "https://avatars.githubusercontent.com/u/104073101?v=4",
-      login: "Abdul Ghaffar"
-    }, 
-  ]);
+  const [followers, setFollowers] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const profileData = await fetch("/api/github/followers");
         const data = await profileData.json();
-        // setFollowers(data);
+        setFollowers(data);
       } catch (error) {
         console.error("Error fetching followers:", error);
       }
@@ -91,7 +29,7 @@ const Followers = () => {
         className="flex items-center gap-4 "
       >
         {followers.map((item, index) => (
-          <Slider.Slide key={index} className="w-[180px]">
+          <Slider.Slide key={index} className="w-fit">
             <Link
               href={item.html_url || ""}
               target="_blank"
@@ -105,7 +43,7 @@ const Followers = () => {
                 height={40}
                 alt="Follower profile"
               />
-              <p className="text-white font-medium">{item.login}</p>
+              <p className="text-white font-medium break-keep">{item.login}</p>
             </Link>
           </Slider.Slide>
         ))}

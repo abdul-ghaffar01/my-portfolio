@@ -38,7 +38,7 @@ const Github = () => {
 
     return (
         <motion.div
-            className=" py-7 bg-black text-white flex flex-col items-center"
+            className=" py-7 bg-black text-white flex flex-col items-center pb-[150px]"
         >
             <Heading text="Github profile" className="z-[0]" color="text-slate-500" lineColor="bg-slate-500" />
             <motion.div

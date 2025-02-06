@@ -8,7 +8,7 @@ const Contact = () => {
             initial={{ y: 100, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1, transition: { duration: 0.8 } }}
             viewport={{ once: true, amount: 0.5 }}
-            className=" max-w-[600px] p-2 mx-auto my-[70px] flex flex-col items-center"
+            className=" max-w-[800px] min-h-[50vh] p-2 mx-auto my-[70px] flex flex-col items-center justify-evenly"
         >
 
             <div className="w-full relative flex items-center justify-center">

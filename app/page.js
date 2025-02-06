@@ -6,6 +6,7 @@ import GitHubRepos from "@/components/github/Github";
 import Home from "@/components/home/Home";
 import Loader from "@/components/Loader";
 import Navbar from "@/components/navbar/Navbar";
+import Skills from "@/components/skills/Skills";
 import { useEffect, useRef, useState } from "react";
 
 export default function page() {
@@ -17,7 +18,7 @@ export default function page() {
     }, 800);
   })
   return (
-    <div className="w-screen">
+    <div className="w-screen overflow-hidden">
       {loader ? <Loader /> :
         (<>
           <Navbar />
@@ -26,6 +27,7 @@ export default function page() {
           <div ref={dummy} className="w-screen h-screen" ></div>
           <About />
           <GitHubRepos />
+          <Skills />
           <Contact />
           <Footer />
         </>)
