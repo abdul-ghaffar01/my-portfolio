@@ -1,7 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Slider from 'react-infinite-logo-slider';
 
 const Followers = (followers) => {
+  const [follower, setFollowers] = useState([])
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const profileData = await fetch("/api/github/followers");
+        const data = await profileData.json()
+        setFollowers(data)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    fetchData();
+  }, [])
+
   return (
     <Slider
       width="100vw"

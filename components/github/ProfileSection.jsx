@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
+import Loader from '../Loader'
 const ProfileSection = () => {
     const [profileData, setProfileData] = useState({})
     const [loading, setLoading] = useState(true)
@@ -12,7 +13,7 @@ const ProfileSection = () => {
                 const profileData = await fetch("/api/github/profile");
                 const data = await profileData.json()
                 setProfileData(data)
-                setLoading(flase)
+                setLoading(false)
                 console.log(data)
             } catch (error) {
                 console.log(error)
@@ -21,10 +22,10 @@ const ProfileSection = () => {
         fetchData();
     }, [])
     // url https://api.github.com/users/abdul-ghaffar01
-    return (
+    return (<>
         <motion.div className='max-w-[600px] w-fit h-[260px] flex flex-col justify-between mt-5 px-3 bg-slate-900 border border-slate-700 p-2 mx-1'>
             {/* Top section */}
-            <div className='flex h-fit gap-[10px]'>
+            <div div className='flex h-fit gap-[10px]'>
                 {/* Image of github profile */}
                 <div className='h-full shadow-md shadow-slate-700 rounded-md overflow-hidden bg-slate-900 w-[130px] h-[130px]'>
                     <Image
@@ -48,7 +49,7 @@ const ProfileSection = () => {
             </div>
 
             {/* middle section / bio section  */}
-            <div className='mt-2 text-slate-600'>
+            <div className='mt-2 text-slate-500'>
                 {profileData.bio}
             </div>
 
@@ -56,7 +57,8 @@ const ProfileSection = () => {
                 Visit profile
             </Link>
 
-        </motion.div>
+        </motion.div >
+    </>
     )
 }
 
