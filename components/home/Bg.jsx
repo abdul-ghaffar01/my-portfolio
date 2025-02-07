@@ -32,7 +32,7 @@ const Bg = () => {
             }}
             exit="exit" initial="initial" animate="animate" className='relative w-full h-full bg-transparent blur-[100px] overflow-hidden z-[0] flex items-center justify-center' >
             {/* Center circle */}
-            <div className="rounded-full w-[25%] h-[50%] bg-gradient-to-br from-violet-500 to-fuchsia-500"></div>
+            <div className="rounded-full w-[25%] h-[50%] bg-gradient-to-br from-violet-500 to-fuchsia-500 z-[-1]"></div>
 
             {/* Lines */}
             <div className="absolute w-full h-full flex flex-col items-center justify-center">

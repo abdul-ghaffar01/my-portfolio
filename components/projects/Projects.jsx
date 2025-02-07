@@ -4,7 +4,7 @@ import ProjectItem from './ProjectItem'
 import projectsData from './data'
 const Projects = () => {
     return (
-        <div className='relative w-full bg-purple-900 min-h-[600px] h-fit flex flex-col items-center py-8'>
+        <div id="projects" className='relative w-full bg-purple-900 min-h-[600px] h-fit flex flex-col items-center py-8'>
 
             <div className='w-[200vw] absolute h-full bg-purple-900 z-[2] rotate-[4deg] top-[-50px] '></div>
             <div className="w-screen flex flex-col items-center z-[2] cont">

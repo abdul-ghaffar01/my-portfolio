@@ -8,7 +8,8 @@ import { duration } from '@mui/material'
 
 const Skills = () => {
   return (
-    <div className='relative w-full h-fit min-h-[600px] flex flex-col items-center '>
+    <div id='skills'
+      className='relative w-full h-fit min-h-[600px] flex flex-col items-center '>
       <div className='w-[200vw] absolute h-full bg-purple-50 z-[2] rotate-[-4deg] top-[-50px] '></div>
       {/* All the content */}
       <Heading
@@ -30,7 +31,7 @@ const Skills = () => {
           {data.map((item, index) => {
             return (
               <motion.div
-              key={index}
+                key={index}
                 initial={{ y: 40, opacity: 0 }}
                 whileInView={{
                   y: 0,

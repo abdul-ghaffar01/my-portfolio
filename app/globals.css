@@ -3,10 +3,14 @@
 @tailwind utilities;
 @import url("https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap");
 
-/* * {
-  border: 1px solid black;
-} */
-/* box-sizing: border-box; */
+* {
+  /* border: 1px solid black; */
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
 
 .text-bg {
   font-family: "Fjalla One", serif;

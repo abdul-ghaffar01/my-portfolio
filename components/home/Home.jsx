@@ -59,13 +59,9 @@ const Home = () => {
                 <Navbar />
 
                 <div className="content bg-purple-600">
-                    All the content goes here 
+                    All the content goes here
                 </div>
 
-                {/* <div className='absolute flex items-center justify-center w-full lg:w-[80vw] max-w-[1200px] h-full mx-auto z-[1] p-2'>
-                    <TextBg />
-                    <Image className='absolute z-[3] bottom-0 h-[90%] w-auto' initial={{ opacity: 0 }} animate={{ opacity: 1 }} src="/profile.png" width={400} height={400} alt='Profile' />
-                </div> */}
             </div>
         </motion.div>
 
