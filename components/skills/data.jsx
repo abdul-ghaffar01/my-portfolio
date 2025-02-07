@@ -1,8 +1,30 @@
 const data = [
+
+    {
+        name: "C++",
+        img: "/cplusplus.svg"
+    },
+    {
+        name: "MongoDb",
+        img: "/mongodb.svg"
+    },
+    {
+        name: "MySql",
+        img: "/mysql.svg"
+    },
+    {
+        name: "Nginx",
+        img: "/nginx.svg"
+    },
+    {
+        name: "NodeJs",
+        img: "/nodedotjs.svg"
+    },
     {
         name: "Python",
         img: "/python.svg"
     },
+    
     {
         name: "Javascript",
         img: "/javascript.svg"
@@ -24,6 +46,14 @@ const data = [
         img: "/nextdotjs.svg"
     },
     {
+        name: "Redux",
+        img: "/redux.svg"
+    },
+    {
+        name: "ExpressJs",
+        img: "/express.svg"
+    },
+    {
         name: "AWS",
         img: "/amazonwebservices.svg"
     },
@@ -32,44 +62,16 @@ const data = [
         img: "/bootstrap.svg"
     },
     {
-        name: "C++",
-        img: "/cplusplus.svg"
+        name: "PostgreSql",
+        img: "/postgresql.svg"
     },
     {
-        name: "ExpressJs",
-        img: "/express.svg"
+        name: "Ubuntu",
+        img: "/ubuntu.svg"
     },
     {
         name: "Git",
         img: "/git.svg"
-    },
-    {
-        name: "C++",
-        img: "/cplusplus.svg"
-    },
-    {
-        name: "ExpressJs",
-        img: "/express.svg"
-    },
-    {
-        name: "MongoDb",
-        img: "/mongodb.svg"
-    },
-    {
-        name: "MySql",
-        img: "/mysql.svg"
-    },
-    {
-        name: "Nginx",
-        img: "/nginx.svg"
-    },
-    {
-        name: "NodeJs",
-        img: "/nodedotjs.svg"
-    },
-    {
-        name: "PostgreSql",
-        img: "/postgresql.svg"
     },
     {
         name: "ReactJs",
@@ -78,6 +80,9 @@ const data = [
     {
         name: "Docker",
         img: "/docker.svg"
+    }, {
+        name: "Django",
+        img: "/django.svg"
     },
 ]
 export default data;

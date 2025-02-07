@@ -48,7 +48,7 @@ const About = () => {
   }, [imgSize]);
 
   return (
-    <div id='about' className='bg-purple-500 h-fit py-5 flex flex-col items-center justify-center'>
+    <div id='about' className='bg-purple-500 h-fit py-5 flex flex-col items-center justify-center pb-[80px]'>
       <Heading className="" text="About me" color="text-white" lineColor="bg-white" />
 
       {/* Full content */}
@@ -56,7 +56,7 @@ const About = () => {
 
         {/* About me text container */}
         <motion.div
-          initial={{ opacity: 0, y: -100 }}
+          initial={{ opacity: 0, y: 100 }}
           whileInView={{ opacity: 1, y: 0, transition: { duration: .8 } }}
           viewport={{ once: true, amount: .3 }}
           className="text flex-1 min-h-fit p-6 flex gap-[10px] "

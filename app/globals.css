@@ -14,16 +14,31 @@
   font-style: normal;
 }
 
-.text-char{
+.text-char {
   color: rgba(166, 34, 255, 0.7);
   /* filter: blur(1px); */
   padding: 3px;
   mix-blend-mode: multiply;
-  text-shadow: 
-    -2px -2px 3px rgb(190, 190, 190),  
-     2px -2px 3px black,  
-    -2px  2px 3px rgb(190, 190, 190),  
-     2px  2px 3px black; /* Creates a sharp outline effect */
-     width: fit-content;
-     padding: 3px;
+  text-shadow: -2px -2px 3px rgb(190, 190, 190), 2px -2px 3px black,
+    -2px 2px 3px rgb(190, 190, 190), 2px 2px 3px black; /* Creates a sharp outline effect */
+  width: fit-content;
+  padding: 3px;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px; /* Short width */
+}
+
+::-webkit-scrollbar-track {
+  background: #3b0764; /* Tailwind's purple-900 */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #8732cc; /* A slightly lighter purple for contrast */
+  border-radius: 10px; /* Rounded corners */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #9333ea; /* Even lighter for hover effect */
 }

@@ -5,7 +5,9 @@ import Link from 'next/link'
 import Image from 'next/image'
 import Loader from '../Loader'
 const ProfileSection = () => {
-    const [profileData, setProfileData] = useState({})
+    const [profileData, setProfileData] = useState({
+        avatar_url: "",
+    })
     const [loading, setLoading] = useState(true)
     useEffect(() => {
         const fetchData = async () => {
@@ -29,7 +31,7 @@ const ProfileSection = () => {
                 {/* Image of github profile */}
                 <div className='h-full shadow-md shadow-slate-700 rounded-md overflow-hidden bg-slate-900 w-[130px] h-[130px]'>
                     <Image
-                        src={profileData.avatar_url}
+                        src={profileData.avatar_url || ""}
                         width={130}
                         height={130}
                         alt='Github Profile'

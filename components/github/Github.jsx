@@ -19,22 +19,6 @@ export const getUserRepositories = async (username) => {
 
 
 const Github = () => {
-    // const [repos, setRepos] = useState([]);
-    // const [loading, setLoading] = useState(true);
-    // const [error, setError] = useState(null);
-
-    // useEffect(() => {
-    //     const fetchRepos = async () => {
-    //         const data = await getUserRepositories("abdul-ghaffar01");
-    //         if (data.length === 0) setError("No repositories found or failed to fetch.");
-    //         setRepos(data);
-    //         setLoading(false);
-    //     };
-    //     fetchRepos();
-    // }, []);
-
-    // if (loading) return <p>Loading...</p>;
-    // if (error) return <p>{error}</p>;
 
     return (
         <motion.div

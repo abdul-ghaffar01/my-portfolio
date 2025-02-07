@@ -30,6 +30,7 @@ const Skills = () => {
           {data.map((item, index) => {
             return (
               <motion.div
+              key={index}
                 initial={{ y: 40, opacity: 0 }}
                 whileInView={{
                   y: 0,

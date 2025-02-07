@@ -1,45 +1,53 @@
-import React from 'react';
-
-const NeonText = ({ children, color = 'blue', glowColor = null, className = '' }) => {
-    const glow = glowColor || color; // Default glow color to the text color if not provided
-
-    return (
-        <span
-            className={`
-        ${className}
-        text-xl font-bold  // Adjust size and weight as needed
-        ${/* Main text color */ ''} text-${color}-500 
-        ${/* Shadow for neon effect */ ''}  
-        drop-shadow-[0_0_5px_${glow}]
-        drop-shadow-[0_0_10px_${glow}]
-        drop-shadow-[0_0_15px_${glow}]
-      `}
-            style={{
-                textShadow: `0 0 5px ${glow}, 0 0 10px ${glow}, 0 0 15px ${glow}`, // fallback for browsers that don't support drop-shadow
-            }}
-        >
-            {children}
-        </span>
-    );
-};
-
-
+import { motion } from "framer-motion"
 const Logo = () => {
     return (
-        <div className="flex items-center justify-center"> {/* Dark background for better visibility */}
-            {/* <NeonText color="red" glowColor="yellow" className="text-4xl">
-                Neon Text!
-            </NeonText>
-            <br />
-            <NeonText color="green" className="text-2xl">
-                Another Example
-            </NeonText>
-            <br /> */}
-            <NeonText color="purple" glowColor="pink" className="text-3xl ml-3">
-                Abdul Ghaffar
-            </NeonText>
+        <div className="relative w-[60px] h-[60px] flex items-center justify-center">
+  {/* lines */}
+  <div className="absolute top-0 w-full h-full">
+    {/* top line  */}
+    <motion.div
+      initial={{ width: 0 }}
+      whileInView={{ width: "100%", transition: { duration: 0.2, delay: 0.8 } }}
+      viewport={{ once: true, amount: 1 }}
+      className="absolute top-0 left-0 w-full h-[6px] bg-purple-500"
+    ></motion.div>
 
-        </div>
+    {/* right line  */}
+    <motion.div
+      initial={{ height: 0 }}
+      whileInView={{ height: "100%", transition: { duration: 0.2, delay: 1.0 } }}
+      viewport={{ once: true, amount: 1 }}
+      className="absolute right-0 top-0 w-[6px] h-full bg-purple-500"
+    ></motion.div>
+
+    {/* Bottom line  */}
+    <motion.div
+      initial={{ width: 0 }}
+      whileInView={{ width: "100%", transition: { duration: 0.2, delay: 1.2 } }}
+      viewport={{ once: true, amount: 1 }}
+      className="absolute bottom-0 right-0 w-full h-[6px] bg-purple-500"
+    ></motion.div>
+
+    {/* left line  */}
+    <motion.div
+      initial={{ height: 0 }}
+      whileInView={{ height: "100%", transition: { duration: 0.2, delay: 1.4 } }}
+      viewport={{ once: true, amount: 1 }}
+      className="absolute left-0 bottom-0 w-[6px] h-full bg-purple-500"
+    ></motion.div>
+  </div>
+
+  {/* Text */}
+  <motion.div
+    initial={{ opacity: 0 }}
+    whileInView={{ opacity: 1, transition: { duration: 0.2, delay: 1.6 } }}
+    viewport={{ once: true, amount: 1 }}
+    className="absolute text-2xl font-bold text-purple-500"
+  >
+    AG
+  </motion.div>
+</div>
+
     );
 };
 

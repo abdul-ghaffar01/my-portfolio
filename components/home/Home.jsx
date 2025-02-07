@@ -2,7 +2,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Bg from './Bg'
 import TextBg from './TextBg'
-import FadeInFromTopInView from '../FadeInFromTopInView'
 import Image from 'next/image'
 import { motion } from "framer-motion"
 import Navbar from '../navbar/Navbar'
@@ -54,11 +53,19 @@ const Home = () => {
     return (
         <motion.div id='home' initial={{ opacity: 0, y: -100 }}
             whileInView={{ opacity: 1, y: 0, transition: { duration: .8 } }}
-            viewport={{ once: true, amount: .5 }} ref={containerRef} className='w-screen relative flex flex-col items-center overflow-hidden z-[auto]'>
+            viewport={{ once: true, amount: .5 }} ref={containerRef} className='w-screen relative overflow-hidden'>
             <Bg />
-            <div className='absolute flex items-center justify-center w-full lg:w-[80vw] max-w-[1200px] h-full mx-auto z-[1] p-2'>
-                <TextBg />
-                <Image className='absolute z-[3] bottom-0 h-[90%] w-auto' initial={{ opacity: 0 }} animate={{ opacity: 1 }} src="/profile.png" width={400} height={400} />
+            <div className='absolute top-0 w-full h-fit'>
+                <Navbar />
+
+                <div className="content bg-purple-600">
+                    All the content goes here 
+                </div>
+
+                {/* <div className='absolute flex items-center justify-center w-full lg:w-[80vw] max-w-[1200px] h-full mx-auto z-[1] p-2'>
+                    <TextBg />
+                    <Image className='absolute z-[3] bottom-0 h-[90%] w-auto' initial={{ opacity: 0 }} animate={{ opacity: 1 }} src="/profile.png" width={400} height={400} alt='Profile' />
+                </div> */}
             </div>
         </motion.div>
 
