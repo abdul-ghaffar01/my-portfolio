@@ -3,7 +3,6 @@ import React, { useEffect, useRef, useState } from 'react'
 import Bg from './Bg'
 import { motion } from "framer-motion"
 import Navbar from '../navbar/Navbar'
-import ImageHoverEffect from './Check'
 import Image from 'next/image'
 
 const tracker = [];
