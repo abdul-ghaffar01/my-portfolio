@@ -24,7 +24,7 @@ const ProfileSection = () => {
     }, [])
     // url https://api.github.com/users/abdul-ghaffar01
     return (<>
-        <motion.div className='max-w-[600px] w-fit h-[260px] flex flex-col justify-between mt-5 px-3 bg-slate-900 border border-slate-700 p-2 mx-1'>
+        <motion.div className='max-w-[600px] w-fit h-fit flex flex-col justify-between mt-5 px-3 bg-slate-900 border border-slate-700 p-2 mx-1'>
             {/* Top section */}
             <div div className='flex h-fit gap-[10px]'>
                 {/* Image of github profile */}
