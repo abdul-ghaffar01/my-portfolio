@@ -69,7 +69,7 @@ const Home = () => {
                             pTag.remove();
                             tracker.splice(tracker.indexOf(pTag), 1);  // ✅ Fix: Properly remove from array
                         }, 300);
-                    }, 2000);
+                    }, 1000);
 
                     lastPost.current = { x: event.clientX, y: event.clientY }; // ✅ Use `useRef`
                 }
