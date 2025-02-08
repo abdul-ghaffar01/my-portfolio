@@ -11,14 +11,26 @@ const About = () => {
   const [imgSize, setImgSize] = useState({ width: 0, height: 0 });
 
   const handleImageAnimationIn = () => {
-    frameRef.current.style.height = 0;
-    boundryRef.current.style.transform = "rotate(0deg)"
+    if (frameRef.current && boundryRef.current) {
+      frameRef.current.style.height = 0;
+      boundryRef.current.style.transform = "rotate(0deg)";
+    }
+
   }
 
   const handleImageAnimationOut = () => {
-    frameRef.current.style.height = imgSize.height + "px";
-    boundryRef.current.style.transform = "rotate(-15deg)"
+    if (frameRef.current && boundryRef.current) {
+      frameRef.current.style.height = imgSize.height + "px";
+      boundryRef.current.style.transform = "rotate(-15deg)"
+    }
   }
+
+  const handleImageLoad = () => {
+    if (imgRef.current) {
+      const imgRect = imgRef.current.getBoundingClientRect();
+      setImgSize({ width: imgRect.width, height: imgRect.height });
+    }
+  };
 
   useEffect(() => {
     if (imgRef.current) {
@@ -34,6 +46,7 @@ const About = () => {
   }, []);
 
   useEffect(() => {
+
     if (frameRef.current) {
       // purple frame 
       frameRef.current.style.width = `${imgSize.width}px`;
@@ -104,6 +117,7 @@ const About = () => {
               height={500}
               alt='Profile'
               className='h-full w-full object-cover mb-[30px]'
+              onLoad={handleImageLoad}
             />
             <div ref={frameRef} className=" absolute flex flex-col justify-evenly transition-all duration-300 top-0 bg-purple-800 opacity-[50%] h-full w-full"></div>
             <div ref={boundryRef} className="absolute transition-all duration-300 top-0 w-full h-full border-2 p-3 border-purple-700 rotate-[-15deg] origin-center "></div>

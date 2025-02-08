@@ -11,16 +11,23 @@ import Skills from "@/components/skills/Skills";
 import { useEffect, useRef, useState } from "react";
 
 export default function page() {
-  const [loader, setLoader] = useState(false)
+  const [loading, setLoading] = useState(true)
   const dummy = useRef(null);
   useEffect(() => {
     setTimeout(() => {
       dummy.current.style.height = 0;
-    }, 800);
+    }, 2800);
   })
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2000); // Adjust the delay as needed
+
+    return () => clearTimeout(timer);
+  }, []);
   return (
     <div className="w-screen overflow-hidden">
-      {loader ? <Loader /> :
+      {loading ? <Loader /> :
         (<>
           {/* <Navbar /> */}
           <Home />

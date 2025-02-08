@@ -26,9 +26,9 @@ const Navbar = () => {
       viewport={{ once: true }} className="w-full px-2 sm:px-8 md:mx-auto p-2 flex items-center justify-between lg:w-[80%]">
 
       {/* Logo */}
-      <div className=''>
+      <Link href="/">
         <Logo />
-      </div>
+      </Link>
 
       {/* menus */}
       <div className='w-fit h-fit'>
@@ -80,21 +80,18 @@ const Navbar = () => {
           </button>
 
           <div className="menus">
-            <motion.ul
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1, transition: { delay: .8 } }}
-              viewport={{ once: true, amount: "all" }} className='flex flex-col items-center justify-evenly'>
+            <ul className='flex flex-col items-center justify-evenly'>
               {/* All the links */}
               {links.map((item, index) => {
                 return (<motion.li key={index}
                   initial={{ y: -20, opacity: 0, }}
-                  whileInView={{ y: 0, opacity: 1, transition: { delay: (0.1 * index) + 0.8 } }}
+                  whileInView={{ y: 0, opacity: 1, transition: { delay: (0.1 * index)} }}
                   viewport={{ once: true, amount: "all" }} className=' font-bold text-xl relative my-4 transition-all duration-300'>
                   <Link onClick={() => setShowSidebar(false)} className='text-[30px] text-[#00000075] ' href={item.link}>{item.name}</Link>
                   <div className='absolute bottom-0 w-full h-[10px] rounded-full '></div>
                 </motion.li>)
               })}
-            </motion.ul>
+            </ul>
           </div>
         </div>
       </div>

@@ -11,6 +11,7 @@ const Followers = () => {
       try {
         const profileData = await fetch("/api/github/followers");
         const data = await profileData.json();
+        console.log(data)
         setFollowers(data);
       } catch (error) {
         console.error("Error fetching followers:", error);

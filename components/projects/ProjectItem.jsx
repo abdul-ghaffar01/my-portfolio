@@ -43,7 +43,7 @@ const ProjectItem = ({ project, left }) => {
                 <div className={`text-purple-900 font-bold text-2xl md:text-2xl w-full md:text-white ${left ? "md:text-right" : "md:text-left"} `}>{project.title}</div>
 
                 {/* Description of the project */}
-                <div className={`relative mt-5 text-lg md:bg-purple-800 md:p-3 md:relative shadow-md `}>{project.desc}</div>
+                <div className={`relative md:mt-5 text-lg md:bg-purple-800 md:p-3 md:relative shadow-md `}>{project.desc}</div>
 
                 {/* Tools Used */}
                 <ul className={`flex ${left ? "md:justify-end" : "md:justify-start"} w-full gap-[10px]`}>

@@ -10,7 +10,13 @@ const projectsData = [
         desc: "I built an Instagram home page clone using Tailwind CSS, designed specifically for laptop screens. While it isn’t fully responsive, the layout is pixel-perfect, closely mirroring Instagram’s design with a clean and structured UI. The project showcases my ability to replicate modern interfaces with precision and attention to detail",
         img: "/projects/instaclone.png",
         tools: ["TailwindCss", "Html5"],
-        link: "/comming-soon"
+        link: "/static-projects/insta-clone-using-tailwindcss"
+    }, {
+        title: "Facebook home page clone",
+        desc: "A static recreation of Facebook’s homepage built using Tailwind CSS. This clone replicates the classic Facebook layout, including the navbar, sidebar, news feed, and story section. While visually similar, it lacks responsiveness, meaning it works well on larger screens but does not adapt to smaller devices like phones or tablets. Ideal for exploring Tailwind styling and component structuring! 🚀",
+        img: "/projects/facebookclone.png",
+        tools: ["TailwindCss", "Html5"],
+        link: "/static-projects/facebook-clone-using-tailwindcss"
     },
 ]
 export default projectsData
