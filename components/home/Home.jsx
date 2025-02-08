@@ -92,7 +92,6 @@ const Home = () => {
             //Window width and height
             const windowWidth = window.innerWidth;
             const windowHeight = window.innerHeight;
-            console.log(windowHeight, windowWidth)
 
             // calculating ratio
             const widthToHeightRatio = windowWidth / windowHeight;

@@ -16,7 +16,6 @@ const ProfileSection = () => {
                 const data = await profileData.json()
                 setProfileData(data)
                 setLoading(false)
-                console.log(data)
             } catch (error) {
                 console.log(error)
             }
