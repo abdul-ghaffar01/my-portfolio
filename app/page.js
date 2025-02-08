@@ -15,7 +15,8 @@ export default function page() {
   const dummy = useRef(null);
   useEffect(() => {
     setTimeout(() => {
-      dummy.current.style.height = 0;
+      if (dummy.current)
+        dummy.current.style.height = 0;
     }, 2800);
   })
   useEffect(() => {
