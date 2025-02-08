@@ -1,0 +1,402 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <base target="_self" />
+    <meta name="Keywords"
+      content="SZABIST, ZABDESK, Islamabad, student, user, student's area, panel, acadamic, results" />
+    <meta name="Description"
+      content="ZabDesk is a SZABIST's ZabSolutions project to automate the business processes at SZABIST. This project provides complete software solutions for entire academic and partial financial processes." />
+    <meta name="author" content="Ahmed, Imran, ZABSOLUTIONS" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <meta http-equiv="X-UA-Compatible" content="IE=8">
+
+    <title>ZabDesk - Islamabad - Spring-2025</title>
+    <link href="style.css" rel="stylesheet" type="text/css" media="screen" />
+    <link rel="stylesheet" href="windowfiles/dhtmlwindow.css" type="text/css" />
+    <link rel="stylesheet" href="windowfiles/modal.css" type="text/css" />
+
+    <script type="text/javascript" src="js/dhtmlwindow.js"></script>
+    <script type="text/javascript" src="js/modal.js"></script>
+    <script type="text/javascript" src="js/overlib.js"></script>
+    <script src="js/ajaxticker.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+<!--
+
+
+function submitenter(myfield,e)
+{
+var keycode;
+if (window.event) keycode = window.event.keyCode;
+else if (e) keycode = e.which;
+else return true;
+if (keycode == 13)
+   {
+   myfield.form.submit();
+   return false;
+   }
+else
+   return true;
+}
+
+function golink()
+{
+//window.location = "ForgotPassword.asp";
+window.location = "ResetPassword/ResetPWD.aspx";
+}
+function containercheck()
+{
+
+
+	  
+				   
+    if (window.location != window.parent.location)
+    {
+    
+    //window.location = "index.asp"; 
+    parent.location.href = 'index.asp';
+    }
+
+}
+
+function fetchcode()
+{
+	 
+ var codes =  document.getElementById("txtcode").value
+ document.getElementById("form2").action += codes;
+ document.getElementById("form2").submit();
+
+// window.location = 'http://localhost/MultipleRole.asp'
+
+
+
+ 
+
+//}
+//else
+//{
+//'';
+    //alert("Invalid code, please try again")
+//alert('')
+
+//}
+
+}
+			
+	//function getUrlVars() {
+    //var vars = {};
+    //var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+    //    vars[key] = value;
+    //});
+   // return vars;
+//}
+//-->
+</script>
+
+    <style type="text/css">
+<!--
+.style1 {font-size: 12px}
+.style3 {font-size: 12px; font-weight: bold; }
+-->
+#alert
+{
+	border:2px solid red;
+	padding:5px;
+	font-size:18px;
+	font-style:bold;
+	color:red;
+}
+
+</style>
+
+    <!-------------------Strart For Notice Board-------------------------->
+    <style>
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+            padding: 20px;
+        }
+        .box {
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            padding: 15px;
+            text-align: center;
+            border-radius: 8px;
+            box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.1);
+        }
+        .box:hover {
+            background-color: #e0e0e0;
+        }
+    </style>
+    <!-------------------End For Notice Board-------------------------->
+
+  </head>
+
+  <body onload="containercheck();">
+
+    <div id="wrapper">
+      <div id="header">
+
+        <div align="right">
+
+          <img src="images/home.gif" alt width="16" height="16" />
+          <a href="../">Home</a> <img src="images/sitemap.gif" alt width="16"
+            height="16" />
+
+          <a href="SiteMap.asp">Site map</a>
+
+          <img src="images/search.gif" alt width="16" height="16" /> <a
+            href="search.asp">Search</a>
+
+        </div>
+
+      </div>
+      <!-- end #header -->
+
+      <link REL="SHORTCUT ICON" HREF="images/icon.ico">
+
+      <div id="menu">
+        <ul>
+          <li><a href="MultipleRole.asp">Home</a></li>
+          <li><a href="About.asp">About us</a></li>
+
+          <li><a href="contact.asp">Contact</a></li>
+          <li><a href="https://zabdesk.szabist-isb.edu.pk/Products/"
+              target=_blank>Products</a></li>
+
+        </ul>
+      </div>
+
+      <!-- end #menu -->
+
+      <div id="page">
+        <div id="page-bgtop">
+          <div id="page-bgbtm">
+            <div id="content">
+              <div class="post">
+                <div class="post-bgtop">
+                  <div class="post-bgbtm">
+
+                    <!--
+			<div id="alert">
+				
+			</div>
+			-->
+
+                    <br><br><br><br>
+
+                    <!--h2 class="title" align="center"><a href="http://zabdesk.szabist-isb.edu.pk">ZABDESK</a>
+
+				
+				
+</h2-->
+
+                    <div class="container">
+                      <div class="box"><a href="#"
+                          style="text-align:center;display:block;font-size:20px;"><strong>Student<br>Fee
+                            Status</strong></a><br><br>
+                        <a
+                          style="text-align:center;display:block;font-size:15px;"
+                          href="https://springzabdesk.szabist-isb.edu.pk/FeePayment/Forms/StudentLogin.aspx"
+                          target="_blank" style="color:black;">Student can click
+                          here for View Fee Status</a>
+                      </div>
+                      <div class="box"><a href="#"
+                          style="text-align:center;display:block;font-size:20px;"><strong>Clearance<br>Portal
+                          </strong></a><br><br>
+                        <a
+                          style="text-align:center;display:block;font-size:15px;"
+                          href="https://zabdesk.szabist-isb.edu.pk/zabweb/Login.aspx"
+                          target="_blank" style="color:black;">Student can click
+                          here for Zabweb Clearance Portal</a>
+                      </div>
+                      <div class="box"><a href="#"
+                          style="text-align:center;display:block;font-size:20px;"><strong>Classes<br>Schedule
+                          </strong></a><br><br>
+                        <a
+                          style="text-align:center;display:block;font-size:15px;"
+                          href="https://zabdesk.szabist-isb.edu.pk/ZabNoticeboard/StudentNoticeboard.aspx"
+                          target="_blank" style="color:black;">Student can click
+                          here for Classes Schedule</a>
+                      </div>
+                      <div class="box"><a href="#"
+                          style="text-align:center;display:block;font-size:20px;"><strong>Student<br>Handbook</strong></a><br><br>
+                        <a
+                          style="text-align:center;display:block;font-size:15px;"
+                          href="https://szabist-isb.edu.pk/wp-content/uploads/downloads/StudentHandBook.pdf"
+                          target="_blank" style="color:black;">Student can click
+                          here for Student Handbook</a>
+                      </div>
+                      <div class="box"><a href="#"
+                          style="text-align:center;display:block;font-size:20px;"><strong>Social<br>Media
+                            Policy </strong></a><br><br>
+                        <a
+                          style="text-align:center;display:block;font-size:15px;"
+                          href="https://zabdesk.szabist-isb.edu.pk/Social-Media-Policy.pdf"
+                          target="_blank" style="color:black;">Student can click
+                          here for Social Media Policy </a>
+                      </div>
+
+                    </div>
+
+                    <div class="entry">
+
+                      <!--<a href="#" style="text-align:center;display:block;font-size:30px;"><strong>Student Fee Status</strong></a>-->
+                      <!--<br><br>-->
+                      <!--<a style="text-align:center;display:block;font-size:15px;" href="https://fallzabdesk.szabist-isb.edu.pk/FeePayment/Forms/StudentLogin.aspx" target="_blank" style="color:black;">Student can click here for View Fee Status</a>-->
+                      <!--<br><br>-->
+
+                      <hr>
+                      <a href="#"><strong>ZABDESK Help/Queries</strong></a>
+                      <br><br>
+                      For Admissions Department: <font color="#FF0000">
+                        <b>admissions.office@szabist-isb.edu.pk</b></font>
+                      <br><br>
+                      For Academic Department: <font color="#FF0000">
+                        <b>aso.office@szabist-isb.edu.pk</b></font>
+                      <br><br>
+                      For Finance Department: <font color="#FF0000">
+                        <b>finance.office@szabist-isb.edu.pk</b></font>
+                      <br><br>
+                      For ZABSOLUTIONS Department (Technical Help/Queries):
+                      <font color="#FF0000">
+                        <b>zabsolutions-isb@szabist-isb.edu.pk</b></font>
+                      <br><br>
+                      <!--b>To get your <span style="color:red;">blocked profile</span> activated again, please visit the Finance Office</b-->
+
+                      <table width="100%" style="visibility:hidden;">
+                        <tr>
+                          <th scope="row">HEADLINES:<br />
+                            <span class="style1"><a href="headlines">view
+                                archived</a></span></th>
+                          <td>
+                            <script type="text/javascript">
+								var xmlfile="headlines/?mode=just_news"
+								new ajax_ticker(xmlfile, "ticker", "someclass", 3500)
+								 </script>
+                          </td>
+                        </tr>
+                      </table>
+                      <br />
+                      <div class="entry">
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <!-- end #content -->
+            <div id="sidebar">
+              <br><br>
+              <div id="codediv"
+                style="display:none;background-image: url(images/Login%20box.gif);background-repeat:no-repeat; height:100%">
+                <br> <br> <br> <br> <br>
+                <h4 style="color:Red">
+
+                  Dear User 6 digit security code has been sent on below mobile
+                  number and your Email Id <br><br>
+
+                  *******<br>***********<br>
+
+                  <br><br>
+                  Please Enter Code to login
+                </h4>
+                <input name="txtcode" type="text" id="txtcode"
+                  placeholder="Enter 6 digit code here" size="20"
+                  style="background-color:white" />
+                <br><br><br>
+
+                <form method="post" action="twostep.asp?sid=867735258&code="
+                  id="form2">
+                  <input type="hidden" name="usersession" value />
+                  <input type="button" name="btncode" id="btncode"
+                    value="Submit" width="300px" height="150"
+                    onclick="fetchcode()">
+                </form>
+              </div>
+
+              <input type="hidden" name="hdnSelect" id="hdnSelect"
+                value="http://10.0.5.231/FromRegularWebsite.asp" />
+
+              <form method="post" action="VerifyLogin.asp?sid=867735258"
+                id="form1" onkeydown
+                javascript:formsubmit(document.form1)="JavaScript:formsubmit(document.form1)">
+
+                <input type="hidden" name="value=&quot;1&quot;" />
+                <ul><li>
+                    <h2><img src="images/Spacer.gif" align="top"
+                        border="0" />Login </h2>
+                  </li>
+                </ul>
+                <p><strong>Students and Faculty can now login to their own
+                    personalized home page .
+                  </strong> </p>
+                <div id="search">
+                  <p><strong>User Id:</strong><br />
+                    <input name="txtLoginName" type="text" id="Id"
+                      onkeypress="return submitenter(this,event)" value
+                      size="20" />
+                    <br />
+                    <strong>Password:</strong><br />
+                    <input type="password" name="txtPassword" id="Id3"
+                      onkeypress="return submitenter(this,event)" size="20" />
+                    <strong>Campus:</strong>
+                    <br />
+                    <select name="txtCampus_Id" tabindex="3">
+                      <option value="1"
+                        selected="selected">&nbsp;&nbsp;&nbsp;&nbsp;Islamabad&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                    </select>
+                    <br />
+                    <font color=red> <b>Authentication Failed: User ID or
+                        Password is incorrect. please try again or use forgot
+                        password option to retrieve.</b> </font> <br />
+                    <script type="text/javascript">
+                    var agreewin=dhtmlmodal.open("agreebox", "iframe", "alert_msg.asp?err=<img src='Images/alerts/Profile Dimissed.gif' align='left' /><br/><font color=red><B>Authentication Failed:</B></font><BR><font size=2><B> User ID or Password is incorrect. please try again or use forgot password option to retrieve. </B></font>", "ZABDESK | Authentication Failed", "width=590px,height=150px,center=1,resize=1,scrolling=0", "recal")
+                    </script>
+
+                    <br />
+                    <!--img src="images/LoginButton.gif" alt="ZABDESK Login" width="80" height="22" onclick="document.forms.form1.submit();"/> <img src="images/ForgetPassword.gif" alt="forget password" width="128" height="22" onclick="golink();"/><br /-->
+                    <img src="images/LoginButton.gif" alt="ZABDESK Login"
+                      width="80" height="22"
+                      onclick="document.forms.form1.submit();" /> <img
+                      src="images/ForgetPassword.gif" id="forgot"
+                      alt="forget password" width="128" height="22"
+                      onclick="golink();" /><br />
+                  </div>
+                  <br />
+                  <br />
+                </p>
+              </form>
+            </div>
+            <!-- end #sidebar -->
+            <div style="clear: both;">&nbsp;</div>
+
+          </div>
+        </div>
+      </div>
+      <!-- end #page -->
+      <div id="footer">
+        <p> <a href="../"><strong>Home </strong></a> | <a href="#"><strong>Back
+              to top</strong></a> | <a href="#"
+            onClick="this.style.behavior='url(#default#homepage)';this.setHomePage('http://10.0.5.25');">Make
+            ZABDESK homepage</a></p>
+        <br />
+        <p>Copyright © 2020<a href="http://www.zabsolutions.com/"
+            target="_blank"> <strong>ZabSolutions</strong>.</a> All rights
+          reserved </p>
+
+      </div>
+      <!-- end #footer -->
+    </div>
+    <script
+      src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+  </body>
+</html>

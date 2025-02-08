@@ -5,7 +5,6 @@ import Footer from "@/components/footer/Footer";
 import GitHubRepos from "@/components/github/Github";
 import Home from "@/components/home/Home";
 import Loader from "@/components/Loader";
-import Navbar from "@/components/navbar/Navbar";
 import Projects from "@/components/projects/Projects";
 import Skills from "@/components/skills/Skills";
 import { useEffect, useRef, useState } from "react";
@@ -13,6 +12,13 @@ import { useEffect, useRef, useState } from "react";
 export default function page() {
   const [loading, setLoading] = useState(true)
   const dummy = useRef(null);
+
+  useEffect(() => {
+    fetch('/api/track')
+      .then(res => res.json())
+      .then(data => console.log('Total Visits:', data.count));
+  }, []);
+
   useEffect(() => {
     setTimeout(() => {
       if (dummy.current)
