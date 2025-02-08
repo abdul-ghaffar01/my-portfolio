@@ -1,12 +1,16 @@
 import "./globals.css";
 
 
+export const metadata = {
+  title: "Abdul Ghaffar",
+  icons: "/favicon.png",
+};
+
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        <title>Abdul Ghaffar</title>
       </head>
       <body className="overflow-x-hidden bg-purple-50">
         {children}
