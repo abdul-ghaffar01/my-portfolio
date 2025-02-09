@@ -21,7 +21,7 @@ const ProjectItem = ({ project, left }) => {
             viewport={{ once: true, amount: .5 }}
             onMouseEnter={hideCover}
             onMouseLeave={showCover}
-            className='relative max-w-full w-[96%] hover:shadow-xl md:hover:shadow-none h-fit min-h-[400px] lg:w-[80%] mx-auto  mt-[80px]'>
+            className='relative max-w-full w-[96%] hover:shadow-xl md:hover:shadow-none h-fit min-h-[450px] lg:w-[80%] mx-auto  mt-[80px]'>
             {/* Project Image Container */}
             <div className={`absolute w-full h-full overflow-hidden group md:w-[50%] ${left ? "md:left-0" : "md:right-0"}`}>
                 <img

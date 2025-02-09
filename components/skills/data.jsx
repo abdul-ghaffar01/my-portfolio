@@ -2,87 +2,87 @@ const data = [
 
     {
         name: "C++",
-        img: "/cplusplus.svg"
+        img: "/icons/skills/cplusplus.svg"
     },
     {
         name: "MongoDb",
-        img: "/mongodb.svg"
+        img: "/icons/skills/mongodb.svg"
     },
     {
         name: "MySql",
-        img: "/mysql.svg"
+        img: "/icons/skills/mysql.svg"
     },
     {
         name: "Nginx",
-        img: "/nginx.svg"
+        img: "/icons/skills/nginx.svg"
     },
     {
         name: "NodeJs",
-        img: "/nodedotjs.svg"
+        img: "/icons/skills/nodedotjs.svg"
     },
     {
         name: "Python",
-        img: "/python.svg"
+        img: "/icons/skills/python.svg"
     },
     
     {
         name: "Javascript",
-        img: "/javascript.svg"
+        img: "/icons/skills/javascript.svg"
     },
     {
         name: "Html",
-        img: "/html5.svg"
+        img: "/icons/skills/html5.svg"
     },
     {
         name: "CSS",
-        img: "/css.svg"
+        img: "/icons/skills/css.svg"
     },
     {
         name: "NestJs",
-        img: "/nestjs.svg"
+        img: "/icons/skills/nestjs.svg"
     },
     {
         name: "NextJs",
-        img: "/nextdotjs.svg"
+        img: "/icons/skills/nextdotjs.svg"
     },
     {
         name: "Redux",
-        img: "/redux.svg"
+        img: "/icons/skills/redux.svg"
     },
     {
         name: "ExpressJs",
-        img: "/express.svg"
+        img: "/icons/skills/express.svg"
     },
     {
         name: "AWS",
-        img: "/amazonwebservices.svg"
+        img: "/icons/skills/amazonwebservices.svg"
     },
     {
         name: "Bootstrap",
-        img: "/bootstrap.svg"
+        img: "/icons/skills/bootstrap.svg"
     },
     {
         name: "PostgreSql",
-        img: "/postgresql.svg"
+        img: "/icons/skills/postgresql.svg"
     },
     {
         name: "Ubuntu",
-        img: "/ubuntu.svg"
+        img: "/icons/skills/ubuntu.svg"
     },
     {
         name: "Git",
-        img: "/git.svg"
+        img: "/icons/skills/git.svg"
     },
     {
         name: "ReactJs",
-        img: "/react.svg"
+        img: "/icons/skills/react.svg"
     },
     {
         name: "Docker",
-        img: "/docker.svg"
+        img: "/icons/skills/docker.svg"
     }, {
         name: "Django",
-        img: "/django.svg"
+        img: "/icons/skills/django.svg"
     },
 ]
 export default data;
