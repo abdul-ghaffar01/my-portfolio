@@ -1,6 +1,6 @@
 const projectsData = [
     {
-        title: "Ecommerce website using Django",
+        title: "E-commerce store using Django",
         desc: "A dynamic eCommerce platform built with Django, offering a seamless shopping experience with user authentication, cart management, and secure transactions. Designed for efficiency and scalability, it ensures smooth navigation and easy product browsing",
         img: "/projects/ecom-using-django.png",
         tools: ["Python", "Javascript", "Django"],
