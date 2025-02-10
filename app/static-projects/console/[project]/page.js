@@ -43,7 +43,7 @@ export default async function Page({ params }) {
                 `}
             </style>
 
-            <div className="w-screen h-screen flex bg-gray-100 custom-scrollbar">
+            <div className="w-screen h-[100dvh] flex bg-gray-100 custom-scrollbar">
                 {/* Left Sidebar: Fixed Console */}
                 <div className={`h-full bg-gray-900 text-white shadow-lg ${fileExists ? "w-full md:w-1/2 fixed top-0 left-0" : "w-full"}`}>
                     <Console project={project} />
