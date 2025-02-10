@@ -30,9 +30,7 @@ const Page = () => {
                 })
             });
             const result = await resp.json();
-            console.log(result)
             const outputsStringToArray = result.output ? result.output.split("\n") : []
-            console.log(outputsStringToArray)
             setOutputs(outputsStringToArray);
         } catch (error) {
             console.error("Error fetching output:", error);
@@ -50,7 +48,6 @@ const Page = () => {
                 body: JSON.stringify({ appName: project })
             });
             const result = await resp.json();
-            console.log(result)
             localStorage.setItem("sessionId", result.sessionId);
         } catch (error) {
             console.error("Error starting process:", error);
@@ -68,7 +65,6 @@ const Page = () => {
                 body: JSON.stringify({ sessionId: localStorage.getItem("sessionId") })
             });
             const result = await resp.json();
-            console.log("Process stopped:", result);
             setOutputs(prev => [...prev, "\n\nYou terminated the session."]);
             setShowInput(false);
         } catch (error) {
