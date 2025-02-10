@@ -30,7 +30,8 @@ const Page = () => {
                 })
             });
             const result = await resp.json();
-            setOutputs(result.output.split("\n") || []);
+            const outputsStringToArray = result.output ? result.output.split : []
+            setOutputs(outputsStringToArray);
         } catch (error) {
             console.error("Error fetching output:", error);
         }
