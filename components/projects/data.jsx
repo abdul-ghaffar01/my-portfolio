@@ -1,5 +1,11 @@
 const projectsData = [
     {
+        title: "Console based E-commerce store",
+        desc: "My Console-Based E-Commerce Store was my second-semester project, built entirely using pure Object-Oriented Programming (OOP) principles. It featured a modular design with classes for users, products, and carts, along with file handling for data persistence. The system allowed users to browse products, add them to the cart, and proceed with purchases, ensuring an interactive shopping experience within a terminal environment.",
+        img: "/projects/console-ecom.png",
+        tools: ["C++"],
+        link: "/static-projects/console/cbes"
+    }, {
         title: "E-commerce store using Django",
         desc: "A dynamic eCommerce platform built with Django, offering a seamless shopping experience with user authentication, cart management, and secure transactions. Designed for efficiency and scalability, it ensures smooth navigation and easy product browsing",
         img: "/projects/ecom-using-django.png",
