@@ -5,7 +5,7 @@
 
 ## 👥 Team Members
 
-- **Atif Ijaz**
+- **[Atif Ijaz](https://www.instagram.com/atif_ijaz.2)**
 - **Hassan Raza**
 - **Umair Farooq**
 - **Muhammad Ramish**
