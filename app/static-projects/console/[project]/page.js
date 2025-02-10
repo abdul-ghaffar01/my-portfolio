@@ -30,7 +30,9 @@ const Page = () => {
                 })
             });
             const result = await resp.json();
-            const outputsStringToArray = result.output ? result.output.split : []
+            console.log(result)
+            const outputsStringToArray = result.output ? result.output.split("\n") : []
+            console.log(outputsStringToArray)
             setOutputs(outputsStringToArray);
         } catch (error) {
             console.error("Error fetching output:", error);
@@ -48,6 +50,7 @@ const Page = () => {
                 body: JSON.stringify({ appName: project })
             });
             const result = await resp.json();
+            console.log(result)
             localStorage.setItem("sessionId", result.sessionId);
         } catch (error) {
             console.error("Error starting process:", error);
@@ -78,6 +81,7 @@ const Page = () => {
         const initialize = async () => {
             await startApp();
             await getOutput();
+            setIsLoading(false);
         };
         initialize();
 
@@ -127,6 +131,12 @@ const Page = () => {
 
     return (
         <div className="w-screen min-h-[100dvh] bg-black text-slate-300 overflow-x-hidden">
+            {isLoading && (
+                <div className='fixed w-screen h-[100dvh] flex flex-col items-center justify-center'>
+                    <Logo />
+                    <p>Starting app</p>
+                </div>
+            )}
             <div className="bg-slate-400 w-full h-[30px] flex items-center justify-center font-bold text-black">
                 Abdul Ghaffar
             </div>
