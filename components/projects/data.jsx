@@ -2,7 +2,7 @@ const projectsData = [{
     title: "Binanify - explored binance apis",
     desc: "Binanify is a real-time crypto market tracking app that leverages Binance WebSockets to provide live trade data, order book updates, and price tickers. Built with Next.js and Node.js, it offers a seamless and efficient way to monitor cryptocurrency trends with a responsive interface.",
     img: "/projects/binanify.png",
-    tools: ["Javascript NextJs ExpressJs WebSockets"],
+    tools: ["Javascript NextJs NodeJs WebSockets"],
     link: "https://binance.iabdulghaffar.com"
 }, {
     title: "Database management system first semester",
