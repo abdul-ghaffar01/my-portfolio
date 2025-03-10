@@ -41,13 +41,21 @@ const Navbar = () => {
             return (<motion.li key={index}
               initial={{ y: -20, opacity: 0, }}
               whileInView={{ y: 0, opacity: 1, transition: { delay: (0.1 * index) + 0.8 } }}
-              viewport={{ once: true, amount: "all" }} className=' font-bold text-xl relative mx-4 transition-all duration-300'>
+              viewport={{ once: true, amount: "all" }} className=' font-bold text-xl relative mx-2 transition-all duration-300'>
               <Link className='text-[#00000075] hover:text-purple-700' href={item.link}>{item.name}</Link>
               <div className='absolute bottom-0 w-full h-[10px] rounded-full '></div>
             </motion.li>)
           })}
+
+          {/* Resume button */}
+          <Link href="/resume">
+            <button className='hidden md:block bg-purple-500 block px-5 py-2 text-center w-fit hover:bg-purple-700 text-white font-semibold transition-all duration-200 md:border-slate-100 rounded-md'>
+              View resume
+            </button>
+          </Link>
         </motion.ul>
       </div>
+
 
       {/* Hamburger for menus */}
       <button onClick={() => { setShowSidebar(true) }} className="md:hidden hamburger w-[50px] h-[50px] bg-white p-2 flex flex-col justify-evenly items-center rounded-lg ">
@@ -85,7 +93,7 @@ const Navbar = () => {
               {links.map((item, index) => {
                 return (<motion.li key={index}
                   initial={{ y: -20, opacity: 0, }}
-                  whileInView={{ y: 0, opacity: 1, transition: { delay: (0.1 * index)} }}
+                  whileInView={{ y: 0, opacity: 1, transition: { delay: (0.1 * index) } }}
                   viewport={{ once: true, amount: "all" }} className=' font-bold text-xl relative my-4 transition-all duration-300'>
                   <Link onClick={() => setShowSidebar(false)} className='text-[30px] text-[#00000075] ' href={item.link}>{item.name}</Link>
                   <div className='absolute bottom-0 w-full h-[10px] rounded-full '></div>
