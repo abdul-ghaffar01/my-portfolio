@@ -125,11 +125,16 @@ const Home = () => {
         }
     }, [height])
     return (
-        <motion.div id='home' initial={{ opacity: 0, y: -100 }}
-            whileInView={{ opacity: 1, y: 0, transition: { duration: .8 } }}
-            viewport={{ once: true, amount: .5 }} ref={containerRef} className='w-screen relative overflow-hidden '>
+        <motion.div
+            id='home'
+            ref={containerRef}
+            className='w-screen relative overflow-hidden '>
             <Bg />
-            <div className='absolute top-0 w-full h-full'>
+            <motion.div
+                initial={{ opacity: 0, y: -100 }}
+                whileInView={{ opacity: 1, y: 0, transition: { duration: .8 } }}
+                viewport={{ once: true, amount: .5 }}
+                className='absolute top-0 w-full h-full'>
                 <Navbar />
 
                 <motion.div initial={{ opacity: 0, y: 30 }}
@@ -148,7 +153,7 @@ const Home = () => {
                     />
                 </motion.div>
 
-            </div >
+            </motion.div >
             {/* <ImageHoverEffect /> */}
         </motion.div >
 
