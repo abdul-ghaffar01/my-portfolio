@@ -14,7 +14,6 @@ const Projects = () => {
                         return <ProjectItem key={index} project={project} left={(index) % 2 === 0} />
                     })}
                 </div>
-                <div className='text-xl text-center text-white mt-5'>Other projects will be updated soon.</div>
             </div>
 
         </div>
