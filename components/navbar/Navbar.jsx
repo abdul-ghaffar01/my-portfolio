@@ -34,7 +34,7 @@ const Navbar = () => {
       <div className='w-fit h-fit'>
         <motion.ul
           initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1, transition: { delay: .8 } }}
+          whileInView={{ opacity: 1, }}
           viewport={{ once: true, amount: "all" }} className='hidden md:flex h-[60px] p-2 items-center gap-[10px]'>
           {/* All the links */}
           {links.map((item, index) => {

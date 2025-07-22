@@ -131,9 +131,6 @@ const Home = () => {
             className='w-screen relative overflow-hidden '>
             <Bg />
             <motion.div
-                initial={{ opacity: 0, y: -100 }}
-                whileInView={{ opacity: 1, y: 0, transition: { duration: .8 } }}
-                viewport={{ once: true, amount: .5 }}
                 className='absolute top-0 w-full h-full'>
                 <Navbar />
 
