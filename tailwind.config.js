@@ -8,8 +8,15 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        "color-900": "var(--color-900)", // Dark background color
+        "color-800": "var(--color-800)", // Slightly lighter background color
+        "color-700": "var(--color-700)", // Medium background color
+        "color-500": "var(--color-500)", // Light background color
+        "color-light": "var(--color-light)", // white color
+        "color-dark": "var(--color-dark)", // black color
+        "color-gray-700": "var(--color-gray-700)", // gray color
+        "color-gray-500": "var(--color-gray-500)", // gray color
+        "color-gray-400": "var(--color-gray-400)", // gray color
       },
       screens: {
         xs: "400px", // Extra small screens

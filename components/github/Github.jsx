@@ -23,9 +23,9 @@ const Github = () => {
     return (
         <motion.div
         id="github"
-            className=" py-7 bg-black text-white flex flex-col items-center pb-[150px]"
+            className=" py-7 bg-color-dark text-color-light flex flex-col items-center pb-[150px]"
         >
-            <Heading text="Github profile" className="z-[0]" color="text-slate-500" lineColor="bg-slate-500" />
+            <Heading text="Github profile" className="z-[0]" color="text-color-gray-500" lineColor="bg-color-gray-500" />
             <motion.div
                 initial={{ opacity: 0, y: 100 }}
                 whileInView={{ opacity: 1, y: 0, transition: { duration: .8 } }}

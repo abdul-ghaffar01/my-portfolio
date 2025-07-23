@@ -48,7 +48,7 @@ const About = () => {
   useEffect(() => {
 
     if (frameRef.current) {
-      // purple frame 
+      // color frame 
       frameRef.current.style.width = `${imgSize.width}px`;
       frameRef.current.style.height = `${imgSize.height}px`;
 
@@ -61,8 +61,8 @@ const About = () => {
   }, [imgSize]);
 
   return (
-    <div id='about' className='bg-purple-500 h-fit py-5 flex flex-col items-center justify-center pb-[80px]'>
-      <Heading className="" text="About me" color="text-white" lineColor="bg-white" />
+    <div id='about' className='bg-color-500 h-fit py-5 flex flex-col items-center justify-center pb-[80px]'>
+      <Heading className="" text="About me" color="text-color-light" lineColor="bg-color-light" />
 
       {/* Full content */}
       <motion.div className="content mt-5 h-fit flex flex-col lg:flex-row items-center gap-[30px] justify-between w-full max-w-[1100px]  overflow-hidden xs:overflow-visible">
@@ -76,7 +76,7 @@ const About = () => {
         >
           {/* Vertical line */}
           <motion.div
-            className="line w-[50px] bg-white rounded-full"
+            className="line w-[50px] bg-color-light rounded-full"
             initial={{ height: 0 }}
             whileInView={{ height: "100px" }}
             transition={{ duration: 1, ease: "easeInOut", delay: .8 }}
@@ -119,8 +119,8 @@ const About = () => {
               className='h-full w-full object-cover mb-[30px]'
               onLoad={handleImageLoad}
             />
-            <div ref={frameRef} className=" absolute flex flex-col justify-evenly transition-all duration-300 top-0 bg-purple-800 opacity-[50%] h-full w-full"></div>
-            <div ref={boundryRef} className="absolute transition-all duration-300 top-0 w-full h-full border-2 p-3 border-purple-700 rotate-[-15deg] origin-center "></div>
+            <div ref={frameRef} className=" absolute flex flex-col justify-evenly transition-all duration-300 top-0 bg-color-800 opacity-[50%] h-full w-full"></div>
+            <div ref={boundryRef} className="absolute transition-all duration-300 top-0 w-full h-full border-2 p-3 border-color-700 rotate-[-15deg] origin-center "></div>
           </div>
         </motion.div>
       </motion.div>

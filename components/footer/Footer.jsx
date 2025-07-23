@@ -7,14 +7,14 @@ import Link from 'next/link';
 
 const Footer = () => {
     return (
-        <div className='mx-auto w-fit text-slate-500 flex flex-col items-center'>
+        <div className='mx-auto w-fit text-color-gray-500 flex flex-col items-center'>
             {/* Social icons */}
             <div className="socials flex items-center justify-center my-2 gap-[10px]">
                 <Link target="_blank" href="https://github.com/abdul-ghaffar01" >
                     <GitHubIcon sx={{
                         transition: "all .3s ease",
                         '&:hover': {
-                            color: 'black',  // Change icon color on hover
+                            color: 'color-dark',  // Change icon color on hover
                             transform: 'scale(1.4)',  // Optional: Scale the icon on hover
                         },
                     }} />
@@ -42,7 +42,7 @@ const Footer = () => {
 
                 <Link target="_blank"
                     href="https://leetcode.com/u/abdulghaffar01/"
-                    className="w-6 h-6 text-slate-500 hover:text-yellow-500 transition-all duration-300"
+                    className="w-6 h-6 text-color-gray-500 hover:text-yellow-500 transition-all duration-300"
                 >
                     <svg
                         className="fill-current hover:scale-[1.4] transition-all duration-300"
@@ -58,7 +58,7 @@ const Footer = () => {
             </div>
 
             <div className='italic'>
-                Design and developed with <FavoriteIcon sx={{ color: "purple" }} /> by
+                Design and developed with <FavoriteIcon sx={{ color: "var(--color-900)" }} /> by
             </div>
 
             <div className='text-center tracking-[5px] mb-7'>

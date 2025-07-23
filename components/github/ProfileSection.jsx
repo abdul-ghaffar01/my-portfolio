@@ -40,17 +40,17 @@ const ProfileSection = () => {
 
                 {/* Github information */}
                 <div className='flex flex-col justify-between'>
-                    <h1 className='font-bold text-slate-500'>{profileData.name}</h1>
-                    <p className='text-slate-500 text-sm'>Username: {profileData.login} </p>
-                    <p className='text-slate-500 text-sm'>Followers: {profileData.followers} </p>
-                    <p className='text-slate-500 text-sm'>Following: {profileData.following} </p>
-                    <p className='text-slate-500 text-sm'>Repos count: {profileData.public_repos} </p>
-                    <p className='text-slate-500 text-sm'>Joined on: {profileData.created_at && profileData.created_at.split("T")[0]} </p>
+                    <h1 className='font-bold text-color-gray-500'>{profileData.name}</h1>
+                    <p className='text-color-gray-500 text-sm'>Username: {profileData.login} </p>
+                    <p className='text-color-gray-500 text-sm'>Followers: {profileData.followers} </p>
+                    <p className='text-color-gray-500 text-sm'>Following: {profileData.following} </p>
+                    <p className='text-color-gray-500 text-sm'>Repos count: {profileData.public_repos} </p>
+                    <p className='text-color-gray-500 text-sm'>Joined on: {profileData.created_at && profileData.created_at.split("T")[0]} </p>
                 </div>
             </div>
 
             {/* middle section / bio section  */}
-            <div className='mt-2 text-slate-500'>
+            <div className='mt-2 text-color-gray-500'>
                 {profileData.bio}
             </div>
 

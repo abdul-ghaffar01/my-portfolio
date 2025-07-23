@@ -1,4 +1,4 @@
-import Image from 'next/image'
+
 import Link from 'next/link'
 import React, { useRef } from 'react'
 import { motion } from "framer-motion"
@@ -34,17 +34,17 @@ const ProjectItem = ({ project, left }) => {
                 {/* Shadow above image */}
                 <div
                     ref={coverRef}
-                    className='absolute top-0 opacity-[0.9] transition-all duration-200 bg-purple-500 w-full h-full group-hover:opacity-0 md:hidden'></div>
+                    className='absolute top-0 opacity-[0.9] transition-all duration-200 bg-color-500 w-full h-full group-hover:opacity-0 md:hidden'></div>
             </div>
 
             {/* Text & Content */}
-            <div className={`absolute text-[#300a35] ${left ? "md:right-0 md:items-end" : "md:left-0 md:items-start"} md:w-[50%] md:text-white md:px-5 w-full h-full top-0 px-2 py-5 md:h-full md:flex md:flex-col md:justify-center md:w-[calc(50%+150px)]`}>
+            <div className={`absolute text-[#300a35] ${left ? "md:right-0 md:items-end" : "md:left-0 md:items-start"} md:w-[50%] md:text-color-light md:px-5 w-full h-full top-0 px-2 py-5 md:h-full md:flex md:flex-col md:justify-center md:w-[calc(50%+150px)]`}>
 
                 {/* Title of the project */}
-                <div className={`text-purple-900 font-bold text-2xl md:text-2xl w-full md:text-white ${left ? "md:text-right" : "md:text-left"} `}>{project.title}</div>
+                <div className={`text-color-900 font-bold text-2xl md:text-2xl w-full md:text-color-light ${left ? "md:text-right" : "md:text-left"} `}>{project.title}</div>
 
                 {/* Description of the project */}
-                <div className={`relative md:mt-5 text-lg md:bg-purple-800 md:p-3 md:relative shadow-md `}>{project.desc}</div>
+                <div className={`relative md:mt-5 text-lg md:bg-color-800 md:p-3 md:relative shadow-md `}>{project.desc}</div>
 
                 {/* Tools Used */}
                 <ul className={`flex ${left ? "md:justify-end" : "md:justify-start"} w-full gap-[10px]`}>
@@ -55,7 +55,7 @@ const ProjectItem = ({ project, left }) => {
 
                 {/* View Project Button */}
                 <Link href={project.link} target='_blank'
-                    className='border border-purple-900 py-2 px-5 block mt-2 text-center w-fit hover:bg-purple-700 hover:text-white transition-all duration-300 md:border-slate-100 '>
+                    className='border border-color-900 py-2 px-5 block mt-2 text-center w-fit hover:bg-color-700 hover:text-color-light transition-all duration-300 md:border-slate-100 '>
                     View project
                 </Link>
             </div>

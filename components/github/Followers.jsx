@@ -20,7 +20,7 @@ const Followers = () => {
   }, []);
 
   return (
-    <div className="w-full overflow-hidden bg-black text-white py-4">
+    <div className="w-full overflow-hidden bg-color-dark text-color-light py-4">
       <h1 className='text-center text-lg'>Followers</h1>
       <Slider
         duration={followers.length}  // Smooth animation speed
@@ -43,7 +43,7 @@ const Followers = () => {
                 height={40}
                 alt="Follower profile"
               />
-              <p className="text-white font-medium break-keep">{item.login}</p>
+              <p className="text-color-light font-medium break-keep">{item.login}</p>
             </Link>
           </Slider.Slide>
         ))}

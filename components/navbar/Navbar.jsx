@@ -42,14 +42,14 @@ const Navbar = () => {
               initial={{ y: -20, opacity: 0, }}
               whileInView={{ y: 0, opacity: 1, transition: { delay: (0.1 * index) + 0.8 } }}
               viewport={{ once: true, amount: "all" }} className=' font-bold text-xl relative mx-2 transition-all duration-300'>
-              <Link className='text-[#00000075] hover:text-purple-700' href={item.link}>{item.name}</Link>
+              <Link className='text-[#00000075] hover:text-color-700' href={item.link}>{item.name}</Link>
               <div className='absolute bottom-0 w-full h-[10px] rounded-full '></div>
             </motion.li>)
           })}
 
           {/* Resume button */}
           <Link href="/resume">
-            <button className='hidden md:block bg-purple-500 block px-5 py-2 text-center w-fit hover:bg-purple-700 text-white font-semibold transition-all duration-200 md:border-slate-100 rounded-md'>
+            <button className='hidden md:block bg-color-500 block px-5 py-2 text-center w-fit hover:bg-color-700 text-white font-semibold transition-all duration-200 md:border-slate-100 rounded-md'>
               View resume
             </button>
           </Link>
@@ -59,9 +59,9 @@ const Navbar = () => {
 
       {/* Hamburger for menus */}
       <button onClick={() => { setShowSidebar(true) }} className="md:hidden hamburger w-[50px] h-[50px] bg-white p-2 flex flex-col justify-evenly items-center rounded-lg ">
-        <div className="line w-full h-[05px] bg-purple-500 rounded-full"></div>
-        <div className="line w-full h-[05px] bg-purple-500 rounded-full"></div>
-        <div className="line w-full h-[05px] bg-purple-500 rounded-full"></div>
+        <div className="line w-full h-[05px] bg-color-500 rounded-full"></div>
+        <div className="line w-full h-[05px] bg-color-500 rounded-full"></div>
+        <div className="line w-full h-[05px] bg-color-500 rounded-full"></div>
       </button>
 
       {/* mobile side bar */}
@@ -69,7 +69,7 @@ const Navbar = () => {
         initial={{}}
         whileInView={{}}
         viewport={{ once: true }}
-        className={`fixed md:hidden top-0 left-0 ${showSidebar ? "w-screen" : "w-0"} h-[101vh] bg-purple-900 z-[1000] overflow-hidden transition-all duration-500`}
+        className={`fixed md:hidden top-0 left-0 ${showSidebar ? "w-screen" : "w-0"} h-[101vh] bg-color-900 z-[1000] overflow-hidden transition-all duration-500`}
       >
         <div className="content p-5">
 
@@ -79,11 +79,11 @@ const Navbar = () => {
             className="md:hidden w-[50px] h-[50px] bg-white p-2 flex justify-center items-center rounded-lg relative">
 
             {/* Top Line */}
-            <div className={`absolute w-[35px] h-[5px] bg-purple-500 rounded-full transition-transform duration-300 ease-in-out ${showSidebar ? 'rotate-45 translate-y-0' : '-translate-y-2'}`}>
+            <div className={`absolute w-[35px] h-[5px] bg-color-500 rounded-full transition-transform duration-300 ease-in-out ${showSidebar ? 'rotate-45 translate-y-0' : '-translate-y-2'}`}>
             </div>
 
             {/* Bottom Line */}
-            <div className={`absolute w-[35px] h-[5px] bg-purple-500 rounded-full transition-transform duration-300 ease-in-out ${showSidebar ? '-rotate-45 translate-y-0' : 'translate-y-2'}`}>
+            <div className={`absolute w-[35px] h-[5px] bg-color-500 rounded-full transition-transform duration-300 ease-in-out ${showSidebar ? '-rotate-45 translate-y-0' : 'translate-y-2'}`}>
             </div>
           </button>
 
