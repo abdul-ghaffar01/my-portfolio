@@ -16,18 +16,18 @@ html {
 :root {
 
   /* Amber theme */
-  --color-900: #78350f; 
+  /* --color-900: #78350f; 
   --color-800: #92400e; 
   --color-700: #b45309; 
   --color-500: #f59e0b; 
-  --color-200: #fde68a; 
+  --color-200: #fde68a;  */
 
   /* Emerald theme */
-  /* --color-900: #064e3b; 
+  --color-900: #064e3b; 
   --color-800: #065f46; 
   --color-700: #047857; 
   --color-500: #10b981; 
-  --color-200: #a7f3d0;  */
+  --color-200: #a7f3d0; 
 
   /* Indigo theme */
   /* --color-900: #1e1b4b;
