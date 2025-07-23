@@ -58,7 +58,7 @@ const Footer = () => {
             </div>
 
             <div className='italic'>
-                Design and developed with <FavoriteIcon sx={{ color: "var(--color-900)" }} /> by
+                Design and developed with <FavoriteIcon sx={{ color: "var(--color-700)" }} /> by
             </div>
 
             <div className='text-center tracking-[5px] mb-7'>
