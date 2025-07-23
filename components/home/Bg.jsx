@@ -30,7 +30,7 @@ const Bg = () => {
                 transformOrigin: 'center',  // Ensures rotation happens around the center without affecting the layout
                 willChange: 'transform' // Optimizes performance
             }}
-            exit="exit" initial="initial" animate="animate" className='relative w-full h-full bg-transparent blur-[100px] overflow-hidden z-[0] flex items-center justify-center' >
+            exit="exit" initial="initial" animate="animate" className='relative w-full h-full bg-transparent blur-[100px] overflow-hidden z-[0] flex items-center justify-center ' >
             {/* Center circle */}
             <div className="rounded-full w-[25%] h-[50%] bg-gradient-to-br from-violet-900 to-fuchsia-900 z-[-1]"></div>
 

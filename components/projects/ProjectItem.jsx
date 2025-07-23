@@ -31,9 +31,10 @@ const ProjectItem = ({ project, left }) => {
                     height={600}
                     className='w-full h-full object-cover border border-slate-300 '
                 />
-                {/* <div
+                {/* Shadow above image */}
+                <div
                     ref={coverRef}
-                    className='absolute top-0 opacity-[0.9] transition-all duration-200 bg-purple-500 w-full h-full group-hover:opacity-0 '></div> */}
+                    className='absolute top-0 opacity-[0.9] transition-all duration-200 bg-purple-500 w-full h-full group-hover:opacity-0 md:hidden'></div>
             </div>
 
             {/* Text & Content */}
