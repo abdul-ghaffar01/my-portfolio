@@ -14,7 +14,7 @@ const Footer = () => {
                     <GitHubIcon sx={{
                         transition: "all .3s ease",
                         '&:hover': {
-                            color: 'color-dark',  // Change icon color on hover
+                            color: 'black',  // Change icon color on hover
                             transform: 'scale(1.4)',  // Optional: Scale the icon on hover
                         },
                     }} />
