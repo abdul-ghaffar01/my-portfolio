@@ -1,5 +1,6 @@
 "use client"
 import About from "@/components/about/About";
+import ChatBot from "@/components/chatbot/ChatBot";
 import Contact from "@/components/contact/Contact";
 import Footer from "@/components/footer/Footer";
 import GitHubRepos from "@/components/github/Github";
@@ -37,6 +38,7 @@ export default function page() {
           <Skills />
           <Contact />
           <Footer />
+          <ChatBot />
         </>)
       }
     </div>

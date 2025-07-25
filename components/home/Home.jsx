@@ -146,7 +146,7 @@ const Home = () => {
                         height={200}
                         quality={100}
                         alt='Profile'
-                        className='h-full w-auto absolute bottom-0 z-[100]'
+                        className='h-full w-auto absolute bottom-0 z-[10]'
                     />
                 </motion.div>
 
