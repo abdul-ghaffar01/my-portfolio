@@ -1,5 +1,5 @@
 const projectsData = [{
-    title: "Authentication system golang",
+    title: "Authentication system",
     desc: "A secure and scalable authentication system built using Golang and Next.js. It features JWT-based user login and registration, role-based access control, and protected API routes. Designed with modularity and performance in mind, this system serves as a robust foundation for modern full-stack web applications.",
     img: "/projects/auth.png",
     tools: ["NextJs", "Golang"],
