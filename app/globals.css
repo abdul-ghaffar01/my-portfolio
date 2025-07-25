@@ -46,6 +46,9 @@ html {
   /* permanent colors */
   --color-light: white;
   --color-dark: black;
+  --color-success: #22c55e; /* Green for success */
+  --color-danger: #ef4444; /* Red for error */
+  --color-warning: #f59e0b; /* Amber for warning */
   --color-gray-700: #334155;
   --color-gray-500: #64748B;
   --color-gray-400: #94A3B8;

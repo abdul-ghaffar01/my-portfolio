@@ -14,6 +14,9 @@ module.exports = {
         "color-500": "var(--color-500)", // Light background color
         "color-light": "var(--color-light)", // white color
         "color-dark": "var(--color-dark)", // black color
+        "color-success": "var(--color-success)", // Green for success
+        "color-danger": "var(--color-danger)", // Red for error
+        "color-warning": "var(--color-warning)", // Amber for warning
         "color-gray-700": "var(--color-gray-700)", // gray color
         "color-gray-500": "var(--color-gray-500)", // gray color
         "color-gray-400": "var(--color-gray-400)", // gray color

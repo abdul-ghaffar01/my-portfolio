@@ -22,8 +22,12 @@ const ProjectItem = ({ project, left }) => {
             onMouseEnter={hideCover}
             onMouseLeave={showCover}
             className='relative max-w-full w-[96%] hover:shadow-xl md:hover:shadow-none h-fit min-h-[450px] lg:w-[80%] mx-auto  mt-[80px]'>
+
             {/* Project Image Container */}
             <div className={`absolute w-full h-full overflow-hidden group md:w-[50%] ${left ? "md:left-0" : "md:right-0"}`}>
+                {/* completed or not tag */}
+                <div className={`z-[99] ${project.isCompleted? "bg-color-success" : "bg-color-warning"} shadow-md p-2 text-color-light absolute ${left ? "md:left-0 rounded-br-lg" : "md:right-0 rounded-bl-lg"}`}>{project.isCompleted? "Completed" : "Developing"}</div>
+                
                 <img
                     src={project.img}
                     alt="Project image"
