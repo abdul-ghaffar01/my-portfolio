@@ -20,6 +20,7 @@ module.exports = {
         "color-gray-700": "var(--color-gray-700)", // gray color
         "color-gray-500": "var(--color-gray-500)", // gray color
         "color-gray-400": "var(--color-gray-400)", // gray color
+        "color-gray-100": "var(--color-gray-100)", // gray color
       },
       screens: {
         xs: "400px", // Extra small screens

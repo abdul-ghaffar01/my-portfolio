@@ -51,7 +51,8 @@ html {
   --color-warning: #f59e0b; /* Amber for warning */
   --color-gray-700: #334155;
   --color-gray-500: #64748B;
-  --color-gray-400: #94A3B8;
+  --color-gray-400: #d1d1d1;
+  --color-gray-100: #94A3B8;
 }
 
 /* Custom Scrollbar */
