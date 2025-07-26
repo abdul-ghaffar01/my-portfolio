@@ -1,7 +1,7 @@
 "use client"
 import { useState } from 'react';
 
-const CreateChatAccount = ({ setAccountSetup, setCreatingAccount }) => {
+const CreateChatAccount = ({ setAccountSetup, setCreatingAccount, setSessionStarted }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [fullname, setFullname] = useState('');
@@ -20,7 +20,15 @@ const CreateChatAccount = ({ setAccountSetup, setCreatingAccount }) => {
 
       const data = await res.json();
 
-      if (!res.ok) {
+      if (res.ok) {
+        console.log("Signup successful:", data);
+
+        localStorage.setItem('user', JSON.stringify(data.user));
+        localStorage.setItem('jwt', data.token);
+        setCreatingAccount(false); // Assuming this is a state in the parent component
+        setSessionStarted(true);
+      }
+      else {
         console.error('Signup failed:', data.message);
         // Show error to user if needed
         return;

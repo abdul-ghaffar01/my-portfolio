@@ -57,7 +57,7 @@ const page = () => {
                 setGuestMode={setGuestMode} setAccountSetup={setAccountSetup} />}
 
             {/* Account creation */}
-            {creatingAccount && <CreateChatAccount setCreatingAccount={setCreatingAccount} setAccountSetup={setAccountSetup} />}
+            {creatingAccount && <CreateChatAccount setCreatingAccount={setCreatingAccount} setAccountSetup={setAccountSetup} setSessionStarted={setSessionStarted} />}
 
             {/* Login for chat */}
             {loggingIn && <LoginChat setLoggingIn={setLoggingIn} setAccountSetup={setAccountSetup} setSessionStarted={setSessionStarted} />}
