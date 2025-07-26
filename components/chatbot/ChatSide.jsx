@@ -13,6 +13,10 @@ const ChatSide = () => {
         who: "you",
         timestamp: "12:30 pm",
     }, {
+        content: "This is a large message what do you say about this large message what do you say about this?",
+        who: "you",
+        timestamp: "12:30 pm",
+    }, {
         content: "This is a response from the bot.",
         who: "chatbot",
         timestamp: "12:31 pm",
@@ -68,8 +72,10 @@ const ChatSide = () => {
 
         const newHeight = Math.min(lines, maxLines) * lineHeight;
 
-        textareaRef.current.style.height = `${newHeight}px`;
-        textareaRef.current.style.overflowY = lines > maxLines ? "auto" : "hidden";
+
+        textareaRef.current.style.height = '24px'; // Reset to base height first
+        textareaRef.current.style.height = `${Math.min(textareaRef.current.scrollHeight, 24 * 6)}px`; // Max 6 lines
+        textareaRef.current.style.overflowY = textareaRef.current.scrollHeight > 24 * 6 ? "auto" : "hidden";
     };
 
     const handleKeyDown = (e) => {
@@ -86,12 +92,42 @@ const ChatSide = () => {
     // To send the message
     const sendMessage = () => {
         console.log("Message sent:", messageText);
+        messages.push({
+            content: messageText,
+            who: "you",
+            timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        });
+        setMessages([...messages]); // Update messages state
+        // Clear the message text
         setMessageText('');
 
         // Reset height (optional)
         if (textareaRef.current) {
             textareaRef.current.style.height = '24px';
             textareaRef.current.focus(); // 🔥 This line sets focus back
+        }
+    }
+
+    const handleChatDownload = () => {
+        // Logic to download chat messages
+        const chatContent = messages.map(msg => `${msg.who}: ${msg.content} (${msg.timestamp})`).join('\n');
+        const blob = new Blob([chatContent], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'chat.txt';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+
+    const handleChatDelete = () => {
+        // Logic to delete chat messages
+        setMessages([]); // Clear the messages state
+        if (textareaRef.current) {
+            textareaRef.current.value = ''; // Clear the textarea
+            textareaRef.current.style.height = '24px'; // Reset height
         }
     }
 
@@ -106,10 +142,10 @@ const ChatSide = () => {
 
                 {/* Right side */}
                 <div className='flex items-center gap-2'>
-                    <button className='text-color-500 bg-color-light rounded-full p-1 transition duration-300'>
+                    <button onClick={handleChatDownload} className='text-color-500 bg-color-light rounded-full p-1 transition duration-300'>
                         <DownloadIcon />
                     </button>
-                    <button className='text-color-500 bg-color-light rounded-full p-1 transition duration-300'>
+                    <button onClick={handleChatDelete} className='text-color-500 bg-color-light rounded-full p-1 transition duration-300'>
                         <DeleteIcon />
                     </button>
                 </div>
@@ -134,7 +170,7 @@ const ChatSide = () => {
                     value={messageText}
                     placeholder='Type your message'
                     style={{ height: "24px", lineHeight: "24px" }}
-                    className='w-[calc(100%-70px)] bg-transparent mt-1 outline-none text-lg text-color-light resize-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden'
+                    className='w-[calc(100%-70px)] h-fit bg-transparent mt-1 outline-none text-lg text-color-light resize-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden'
                 ></textarea>
                 <button
                     onClick={sendMessage}

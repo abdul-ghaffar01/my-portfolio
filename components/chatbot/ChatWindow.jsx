@@ -10,7 +10,7 @@ const ChatWindow = ({ messages, endRef }) => {
           <Message key={index} message={message} />
         ))
       }
-      <div ref={endRef} />
+      <div className='h-[4px] w-full' ref={endRef} >&nbsp;</div>
     </div>
   )
 }

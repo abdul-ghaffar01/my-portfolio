@@ -1,4 +1,5 @@
 import React from 'react'
+import CheckIcon from '@mui/icons-material/Check';
 
 const Message = ({ message }) => {
     const who = message.who || "you"; // Default to "user" if not provided
@@ -10,7 +11,10 @@ const Message = ({ message }) => {
             </div>
             <div className='text-xs flex items-center justify-between mt-1'>
                 <p className='text-color-light'>{message.who}</p>
-                <p className='text-color-light'>{message.timestamp}</p>
+                <div className='flex items-center gap-1'>
+                    <p className='text-color-light'>{message.timestamp}</p>
+                    {who === "you" && <CheckIcon className='text-color-light text-sm' />}
+                </div>
             </div>
         </div>
     )
