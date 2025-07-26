@@ -1,14 +1,16 @@
 import React, { useState } from 'react'
 
-const LoginChat = ({ setAccountSetup, setLoggingIn }) => {
+const LoginChat = ({ setAccountSetup, setLoggingIn, setSessionStarted }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [respMessage, setRespMessage] = useState('');
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
     try {
-      const res = await fetch('/api/chatbot/login', {
+
+      const res = await fetch(`${process.env.NEXT_PUBLIC_CHATBOT_BACKEND_URL}/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -18,10 +20,16 @@ const LoginChat = ({ setAccountSetup, setLoggingIn }) => {
 
       if (res.ok) {
         console.log("Login successful:", data);
-        // Optionally store token/cookie or redirect
+
+        localStorage.setItem('user', JSON.stringify(data.user));
+        localStorage.setItem('jwt', data.token);
+        setSessionStarted(true); // Assuming sessionStarted is a state in the parent component
+        setLoggingIn(false);
+        setRespMessage(data.message);
 
       } else {
         console.error("Login failed:", data.message);
+        setRespMessage(data.message);
         // Show error message to user
       }
 
@@ -46,6 +54,7 @@ const LoginChat = ({ setAccountSetup, setLoggingIn }) => {
           <button type='button' onClick={handleBack} className='w-full bg-gray-700 text-color-light hover:bg-gray-800 px-4 py-2 rounded-md mt-1 mx-auto block'>Go back</button>
         </form>
       </div>
+      {respMessage}
     </div>
   )
 }

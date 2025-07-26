@@ -9,12 +9,27 @@ import GuestMode from '@/components/chatbot/GuestMode';
 
 const page = () => {
     const isOnline = true; // This should be replaced with actual online status logic
-    const sessionStarted = false; // This should be replaced with actual session logic
+    const [sessionStarted, setSessionStarted] = useState(false); // This should be replaced with actual session logic
     const [creatingAccount, setCreatingAccount] = useState(false)
     const [loggingIn, setLoggingIn] = useState(false)
     const [guestMode, setGuestMode] = useState(false)
-    const [accountSetup, setAccountSetup] = useState(true)
+    const [accountSetup, setAccountSetup] = useState(false)
     const router = useRouter();
+
+    useEffect(() => {
+        const jwt = localStorage.getItem('jwt')
+        if (!jwt) {
+            setAccountSetup(true);
+            setCreatingAccount(false);
+            setLoggingIn(false);
+            setGuestMode(false);
+            setSessionStarted(false);
+        } else {
+            // Check if the user is logged in or needs to set up an account
+            // This can be replaced with actual logic to check user status
+            setSessionStarted(true);
+        }
+    }, [])
 
     useEffect(() => {
         const handleRouteChange = (url) => {
@@ -32,25 +47,24 @@ const page = () => {
         };
     }, []);
     return (
-        <div className='w-screen h-[100dvh] fixed top-0 left-0 flex'>
-            <div className='flex-[3]'>
+        <div className='w-screen md:h-screen h-[100dvh] fixed top-0 left-0 flex'>
 
-                {/* Chat side */}
-                {sessionStarted && <ChatSide />}
+            {/* Chat side */}
+            {sessionStarted && <ChatSide />}
 
-                {/* Account setup */}
-                {accountSetup && <AccountSetup setCreatingAccount={setCreatingAccount} setLoggingIn={setLoggingIn}
-                    setGuestMode={setGuestMode} setAccountSetup={setAccountSetup} />}
+            {/* Account setup */}
+            {accountSetup && <AccountSetup setCreatingAccount={setCreatingAccount} setLoggingIn={setLoggingIn}
+                setGuestMode={setGuestMode} setAccountSetup={setAccountSetup} />}
 
-                {/* Account creation */}
-                {creatingAccount && <CreateChatAccount setCreatingAccount={setCreatingAccount} setAccountSetup={setAccountSetup} />}
+            {/* Account creation */}
+            {creatingAccount && <CreateChatAccount setCreatingAccount={setCreatingAccount} setAccountSetup={setAccountSetup} />}
 
-                {/* Login for chat */}
-                {loggingIn && <LoginChat setLoggingIn={setLoggingIn} setAccountSetup={setAccountSetup} />}
+            {/* Login for chat */}
+            {loggingIn && <LoginChat setLoggingIn={setLoggingIn} setAccountSetup={setAccountSetup} setSessionStarted={setSessionStarted} />}
 
-                {/* Guest mode */}
-                {guestMode && <GuestMode setAccountSetup={setAccountSetup} setGuestMode={setGuestMode} />}
-            </div>
+            {/* Guest mode */}
+            {guestMode && <GuestMode setAccountSetup={setAccountSetup} setGuestMode={setGuestMode} />}
+
 
 
             {/* left side all the chats */}

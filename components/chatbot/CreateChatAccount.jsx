@@ -9,12 +9,12 @@ const CreateChatAccount = ({ setAccountSetup, setCreatingAccount }) => {
     e.preventDefault();
 
     try {
-      const res = await fetch('/api/chatbot/signup', {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_CHATBOT_BACKEND_URL}/signup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password, fullName:fullname }),
+        body: JSON.stringify({ email, password, fullName: fullname }),
       });
       console.log(email, password, fullname)
 
