@@ -6,6 +6,11 @@
 .pnp.js
 .yarn/install-state.gz
 
+# ignore files of the chatbot backend
+/chatbot-backend/node_modules
+chatbot-backend/.env
+
+
 # testing
 /coverage
 
@@ -40,3 +45,4 @@ next-env.d.ts
 # Ignore visit tracking files
 data/visits.json
 data/
+
