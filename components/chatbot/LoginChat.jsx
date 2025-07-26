@@ -10,7 +10,7 @@ const LoginChat = ({ setAccountSetup, setLoggingIn, setSessionStarted }) => {
 
     try {
 
-      const res = await fetch(`${process.env.NEXT_PUBLIC_CHATBOT_BACKEND_URL}/login`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_CHATBOT_BACKEND_URL || "http://147.79.101.178:3009"}/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),

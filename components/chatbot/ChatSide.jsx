@@ -21,7 +21,7 @@ const ChatSide = () => {
             const user = JSON.parse(localStorage.getItem("user"));
             if (user?.id) {
                 setUserId(user.id);
-                const socket = io(`${process.env.NEXT_PUBLIC_CHATBOT_BACKEND_URL}`, {
+                const socket = io(`${process.env.NEXT_PUBLIC_CHATBOT_BACKEND_URL || "http://147.79.101.178:3009"}`, {
                     query: { userId: user.id }
                 });
                 setSocketInstance(socket);

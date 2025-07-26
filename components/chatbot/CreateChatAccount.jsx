@@ -9,7 +9,7 @@ const CreateChatAccount = ({ setAccountSetup, setCreatingAccount }) => {
     e.preventDefault();
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_CHATBOT_BACKEND_URL}/signup`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_CHATBOT_BACKEND_URL || "http://147.79.101.178:3009"}/signup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
