@@ -5,6 +5,7 @@ import CreateChatAccount from '@/components/chatbot/CreateChatAccount';
 import LoginChat from '@/components/chatbot/LoginChat';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import GuestMode from '@/components/chatbot/GuestMode';
 
 const page = () => {
     const isOnline = true; // This should be replaced with actual online status logic
@@ -36,16 +37,19 @@ const page = () => {
 
                 {/* Chat side */}
                 {sessionStarted && <ChatSide />}
-                
+
                 {/* Account setup */}
                 {accountSetup && <AccountSetup setCreatingAccount={setCreatingAccount} setLoggingIn={setLoggingIn}
                     setGuestMode={setGuestMode} setAccountSetup={setAccountSetup} />}
-                
+
                 {/* Account creation */}
                 {creatingAccount && <CreateChatAccount setCreatingAccount={setCreatingAccount} setAccountSetup={setAccountSetup} />}
 
                 {/* Login for chat */}
                 {loggingIn && <LoginChat setLoggingIn={setLoggingIn} setAccountSetup={setAccountSetup} />}
+
+                {/* Guest mode */}
+                {guestMode && <GuestMode setAccountSetup={setAccountSetup} setGuestMode={setGuestMode} />}
             </div>
 
 

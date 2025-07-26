@@ -1,10 +1,4 @@
-import Image from 'next/image'
 import MessageIcon from '@mui/icons-material/Message';
-import { useEffect, useRef, useState } from 'react';
-import ChatWindow from './ChatWindow';
-import DownloadIcon from '@mui/icons-material/Download';
-import ClearIcon from '@mui/icons-material/Clear';
-import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import { useRouter } from 'next/navigation';
 
 const ChatBot = () => {

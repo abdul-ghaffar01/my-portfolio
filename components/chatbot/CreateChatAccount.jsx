@@ -5,11 +5,34 @@ const CreateChatAccount = ({ setAccountSetup, setCreatingAccount }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [fullname, setFullname] = useState('');
-  const handleSignup = (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
-    // Handle login logic here
-    console.log("Signup details:", { email, password, fullname });
-  }
+
+    try {
+      const res = await fetch('/api/chatbot/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password, fullName:fullname }),
+      });
+      console.log(email, password, fullname)
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        console.error('Signup failed:', data.message);
+        // Show error to user if needed
+        return;
+      }
+
+      console.log('Signup successful:', data);
+      // Redirect or clear form if needed
+    } catch (err) {
+      console.error('Error during signup:', err);
+    }
+  };
+
 
   const handleBack = () => {
     setCreatingAccount(false);
