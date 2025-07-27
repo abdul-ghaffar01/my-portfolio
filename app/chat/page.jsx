@@ -30,7 +30,6 @@ const Page = () => {
         });
 
         socket.on('allUsers', (users) => {
-            console.log("All users:", users);
             setAllUsers(users); // or store them however you like
         });
 

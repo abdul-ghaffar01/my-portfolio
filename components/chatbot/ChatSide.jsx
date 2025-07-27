@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useRef, useState } from 'react';
-import { io } from 'socket.io-client';
 import DownloadIcon from '@mui/icons-material/Download';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SendIcon from '@mui/icons-material/Send';
@@ -94,14 +93,12 @@ const ChatSide = () => {
             sentAt,
         };
         setMessages((prev) => [...prev, newMessage]);
-        console.log("Message sent:", newMessage);
         socketInstance.emit('sendMessage', {
             userId,
             to: "6884c115c3fd2ec85813625a",
             content: messageText,
             sender: "user",
         });
-        console.log("sent")
 
         setMessageText('');
         textareaRef.current.style.height = '24px';
