@@ -46,6 +46,10 @@ io.on('connection', async (socket) => {
     console.log(`🟢 New user Connected: ${socket.id}, userId: ${userId}`);
 
     try {
+        // Send all users once on connection (optional: only for logged-in users)
+        const allUsers = await User.find().select('fullName _id');
+        socket.emit('allUsers', allUsers);
+
         if (userId) {
             const user = await User.findById(userId).select('fullName');
             const fullName = user?.fullName || 'Guest User';
@@ -66,44 +70,11 @@ io.on('connection', async (socket) => {
 
             socket.emit('chatHistory', history.reverse());
         } else {
-            // Read-only connection
             socket.emit('onlineUsers', Array.from(onlineUsers.values()));
         }
     } catch (err) {
         console.error('Connection error:', err.message);
     }
-
-    socket.on('sendMessage', async (data) => {
-        try {
-            // Save user's message
-            const savedUserMessage = await Message.create({
-                userId: data.userId,
-                content: data.content,
-                sender: "user",
-                to: "6884c115c3fd2ec85813625a"
-            });
-
-            // Send only to sender
-            socket.emit('receiveMessage', savedUserMessage);
-
-            // Save bot reply
-            const savedBotMessage = await Message.create({
-                userId: "6884c115c3fd2ec85813625a",
-                content: "The bot is still under development.",
-                sender: "chatbot",
-                to: data.userId
-            });
-
-            // Send bot reply only to the user
-            const recipientSocketId = userSockets.get(data.userId);
-            if (recipientSocketId) {
-                io.to(recipientSocketId).emit('receiveMessage', savedBotMessage);
-            }
-        } catch (err) {
-            console.error('Message error:', err.message);
-        }
-    });
-
     socket.on('disconnect', () => {
         console.log('🔴 Disconnected:', socket.id);
         const userInfo = onlineUsers.get(socket.id);

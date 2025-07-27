@@ -14,15 +14,26 @@ const Page = () => {
     const [loggingIn, setLoggingIn] = useState(false);
     const [guestMode, setGuestMode] = useState(false);
     const [accountSetup, setAccountSetup] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [onlineUsers, setOnlineUsers] = useState([]);
+    const [allUsers, setAllUsers] = useState([]);
     const router = useRouter();
 
     useEffect(() => {
         const socket = connectSocketReadOnly()
+        if(socket){
+            setLoading(false);
+        }
+
         socket.on('onlineUsers', (users) => {
-            console.log("🟢 Online users list:", users);
             setOnlineUsers(users);
         });
+
+        socket.on('allUsers', (users) => {
+            console.log("All users:", users);
+            setAllUsers(users); // or store them however you like
+        });
+
 
         return () => {
             socket.off('onlineUsers');
@@ -68,14 +79,24 @@ const Page = () => {
             {guestMode && <GuestMode setAccountSetup={setAccountSetup} setGuestMode={setGuestMode} setSessionStarted={setSessionStarted} />}
 
             {/* Sidebar: All online users */}
-            <div className='hidden md:block md:flex-[1] max-w-[400px] bg-gray-100'>
-                <div className='w-full text-center my-3'>
-                    <h1 className='text-2xl text-gray-600'>All Chats</h1>
+            <div className='hidden md:block md:flex-[1] max-w-[400px] bg-gray-100 flex flex-col overflow-y-auto'>
+                <div className='w-full text-center mt-3'>
                     <span className='text-gray-500 text-sm'>You can't see any of the chat messages</span>
                 </div>
 
-                <div className='w-full h-full overflow-y-auto p-2'>
+                <div className='w-full h-fit overflow-y-auto p-2'>
+                    <h1 className='text-xl text-gray-600 text-left mb-1 font-medium'>Online users</h1>
                     {onlineUsers.map((user, index) => (
+                        <div key={index} className='flex items-center w-full h-fit bg-gray-500 hover:bg-gray-700 rounded-md p-3 transition duration-300 text-color-light mb-2'>
+                            <h2 className='text-lg w-fit'>{user.fullName}</h2>
+                            <span className='w-3 h-3 rounded-full ml-2 bg-color-success'></span>
+                        </div>
+                    ))}
+                </div>
+
+                <div className='w-full h-full overflow-y-auto p-2'>
+                    <h1 className='text-xl text-gray-600 text-left mb-1 font-medium'>All users</h1>
+                    {allUsers.map((user, index) => (
                         <div key={index} className='flex items-center w-full h-fit bg-gray-500 hover:bg-gray-700 rounded-md p-3 transition duration-300 text-color-light mb-2'>
                             <h2 className='text-lg w-fit'>{user.fullName}</h2>
                             <span className='w-3 h-3 rounded-full ml-2 bg-color-success'></span>
