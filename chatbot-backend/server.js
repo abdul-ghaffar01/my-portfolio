@@ -43,7 +43,7 @@ const userSockets = new Map(); // key: userId, value: socket.id
 
 io.on('connection', async (socket) => {
     const userId = socket.handshake.query.userId;
-    console.log(`🟢 Connected: ${socket.id}, userId: ${userId}`);
+    console.log(`🟢 New user Connected: ${socket.id}, userId: ${userId}`);
 
     try {
         if (userId) {

@@ -34,6 +34,7 @@ const ProfileSection = () => {
                         width={130}
                         height={130}
                         alt='Github Profile'
+                        
                         className=''
                     />
                 </div>

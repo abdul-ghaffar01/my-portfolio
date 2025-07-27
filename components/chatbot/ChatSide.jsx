@@ -44,14 +44,12 @@ const ChatSide = () => {
         });
 
         socketInstance.on('chatHistory', (history) => {
-            console.log("history", history)
             const updatedHistory = history.map(msg => ({
                 ...msg,
                 who: msg.sender === 'chatbot' ? 'chatbot' : msg.sender === 'user' ? 'you' : 'Abdul Ghaffar',
                 timestamp: msg.timestamp || new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
             }));
             setMessages(updatedHistory);
-            console.log("🔁 History loaded:", updatedHistory);
         });
 
         return () => {

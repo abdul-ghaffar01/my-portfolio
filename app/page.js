@@ -13,11 +13,6 @@ import { useEffect, useRef, useState } from "react";
 export default function page() {
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    fetch('/api/track')
-      .then(res => res.json())
-      .then(data => console.log('Total Visits:', data.count));
-  }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
