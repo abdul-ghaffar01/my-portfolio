@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import GuestMode from '@/components/chatbot/GuestMode';
 import { connectSocketReadOnly } from '@/utils/socket'; // make sure socket is exported from utils
+import Loader from '@/components/Loader';
 
 const Page = () => {
     const [sessionStarted, setSessionStarted] = useState(false);
@@ -25,6 +26,7 @@ const Page = () => {
         }
 
         socket.on('onlineUsers', (users) => {
+
             const uniqueOnlineUsers = Array.from(
                 new Map(users.map(user => [user.id, user])).values()
             );
@@ -67,14 +69,16 @@ const Page = () => {
     return (
         <div className='w-screen h-[100dvh] top-0 left-0 flex overflow-hidden'>
 
-            {/* Chat Side */}
-            {sessionStarted && <ChatSide />}
+                {loading && (<Loader />
+                )}
+                {/* Chat Side */}
+                {sessionStarted && <ChatSide />}
 
-            {/* Account setup flow */}
-            {accountSetup && <AccountSetup setCreatingAccount={setCreatingAccount} setLoggingIn={setLoggingIn} setGuestMode={setGuestMode} setAccountSetup={setAccountSetup} />}
-            {creatingAccount && <CreateChatAccount setCreatingAccount={setCreatingAccount} setAccountSetup={setAccountSetup} setSessionStarted={setSessionStarted} />}
-            {loggingIn && <LoginChat setLoggingIn={setLoggingIn} setAccountSetup={setAccountSetup} setSessionStarted={setSessionStarted} />}
-            {guestMode && <GuestMode setAccountSetup={setAccountSetup} setGuestMode={setGuestMode} setSessionStarted={setSessionStarted} />}
+                {/* Account setup flow */}
+                {accountSetup && <AccountSetup setCreatingAccount={setCreatingAccount} setLoggingIn={setLoggingIn} setGuestMode={setGuestMode} setAccountSetup={setAccountSetup} />}
+                {creatingAccount && <CreateChatAccount setCreatingAccount={setCreatingAccount} setAccountSetup={setAccountSetup} setSessionStarted={setSessionStarted} />}
+                {loggingIn && <LoginChat setLoggingIn={setLoggingIn} setAccountSetup={setAccountSetup} setSessionStarted={setSessionStarted} />}
+                {guestMode && <GuestMode setAccountSetup={setAccountSetup} setGuestMode={setGuestMode} setSessionStarted={setSessionStarted} />}
 
             {/* Sidebar: All and online users */}
             <div className='hidden md:block md:flex-[1] max-w-[400px] bg-gray-100 flex flex-col overflow-y-auto'>

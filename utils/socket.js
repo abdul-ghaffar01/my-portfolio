@@ -3,9 +3,9 @@ import { io } from 'socket.io-client';
 let socket = null;
 
 // Call this to connect as an active user (will be tracked as online)
-export function connectSocketWithUser(userId) {
+export function connectSocketWithUser(token) {
     socket = io(process.env.NEXT_PUBLIC_CHATBOT_BACKEND_URL, {
-        query: { userId },
+        query: { token },
         autoConnect: true
     });
     return socket;

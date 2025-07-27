@@ -9,6 +9,8 @@ import connectDB from './db.js';
 import Message from './models/Message.js';
 import { guestSignupController } from './controllers/guesSignupController.js';
 import User from './models/User.js';
+import jwtVerifyController from './controllers/jwtVerifyController.js';
+import jwt_verify from './helper/jwt_verify.js';
 
 dotenv.config();
 
@@ -26,6 +28,7 @@ await connectDB();
 app.post('/login', loginController);
 app.post('/signup', signupController);
 app.post('/signup-guest', guestSignupController);
+app.post('/jwtverify', jwtVerifyController);
 
 // Create HTTP server
 const server = http.createServer(app);
@@ -42,7 +45,19 @@ const onlineUsers = new Map(); // key: socket.id, value: { userId, fullName }
 const userSockets = new Map(); // key: userId, value: socket.id
 
 io.on('connection', async (socket) => {
-    const userId = socket.handshake.query.userId;
+    /* 
+        Taking token from socket handshake query and then verifying it.
+        If userId is not present in the token payload, disconnect the socket.
+    */
+    const token = socket.handshake.query.token;
+    const userId = jwt_verify(token).userId || null; // Extract userId from token, or set to null if not available
+
+    // if (!userId) {
+    //     console.log('❌ userId missing in token payload');
+    //     socket.disconnect(true);
+    //     return;
+    // }
+
     console.log(`🟢 New user Connected: ${socket.id}, userId: ${userId}`);
 
     const allUsers = await User.find().select('fullName _id');
@@ -68,9 +83,6 @@ io.on('connection', async (socket) => {
             }).sort({ sentAt: -1 }).limit(50);
 
             socket.emit('chatHistory', history.reverse());
-        } else {
-            // Read-only connection
-            socket.emit('onlineUsers', Array.from(onlineUsers.values()));
         }
     } catch (err) {
         console.error('Connection error:', err.message);
@@ -83,7 +95,7 @@ io.on('connection', async (socket) => {
                 userId: data.userId,
                 content: data.content,
                 sender: "user",
-                to: "6884c115c3fd2ec85813625a"
+                to: process.env.BOT_ACCOUNT_ID
             });
 
             // Send only to sender
@@ -91,7 +103,7 @@ io.on('connection', async (socket) => {
 
             // Save bot reply
             const savedBotMessage = await Message.create({
-                userId: "6884c115c3fd2ec85813625a",
+                userId: process.env.BOT_ACCOUNT_ID,
                 content: "The bot is still under development.",
                 sender: "chatbot",
                 to: data.userId
@@ -104,6 +116,35 @@ io.on('connection', async (socket) => {
             }
         } catch (err) {
             console.error('Message error:', err.message);
+        }
+    });
+
+
+    socket.on('loadOlderMessages', async ({ userId, skip = 0, limit = 20 }) => {
+        try {
+
+            const query = {
+                $or: [
+                    { userId: userId },   // sent by user
+                    { to: userId }        // received by user (sent by bot)
+                ]
+            };
+
+            const totalMessages = await Message.countDocuments(query);
+            const messages = await Message
+                .find({ userId })
+                .sort({ createdAt: -1 }) // newest first
+                .skip(skip)
+                .limit(limit)
+                .lean();
+
+            // Reverse to show oldest first when prepending
+            socket.emit("olderMessages", {
+                messages: messages,
+                hasMore: totalMessages > skip + limit
+            });
+        } catch (err) {
+            console.error('Error loading older messages:', err);
         }
     });
 
