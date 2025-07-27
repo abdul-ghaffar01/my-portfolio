@@ -15,6 +15,7 @@ const ChatSide = () => {
     const [isMobile, setIsMobile] = useState(false);
     const [socketInstance, setSocketInstance] = useState(null);
     const [userId, setUserId] = useState("");
+    const mainWindow = useRef(null)
 
 
     useEffect(() => {
@@ -126,15 +127,20 @@ const ChatSide = () => {
         }
     };
 
+
     return (
-        <div className='flex-[2] flex flex-col'>
+        <div className='flex-[2] w-full flex flex-col' >
+
+            {/* While socket connection is being established */}
             {(!socketInstance) && (
                 <div className='flex-1 flex items-center justify-center'>
                     <p className='text-color-dark'>Connecting to chat...</p>
                 </div>
             )}
+
+            {/* when the socket connection is established  */}
             {(socketInstance) && (<>
-                <div className='w-full h-fit flex items-center justify-between p-2 bg-color-800'>
+                <div className='w-full flex items-center justify-between p-2 bg-color-800 shrink-0'>
                     <div className='flex items-center gap-2'>
                         <h1 className='text-lg text-color-light font-medium'>Abdul Ghaffar - Bot</h1>
                     </div>
@@ -152,7 +158,7 @@ const ChatSide = () => {
                     <ChatWindow messages={messages} endRef={endRef} />
                 </div>
 
-                <div className='w-full h-fit max-w-screen p-2 md:p-3 bg-color-800 relative'>
+                <div className='w-full h-fit max-w-screen p-2 md:p-3 bg-color-800 shrink-0 relative'>
                     <textarea
                         onKeyDown={handleKeyDown}
                         ref={textareaRef}

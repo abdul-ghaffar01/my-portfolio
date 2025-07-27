@@ -21,6 +21,7 @@ export default function page() {
 
     return () => clearTimeout(timer);
   }, []);
+  
   return (
     <div className="w-screen overflow-hidden">
       {loading ? <Loader /> :

@@ -27,18 +27,16 @@ const ChatWindow = ({ messages, endRef }) => {
 
             if (date.toDateString() === today.toDateString()) return "Today";
             if (date.toDateString() === yesterday.toDateString()) return "Yesterday";
-            return format(date, "MMMM d, yyyy"); // e.g., July 25, 2025
+            return format(date, "MMMM d, yyyy");
           };
 
           return (
-            <React.Fragment key={index}>
-              {isNewDay && (
-                <div className="text-center text-gray-500 text-sm my-4">
-                  {getFriendlyDate(current)}
-                </div>
-              )}
-              <Message message={message} />
-            </React.Fragment>
+            <Message
+              key={index}
+              message={message}
+              showDate={isNewDay}
+              formattedDate={getFriendlyDate(current)}
+            />
           );
         })
       }

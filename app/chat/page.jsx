@@ -16,7 +16,6 @@ const Page = () => {
     const [accountSetup, setAccountSetup] = useState(false);
     const [loading, setLoading] = useState(true);
     const [onlineUsers, setOnlineUsers] = useState([]);
-    const [allUsers, setAllUsers] = useState([]);
     const router = useRouter();
 
     useEffect(() => {
@@ -26,13 +25,11 @@ const Page = () => {
         }
 
         socket.on('onlineUsers', (users) => {
-            setOnlineUsers(users);
+            const uniqueOnlineUsers = Array.from(
+                new Map(users.map(user => [user.id, user])).values()
+            );
+            setOnlineUsers(uniqueOnlineUsers);
         });
-
-        socket.on('allUsers', (users) => {
-            setAllUsers(users); // or store them however you like
-        });
-
 
         return () => {
             socket.off('onlineUsers');
@@ -65,8 +62,10 @@ const Page = () => {
         };
     }, []);
 
+
+
     return (
-        <div className='w-screen md:h-screen h-[100dvh] fixed top-0 left-0 flex'>
+        <div className='w-screen h-[100dvh] top-0 left-0 flex overflow-hidden'>
 
             {/* Chat Side */}
             {sessionStarted && <ChatSide />}
@@ -77,7 +76,7 @@ const Page = () => {
             {loggingIn && <LoginChat setLoggingIn={setLoggingIn} setAccountSetup={setAccountSetup} setSessionStarted={setSessionStarted} />}
             {guestMode && <GuestMode setAccountSetup={setAccountSetup} setGuestMode={setGuestMode} setSessionStarted={setSessionStarted} />}
 
-            {/* Sidebar: All online users */}
+            {/* Sidebar: All and online users */}
             <div className='hidden md:block md:flex-[1] max-w-[400px] bg-gray-100 flex flex-col overflow-y-auto'>
                 <div className='w-full text-center mt-3'>
                     <span className='text-gray-500 text-sm'>You can't see any of the chat messages</span>
@@ -94,14 +93,15 @@ const Page = () => {
                     ))}
                 </div>
 
-                <div className='w-full h-fit overflow-y-auto p-2'>
+                {/* All users */}
+                {/* <div className='w-full h-fit overflow-y-auto p-2'>
                     <h1 className='text-xl text-gray-600 text-left mb-1 font-medium'>All users</h1>
                     {allUsers.map((user, index) => (
                         <div key={index} className='flex items-center w-full h-fit bg-gray-500 hover:bg-gray-700 rounded-md p-3 transition duration-300 text-color-light mb-2'>
                             <h2 className='text-lg w-fit'>{user.fullName}</h2>
                         </div>
                     ))}
-                </div>
+                </div> */}
             </div>
         </div>
     );
