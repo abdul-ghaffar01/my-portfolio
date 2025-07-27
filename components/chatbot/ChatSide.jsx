@@ -19,9 +19,10 @@ const ChatSide = () => {
     useEffect(() => {
         if (typeof window !== 'undefined') {
             const user = JSON.parse(localStorage.getItem("user"));
+            console.log("User from localStorage:", user);
             if (user?.id) {
                 setUserId(user.id);
-                const socket = io(`${process.env.NEXT_PUBLIC_CHATBOT_BACKEND_URL || "http://localhost:3009"}`, {
+                const socket = io(`${process.env.NEXT_PUBLIC_CHATBOT_BACKEND_URL}`, {
                     query: { userId: user.id }
                 });
                 setSocketInstance(socket);
@@ -83,7 +84,7 @@ const ChatSide = () => {
         }
     };
     const sendMessage = () => {
-        if (!messageText.trim()) return;
+        if (!messageText.trim() || !socketInstance) return;
 
         const sentAt = new Date();
 
@@ -129,41 +130,49 @@ const ChatSide = () => {
 
     return (
         <div className='flex-[2] flex flex-col'>
-            <div className='w-full h-fit flex items-center justify-between p-2 bg-color-800'>
-                <div className='flex items-center gap-2'>
-                    <h1 className='text-lg text-color-light font-medium'>Abdul Ghaffar - Bot</h1>
+            {(!socketInstance) && (
+                <div className='flex-1 flex items-center justify-center'>
+                    <p className='text-color-dark'>Connecting to chat...</p>
                 </div>
-                <div className='flex items-center gap-2'>
-                    <button onClick={handleChatDownload} className='text-color-500 bg-color-light rounded-full p-1'>
-                        <DownloadIcon />
-                    </button>
-                    <button onClick={handleChatDelete} className='text-color-500 bg-color-light rounded-full p-1'>
-                        <DeleteIcon />
+            )}
+            {(socketInstance) && (<>
+                <div className='w-full h-fit flex items-center justify-between p-2 bg-color-800'>
+                    <div className='flex items-center gap-2'>
+                        <h1 className='text-lg text-color-light font-medium'>Abdul Ghaffar - Bot</h1>
+                    </div>
+                    <div className='flex items-center gap-2'>
+                        <button onClick={handleChatDownload} className='text-color-500 bg-color-light rounded-full p-1'>
+                            <DownloadIcon />
+                        </button>
+                        <button onClick={handleChatDelete} className='text-color-500 bg-color-light rounded-full p-1'>
+                            <DeleteIcon />
+                        </button>
+                    </div>
+                </div>
+
+                <div className='flex-1 overflow-y-auto bg-color-light'>
+                    <ChatWindow messages={messages} endRef={endRef} />
+                </div>
+
+                <div className='w-full h-fit max-w-screen p-2 md:p-3 bg-color-800 relative'>
+                    <textarea
+                        onKeyDown={handleKeyDown}
+                        ref={textareaRef}
+                        onChange={handleChange}
+                        value={messageText}
+                        placeholder='Type your message'
+                        style={{ height: "24px", lineHeight: "24px" }}
+                        className='w-[calc(100%-70px)] h-fit bg-transparent mt-1 outline-none text-lg text-color-light resize-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden'
+                    ></textarea>
+                    <button
+                        onClick={sendMessage}
+                        disabled={!messageText.trim()}
+                        className='w-[60px] text-color-light p-2 absolute right-2 bottom-2'>
+                        <SendIcon className={`${!messageText.trim() ? "text-gray-400" : "text-color-light"}`} />
                     </button>
                 </div>
-            </div>
-
-            <div className='flex-1 overflow-y-auto bg-color-light'>
-                <ChatWindow messages={messages} endRef={endRef} />
-            </div>
-
-            <div className='w-full h-fit max-w-screen p-2 md:p-3 bg-color-800 relative'>
-                <textarea
-                    onKeyDown={handleKeyDown}
-                    ref={textareaRef}
-                    onChange={handleChange}
-                    value={messageText}
-                    placeholder='Type your message'
-                    style={{ height: "24px", lineHeight: "24px" }}
-                    className='w-[calc(100%-70px)] h-fit bg-transparent mt-1 outline-none text-lg text-color-light resize-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden'
-                ></textarea>
-                <button
-                    onClick={sendMessage}
-                    disabled={!messageText.trim()}
-                    className='w-[60px] text-color-light p-2 absolute right-2 bottom-2'>
-                    <SendIcon className={`${!messageText.trim() ? "text-gray-400" : "text-color-light"}`} />
-                </button>
-            </div>
+            </>
+            )}
         </div>
     );
 };

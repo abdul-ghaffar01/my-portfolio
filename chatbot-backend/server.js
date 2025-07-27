@@ -7,6 +7,7 @@ import { loginController } from './controllers/loginController.js';
 import { signupController } from './controllers/signupController.js';
 import connectDB from './db.js';
 import Message from './models/Message.js'; // if you want to store messages
+import { guestSignupController } from './controllers/guesSignupController.js';
 
 dotenv.config();
 
@@ -23,6 +24,7 @@ await connectDB();
 // Routes
 app.post('/login', loginController);
 app.post('/signup', signupController);
+app.post('/signup-guest', guestSignupController)
 
 // Create HTTP server
 const server = http.createServer(app);

@@ -63,7 +63,7 @@ const page = () => {
             {loggingIn && <LoginChat setLoggingIn={setLoggingIn} setAccountSetup={setAccountSetup} setSessionStarted={setSessionStarted} />}
 
             {/* Guest mode */}
-            {guestMode && <GuestMode setAccountSetup={setAccountSetup} setGuestMode={setGuestMode} />}
+            {guestMode && <GuestMode setAccountSetup={setAccountSetup} setGuestMode={setGuestMode} setSessionStarted={setSessionStarted} />}
 
 
 

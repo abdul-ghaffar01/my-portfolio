@@ -1,33 +1,31 @@
 import connectDB from '../db.js';
 import User from '../models/User.js';
-import jwt from 'jsonwebtoken'; // Ensure this is installed
+import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 
-dotenv.config(); // Load JWT secret
+dotenv.config();
 
-export const signupController = async (req, res) => {
+export const guestSignupController = async (req, res) => {
   try {
-    const { fullName, email, password } = req.body;
+    const { who } = req.body;
 
     await connectDB();
 
-    if (!fullName || !email || !password) {
-      return res.status(400).json({ message: 'All fields are required' });
-    }
+    // Count how many guest users are already in the DB
+    const guestCount = await User.countDocuments({ email: /@guest\.iabdulghaffar\.com$/ });
 
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(409).json({ message: 'Email already in use' });
-    }
+    // Create a unique guest fullName and email
+    const fullName = `${who}_guest_${guestCount + 1}`;
+    const email = `guest_${guestCount + 1}@guest.iabdulghaffar.com`;
+    const password = Math.random().toString(36).slice(-8); // Random 8-char password
 
-    const newUser = new User({ fullName, email, password }); // password gets hashed via pre-save hook
+    const newUser = new User({ fullName, email, password });
     await newUser.save();
 
     // Generate JWT
     const token = jwt.sign(
       { userId: newUser._id, email: newUser.email },
       process.env.JWT_SECRET,
-      { expiresIn: '7d' }
     );
 
     return res.status(201).json({
@@ -39,6 +37,7 @@ export const signupController = async (req, res) => {
         email: newUser.email
       }
     });
+
   } catch (error) {
     console.error('Signup error:', error);
     return res.status(500).json({ message: 'Internal server error' });
