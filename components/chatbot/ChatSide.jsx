@@ -94,13 +94,14 @@ const ChatSide = () => {
             sentAt,
         };
         setMessages((prev) => [...prev, newMessage]);
-
+        console.log("Message sent:", newMessage);
         socketInstance.emit('sendMessage', {
             userId,
             to: "6884c115c3fd2ec85813625a",
             content: messageText,
             sender: "user",
         });
+        console.log("sent")
 
         setMessageText('');
         textareaRef.current.style.height = '24px';

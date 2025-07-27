@@ -94,12 +94,11 @@ const Page = () => {
                     ))}
                 </div>
 
-                <div className='w-full h-full overflow-y-auto p-2'>
+                <div className='w-full h-fit overflow-y-auto p-2'>
                     <h1 className='text-xl text-gray-600 text-left mb-1 font-medium'>All users</h1>
                     {allUsers.map((user, index) => (
                         <div key={index} className='flex items-center w-full h-fit bg-gray-500 hover:bg-gray-700 rounded-md p-3 transition duration-300 text-color-light mb-2'>
                             <h2 className='text-lg w-fit'>{user.fullName}</h2>
-                            <span className='w-3 h-3 rounded-full ml-2 bg-color-success'></span>
                         </div>
                     ))}
                 </div>
