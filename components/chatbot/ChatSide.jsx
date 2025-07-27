@@ -5,6 +5,7 @@ import DownloadIcon from '@mui/icons-material/Download';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SendIcon from '@mui/icons-material/Send';
 import ChatWindow from '@/components/chatbot/ChatWindow';
+import { connectSocketWithUser } from '@/utils/socket';
 
 const ChatSide = () => {
     const textareaRef = useRef(null);
@@ -13,22 +14,22 @@ const ChatSide = () => {
     const [messageText, setMessageText] = useState('');
     const [messages, setMessages] = useState([]);
     const [isMobile, setIsMobile] = useState(false);
-    const [userId, setUserId] = useState(null);
     const [socketInstance, setSocketInstance] = useState(null);
+    const [userId, setUserId] = useState("");
+
 
     useEffect(() => {
-        if (typeof window !== 'undefined') {
-            const user = JSON.parse(localStorage.getItem("user"));
-            console.log("User from localStorage:", user);
-            if (user?.id) {
-                setUserId(user.id);
-                const socket = io(`${process.env.NEXT_PUBLIC_CHATBOT_BACKEND_URL}`, {
-                    query: { userId: user.id }
-                });
-                setSocketInstance(socket);
-            }
-        }
+        const user = JSON.parse(localStorage.getItem("user") || "{}");
+        setUserId(user?.id || null);
     }, []);
+
+    useEffect(() => {
+        if (userId) {
+            const socket = connectSocketWithUser(userId);
+            setSocketInstance(socket);
+        }
+    }, [userId]);
+
 
     useEffect(() => {
         if (!socketInstance) return;
@@ -43,6 +44,7 @@ const ChatSide = () => {
         });
 
         socketInstance.on('chatHistory', (history) => {
+            console.log("history", history)
             const updatedHistory = history.map(msg => ({
                 ...msg,
                 who: msg.sender === 'chatbot' ? 'chatbot' : msg.sender === 'user' ? 'you' : 'Abdul Ghaffar',

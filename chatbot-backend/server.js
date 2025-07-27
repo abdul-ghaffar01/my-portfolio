@@ -6,8 +6,9 @@ import { Server } from 'socket.io';
 import { loginController } from './controllers/loginController.js';
 import { signupController } from './controllers/signupController.js';
 import connectDB from './db.js';
-import Message from './models/Message.js'; // if you want to store messages
+import Message from './models/Message.js';
 import { guestSignupController } from './controllers/guesSignupController.js';
+import User from './models/User.js';
 
 dotenv.config();
 
@@ -24,7 +25,7 @@ await connectDB();
 // Routes
 app.post('/login', loginController);
 app.post('/signup', signupController);
-app.post('/signup-guest', guestSignupController)
+app.post('/signup-guest', guestSignupController);
 
 // Create HTTP server
 const server = http.createServer(app);
@@ -32,29 +33,44 @@ const server = http.createServer(app);
 // Create Socket.IO server
 const io = new Server(server, {
     cors: {
-        origin: '*', // Use frontend URL in production
+        origin: '*',
         methods: ['GET', 'POST']
     }
 });
+
+const onlineUsers = new Map(); // key: socket.id, value: { userId, fullName }
+const userSockets = new Map(); // key: userId, value: socket.id
+
 io.on('connection', async (socket) => {
     const userId = socket.handshake.query.userId;
-    console.log(`🟢 New client connected: ${socket.id}, userId: ${userId}`);
+    console.log(`🟢 Connected: ${socket.id}, userId: ${userId}`);
 
     try {
-        // Load messages either sent *by* or *to* this user
-        const history = await Message.find({
-            $or: [{ userId }, { to: userId }]
-        })
-            .sort({ sentAt: -1 }) // latest messages first
-            .limit(50);
+        if (userId) {
+            const user = await User.findById(userId).select('fullName');
+            const fullName = user?.fullName || 'Guest User';
 
-        const orderedHistory = history.reverse(); // so they appear in correct order
-        socket.emit('chatHistory', orderedHistory);
+            onlineUsers.set(socket.id, { userId, fullName });
+            userSockets.set(userId, socket.id);
 
+            const currentOnline = Array.from(onlineUsers.values());
+            io.emit('onlineUsers', currentOnline);
+            socket.emit('onlineUsers', currentOnline);
 
-        socket.emit('chatHistory', orderedHistory);
+            const history = await Message.find({
+                $or: [
+                    { userId: userId },
+                    { to: userId }
+                ]
+            }).sort({ sentAt: -1 }).limit(50);
+
+            socket.emit('chatHistory', history.reverse());
+        } else {
+            // Read-only connection
+            socket.emit('onlineUsers', Array.from(onlineUsers.values()));
+        }
     } catch (err) {
-        console.error('Error loading history:', err.message);
+        console.error('Connection error:', err.message);
     }
 
     socket.on('sendMessage', async (data) => {
@@ -64,31 +80,41 @@ io.on('connection', async (socket) => {
                 userId: data.userId,
                 content: data.content,
                 sender: "user",
-                to: "6884c115c3fd2ec85813625a" // replace with real bot ID
+                to: "6884c115c3fd2ec85813625a"
             });
-            io.emit('receiveMessage', savedUserMessage);
+
+            // Send only to sender
+            socket.emit('receiveMessage', savedUserMessage);
 
             // Save bot reply
             const savedBotMessage = await Message.create({
-                userId: "6884c115c3fd2ec85813625a", // bot's userId
-                content: "The bot is still under developement",
+                userId: "6884c115c3fd2ec85813625a",
+                content: "The bot is still under development.",
                 sender: "chatbot",
                 to: data.userId
             });
-            io.emit('receiveMessage', savedBotMessage);
+
+            // Send bot reply only to the user
+            const recipientSocketId = userSockets.get(data.userId);
+            if (recipientSocketId) {
+                io.to(recipientSocketId).emit('receiveMessage', savedBotMessage);
+            }
         } catch (err) {
-            console.error('Error handling message:', err.message);
+            console.error('Message error:', err.message);
         }
     });
 
     socket.on('disconnect', () => {
-        console.log('🔴 Client disconnected:', socket.id);
+        console.log('🔴 Disconnected:', socket.id);
+        const userInfo = onlineUsers.get(socket.id);
+        if (userInfo?.userId) {
+            userSockets.delete(userInfo.userId);
+        }
+        onlineUsers.delete(socket.id);
+        io.emit('onlineUsers', Array.from(onlineUsers.values()));
     });
 });
 
-
-
-// Start server
 server.listen(PORT, () => {
-    console.log(`🚀 Server is running on http://localhost:${PORT}`);
+    console.log(`🚀 Server running at http://localhost:${PORT}`);
 });
