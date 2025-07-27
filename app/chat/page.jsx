@@ -1,12 +1,15 @@
-"use client"
+"use client";
+
 import ChatSide from '@/components/chatbot/ChatSide';
 import AccountSetup from '@/components/chatbot/AccountSetup';
 import CreateChatAccount from '@/components/chatbot/CreateChatAccount';
 import LoginChat from '@/components/chatbot/LoginChat';
+import GuestMode from '@/components/chatbot/GuestMode';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import GuestMode from '@/components/chatbot/GuestMode';
-import { socket } from '@/utils/socket'; // make sure socket is exported from utils
+import { connectSocketWithUser, connectSocketReadOnly } from '@/utils/socket';
+
+let socket;
 
 const Page = () => {
     const [sessionStarted, setSessionStarted] = useState(false);
@@ -18,27 +21,32 @@ const Page = () => {
     const router = useRouter();
 
     useEffect(() => {
+        const jwt = localStorage.getItem('jwt');
+        const user = JSON.parse(localStorage.getItem('user'));
+
+        if (!jwt || !user?.id) {
+            setAccountSetup(true);
+            setCreatingAccount(false);
+            setLoggingIn(false);
+            setGuestMode(false);
+            setSessionStarted(false);
+            socket = connectSocketReadOnly();
+        } else {
+            socket = connectSocketWithUser(user.id);
+            setSessionStarted(true);
+        }
+
         socket.on('onlineUsers', (users) => {
             console.log("🟢 Online users list:", users);
             setOnlineUsers(users);
         });
 
         return () => {
-            socket.off('onlineUsers');
+            if (socket) {
+                socket.off('onlineUsers');
+                socket.disconnect();
+            }
         };
-    }, []);
-
-    useEffect(() => {
-        const jwt = localStorage.getItem('jwt');
-        if (!jwt) {
-            setAccountSetup(true);
-            setCreatingAccount(false);
-            setLoggingIn(false);
-            setGuestMode(false);
-            setSessionStarted(false);
-        } else {
-            setSessionStarted(true);
-        }
     }, []);
 
     useEffect(() => {
