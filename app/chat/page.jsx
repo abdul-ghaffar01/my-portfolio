@@ -21,7 +21,7 @@ const Page = () => {
 
     useEffect(() => {
         const socket = connectSocketReadOnly()
-        if(socket){
+        if (socket) {
             setLoading(false);
         }
 
@@ -85,6 +85,7 @@ const Page = () => {
 
                 <div className='w-full h-fit overflow-y-auto p-2'>
                     <h1 className='text-xl text-gray-600 text-left mb-1 font-medium'>Online users</h1>
+                    {onlineUsers.length === 0 && (<p>Nobody is online</p>)}
                     {onlineUsers.map((user, index) => (
                         <div key={index} className='flex items-center w-full h-fit bg-gray-500 hover:bg-gray-700 rounded-md p-3 transition duration-300 text-color-light mb-2'>
                             <h2 className='text-lg w-fit'>{user.fullName}</h2>
