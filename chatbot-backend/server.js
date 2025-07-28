@@ -95,7 +95,7 @@ io.on('connection', async (socket) => {
                 userId: data.userId,
                 content: data.content,
                 sender: "user",
-                to: process.env.BOT_ACCOUNT_ID
+                to: process.env.BOT_ACCOUNT_ID || "68860f0b7d694be675bae2ff"
             });
 
             // Send only to sender
@@ -103,7 +103,7 @@ io.on('connection', async (socket) => {
 
             // Save bot reply
             const savedBotMessage = await Message.create({
-                userId: process.env.BOT_ACCOUNT_ID,
+                userId: process.env.BOT_ACCOUNT_ID || "68860f0b7d694be675bae2ff",
                 content: "The bot is still under development.",
                 sender: "chatbot",
                 to: data.userId
