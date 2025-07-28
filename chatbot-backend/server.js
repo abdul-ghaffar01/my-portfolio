@@ -90,6 +90,9 @@ io.on('connection', async (socket) => {
 
     socket.on('sendMessage', async (data) => {
         try {
+            console.log("Incoming data:", data);
+            console.log("Bot Account ID:", process.env.BOT_ACCOUNT_ID);
+
             // Save user's message
             const savedUserMessage = await Message.create({
                 userId: data.userId,
