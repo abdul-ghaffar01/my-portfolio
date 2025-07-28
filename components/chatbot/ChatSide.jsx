@@ -6,6 +6,8 @@ import SendIcon from '@mui/icons-material/Send';
 import ChatWindow from '@/components/chatbot/ChatWindow';
 import { connectSocketWithUser } from '@/utils/socket';
 import sendMessage from '@/utils/chatbot/sendMessage';
+import useChatStore from '@/store/chatStore';
+import useSocketStore from '@/store/chatSocketStore';
 
 const ChatSide = () => {
     const textareaRef = useRef(null);
@@ -13,12 +15,25 @@ const ChatSide = () => {
     const scrollRef = useRef(null);
 
     const [messageText, setMessageText] = useState('');
-    const [messages, setMessages] = useState([]);
+    // const [messages, setMessages] = useState([]);
     const [isMobile, setIsMobile] = useState(false);
-    const [socketInstance, setSocketInstance] = useState(null);
-    const [userId, setUserId] = useState("");
-    const [token, setToken] = useState("")
+    // const [socket, setsocket] = useState(null);
+    // const [userId, setUserId] = useState("");
+    // const [token, setToken] = useState("")
     const [shouldScrollToBottom, setShouldScrollToBottom] = useState(true);
+
+    // Extracting state and actions from chat store
+    const {
+        userId,
+        token,
+        messages,
+        setUserId,
+        setToken,
+        setMessages,
+        setUser,
+    } = useChatStore()
+
+    const { socket, setSocket } = useSocketStore();
 
     // Initializing userId and token from localStorage
     useEffect(() => {
@@ -26,31 +41,39 @@ const ChatSide = () => {
         const token = localStorage.getItem("jwt");
         setUserId(user?.id || null);
         setToken(token || null);
+        setUser(user || null);
     }, []);
 
     // Connecting to socket when token is available
     useEffect(() => {
         if (token) {
-            const socket = connectSocketWithUser(token);
-            setSocketInstance(socket);
+            setSocket(connectSocketWithUser(token));
+            // const socket = connectSocketWithUser(token);
+            // setsocket(socket);
         }
     }, [token]);
 
     // Listening to socket events
     useEffect(() => {
-        if (!socketInstance) return;
+        if (!socket) return;
 
-        socketInstance.on('receiveMessage', (message) => {
-            const who = message.sender === 'chatbot' ? 'chatbot' : message.sender === 'user' ? 'you' : 'Abdul Ghaffar';
-            const timestamp = message.timestamp || new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        socket.on('receiveMessage', (message) => {
+            // const who = message.sender === 'chatbot' ? 'chatbot' : message.sender === 'user' ? 'you' : 'Abdul Ghaffar';
+            // const timestamp = message.timestamp || new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
             if (message.sender !== 'user') {
-                setMessages((prev) => [...prev, { ...message, who, timestamp }]);
+                const newMessages = messages.map(msg => ({
+                    ...msg,
+                    who: msg.sender === 'chatbot' ? 'chatbot' : msg.sender === 'user' ? 'you' : 'Abdul Ghaffar',
+                    timestamp: msg.timestamp || new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                }));
+                setMessages(newMessages);
+                // setMessages((prev) => [...prev, { ...message, who, timestamp }]);
                 setShouldScrollToBottom(true);
             }
         });
 
-        socketInstance.on('chatHistory', (history) => {
+        socket.on('chatHistory', (history) => {
             const formatted = history.map(msg => ({
                 ...msg,
                 who: msg.sender === 'chatbot' ? 'chatbot' : msg.sender === 'user' ? 'you' : 'Abdul Ghaffar',
@@ -60,7 +83,8 @@ const ChatSide = () => {
             const scroll = scrollRef.current;
             const prevScrollHeight = scroll?.scrollHeight;
 
-            setMessages(prev => [...formatted, ...prev]);
+            const newMessages = [...formatted, ...messages];
+            setMessages(newMessages);
 
             requestAnimationFrame(() => {
                 const newScrollHeight = scroll?.scrollHeight;
@@ -70,7 +94,7 @@ const ChatSide = () => {
                 }
             });
         });
-        socketInstance.on('olderMessages', (payload) => {
+        socket.on('olderMessages', (payload) => {
             const { messages: olderMessages, hasMore } = payload;
             console.log("messages", olderMessages, "hasMore", hasMore);
 
@@ -85,7 +109,8 @@ const ChatSide = () => {
             const scrollTop = scroll?.scrollTop;
 
             // ✅ Prepend older messages to top
-            setMessages(prev => [...formatted, ...prev]);
+            const newMessages = [...formatted, ...messages]
+            setMessages(newMessages);
             setIsLoadingOlder(false);
             console.log("has", hasMore);
 
@@ -96,19 +121,16 @@ const ChatSide = () => {
                 }
             });
 
-            if (!hasMore) {
-                setHasMore(false); // ✅ Disable further loads if no more data
-            }
         });
 
 
         return () => {
-            socketInstance.off('receiveMessage');
-            socketInstance.off('chatHistory');
-            socketInstance.off('olderMessages');
+            socket.off('receiveMessage');
+            socket.off('chatHistory');
+            socket.off('olderMessages');
         };
-    }, [socketInstance]);
-    
+    }, [socket]);
+
     // Scrolling to the bottom when new messages arrive
     useEffect(() => {
         if (shouldScrollToBottom) {
@@ -139,7 +161,7 @@ const ChatSide = () => {
         if (e.key === "Enter" && !isMobile && !e.shiftKey) {
             e.preventDefault();
             sendMessage(messageText,
-                socketInstance,
+                socket,
                 setMessages,
                 userId,
                 setMessageText,
@@ -173,7 +195,7 @@ const ChatSide = () => {
 
     return (
         <div className='flex-[2] w-full flex flex-col'>
-            {(!socketInstance) ? (
+            {(!socket) ? (
                 <div className='flex-1 flex items-center justify-center'>
                     <p className='text-color-dark'>Connecting to chat...</p>
                 </div>
@@ -210,7 +232,7 @@ const ChatSide = () => {
                         <button
                             onClick={() => {
                                 sendMessage(messageText,
-                                    socketInstance,
+                                    socket,
                                     setMessages,
                                     userId,
                                     setMessageText,

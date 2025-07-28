@@ -3,19 +3,27 @@ import React from 'react'
 import Message from './Message'
 import NewChatCard from './NewChatCard'
 import { format } from 'date-fns';
+import LoadOlderMessages from './LoadOlderMessages';
 
 const ChatWindow = ({ messages, endRef, scrollRef }) => {
   console.log(messages)
   return (
     <div ref={scrollRef} className='flex flex-col h-full overflow-auto max-h-full pb-2'>
 
+      {/* Load older messages */}
+      {/* <LoadOlderMessages
+        messages={messages}
+
+      /> */}
+
+      {/* If chat is cleared or new chat is started then new chat card will be shown */}
       {messages.length === 0 && (
         <NewChatCard />
       )}
 
       {/* Showing all messages */}
 
-      {
+      {Array.isArray(messages) &&
         messages.map((message, index) => {
           const current = new Date(message.sentAt);
           const previous = index > 0 ? new Date(messages[index - 1].sentAt) : null;
