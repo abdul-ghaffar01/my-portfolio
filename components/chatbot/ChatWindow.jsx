@@ -5,8 +5,9 @@ import NewChatCard from './NewChatCard'
 import { format } from 'date-fns';
 
 const ChatWindow = ({ messages, endRef, scrollRef }) => {
+  console.log(messages)
   return (
-    <div ref={scrollRef} className='flex flex-col h-fit overflow-auto max-h-full pb-2'>
+    <div ref={scrollRef} className='flex flex-col h-full overflow-auto max-h-full pb-2'>
 
       {messages.length === 0 && (
         <NewChatCard />
