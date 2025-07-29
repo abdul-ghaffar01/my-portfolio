@@ -17,6 +17,7 @@ const AllChats = ({ onSelectChat, adminSocket }) => {
         adminSocket.on("allChats", (data) => {
             console.log("All chats received:", data);
             setChats(data);
+            setLoading(false)
         });
 
         return () => {
@@ -24,20 +25,6 @@ const AllChats = ({ onSelectChat, adminSocket }) => {
         };
     }, [adminSocket]);
 
-    useEffect(() => {
-        const fetchChats = async () => {
-            try {
-                const res = await fetch("/api/admin/chats"); // Backend endpoint to get all chats
-                const data = await res.json();
-                setChats(data);
-            } catch (err) {
-                console.error("Failed to fetch chats:", err);
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchChats();
-    }, []);
 
     if (loading) return <p className="p-4 text-gray-500">Loading chats...</p>;
 

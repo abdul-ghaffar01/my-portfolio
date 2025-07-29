@@ -9,6 +9,7 @@ import { useState, useEffect } from 'react'
 const page = () => {
     const [loggedIn, setLoggedIn] = useState(false)
     const [adminSocket, setAdminSocket] = useState(null)
+    const [selectedUserId, setSelectedUserId] = useState(null);
 
 
     const router = useRouter()
@@ -30,7 +31,6 @@ const page = () => {
             setLoggedIn(true)
         }
     }, []);
-    const [selectedUserId, setSelectedUserId] = useState(null);
 
     return (
         <div className="flex w-full h-screen">

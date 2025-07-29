@@ -21,7 +21,7 @@ export default async function adminLoginController(req, res) {
         try {
             const user = await User.find({ email })
             const token = jwt.sign(
-                { userId: user._id },
+                { userId: user._id, role: "admin" },
                 process.env.JWT_SECRET, // secret from env
                 { expiresIn: "1h" } // token expiry
             );

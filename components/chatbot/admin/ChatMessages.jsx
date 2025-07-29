@@ -8,21 +8,34 @@ const ChatMessages = ({ selectedUserId, adminSocket }) => {
 
     // Fetch messages when chat opens
     useEffect(() => {
-        if (!selectedUserId) return;
-        const fetchMessages = async () => {
-            setLoading(true);
-            try {
-                const res = await fetch(`/api/admin/messages/${selectedUserId}`);
-                const data = await res.json();
-                setMessages(data);
-            } catch (err) {
-                console.error("Failed to fetch messages:", err);
-            } finally {
-                setLoading(false);
+        if (!adminSocket) return;
+
+        // ✅ Listen for chat history when a user is selected
+        if (selectedUserId) {
+            adminSocket.emit("chatHistoryForAdmin", selectedUserId);
+        }
+
+        const handleChatHistory = (history) => {
+            console.log("Chat history received:", history);
+            setMessages(history);
+        };
+
+        const handleNewMessage = (message) => {
+            // ✅ Only add message if it belongs to the currently selected user
+            if (message.userId === selectedUserId || message.to === selectedUserId) {
+                setMessages((prev) => [...prev, message]);
             }
         };
-        fetchMessages();
-    }, [selectedUserId]);
+
+        adminSocket.on("chatHistoryForAdmin", handleChatHistory);
+        adminSocket.on("adminReceiveMessage", handleNewMessage);
+
+        return () => {
+            adminSocket.off("chatHistoryForAdmin", handleChatHistory);
+            adminSocket.off("adminReceiveMessage", handleNewMessage);
+        };
+    }, [adminSocket, selectedUserId]);
+
 
     const handleSendMessage = async () => {
         if (!messageText.trim()) return;
@@ -57,7 +70,7 @@ const ChatMessages = ({ selectedUserId, adminSocket }) => {
                     messages.map((msg, index) => (
                         <div
                             key={index}
-                            className={`p-2 my-1 rounded max-w-[70%] ${msg.sender === "admin" ? "bg-blue-500 text-white ml-auto" : "bg-gray-200"
+                            className={`p-2 my-1 rounded max-w-[70%] ${msg.sender !== "user" ? "bg-blue-500 text-white ml-auto" : "bg-gray-200"
                                 }`}
                         >
                             <p>{msg.content}</p>

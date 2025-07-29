@@ -25,7 +25,7 @@ export const signupController = async (req, res) => {
 
     // Generate JWT
     const token = jwt.sign(
-      { userId: newUser._id, email: newUser.email },
+      { userId: newUser._id, role: "user" },
       process.env.JWT_SECRET,
       { expiresIn: '7d' }
     );
