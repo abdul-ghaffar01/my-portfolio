@@ -63,6 +63,9 @@ io.on('connection', async (socket) => {
     const allUsers = await User.find().select('fullName _id');
     socket.emit('allUsers', allUsers);
 
+    const currentOnline = Array.from(onlineUsers.values());
+    io.emit('onlineUsers', currentOnline);
+
     try {
         if (userId) {
             const user = await User.findById(userId).select('fullName');
@@ -70,9 +73,6 @@ io.on('connection', async (socket) => {
 
             onlineUsers.set(socket.id, { userId, fullName });
             userSockets.set(userId, socket.id);
-
-            const currentOnline = Array.from(onlineUsers.values());
-            io.emit('onlineUsers', currentOnline);
             socket.emit('onlineUsers', currentOnline);
 
             const history = await Message.find({
@@ -80,7 +80,7 @@ io.on('connection', async (socket) => {
                     { userId: userId },
                     { to: userId }
                 ]
-            }).sort({ sentAt: -1 }).limit(50);
+            }).sort({ sentAt: -1 });
 
             socket.emit('chatHistory', history.reverse());
         }
@@ -122,34 +122,6 @@ io.on('connection', async (socket) => {
         }
     });
 
-
-    socket.on('loadOlderMessages', async ({ userId, skip = 0, limit = 20 }) => {
-        try {
-
-            const query = {
-                $or: [
-                    { userId: userId },   // sent by user
-                    { to: userId }        // received by user (sent by bot)
-                ]
-            };
-
-            const totalMessages = await Message.countDocuments(query);
-            const messages = await Message
-                .find({ userId })
-                .sort({ createdAt: -1 }) // newest first
-                .skip(skip)
-                .limit(limit)
-                .lean();
-
-            // Reverse to show oldest first when prepending
-            socket.emit("olderMessages", {
-                messages: messages,
-                hasMore: totalMessages > skip + limit
-            });
-        } catch (err) {
-            console.error('Error loading older messages:', err);
-        }
-    });
 
     socket.on('disconnect', () => {
         console.log('🔴 Disconnected:', socket.id);

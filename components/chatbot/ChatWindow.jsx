@@ -6,15 +6,12 @@ import { format } from 'date-fns';
 import LoadOlderMessages from './LoadOlderMessages';
 
 const ChatWindow = ({ messages, endRef, scrollRef }) => {
-  console.log(messages)
   return (
     <div ref={scrollRef} className='flex flex-col h-full overflow-auto max-h-full pb-2'>
 
       {/* Load older messages */}
-      {/* <LoadOlderMessages
-        messages={messages}
-
-      /> */}
+      {/* {hasMoreMessages &&
+        <LoadOlderMessages />} */}
 
       {/* If chat is cleared or new chat is started then new chat card will be shown */}
       {messages.length === 0 && (

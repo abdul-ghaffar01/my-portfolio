@@ -8,6 +8,7 @@ import { connectSocketWithUser } from '@/utils/socket';
 import sendMessage from '@/utils/chatbot/sendMessage';
 import useChatStore from '@/store/chatStore';
 import useSocketStore from '@/store/chatSocketStore';
+import Spinner from '../Spinner';
 
 const ChatSide = () => {
     const textareaRef = useRef(null);
@@ -15,12 +16,8 @@ const ChatSide = () => {
     const scrollRef = useRef(null);
 
     const [messageText, setMessageText] = useState('');
-    // const [messages, setMessages] = useState([]);
     const [isMobile, setIsMobile] = useState(false);
-    // const [socket, setsocket] = useState(null);
-    // const [userId, setUserId] = useState("");
-    // const [token, setToken] = useState("")
-    const [shouldScrollToBottom, setShouldScrollToBottom] = useState(true);
+    const [loadingHistory, setLoadingHistory] = useState(true);
 
     // Extracting state and actions from chat store
     const {
@@ -30,7 +27,9 @@ const ChatSide = () => {
         setUserId,
         setToken,
         setMessages,
+        addMessage,
         setUser,
+        shouldScrollToBottom,
     } = useChatStore()
 
     const { socket, setSocket } = useSocketStore();
@@ -48,8 +47,6 @@ const ChatSide = () => {
     useEffect(() => {
         if (token) {
             setSocket(connectSocketWithUser(token));
-            // const socket = connectSocketWithUser(token);
-            // setsocket(socket);
         }
     }, [token]);
 
@@ -58,33 +55,16 @@ const ChatSide = () => {
         if (!socket) return;
 
         socket.on('receiveMessage', (message) => {
-            // const who = message.sender === 'chatbot' ? 'chatbot' : message.sender === 'user' ? 'you' : 'Abdul Ghaffar';
-            // const timestamp = message.timestamp || new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-            if (message.sender !== 'user') {
-                const newMessages = messages.map(msg => ({
-                    ...msg,
-                    who: msg.sender === 'chatbot' ? 'chatbot' : msg.sender === 'user' ? 'you' : 'Abdul Ghaffar',
-                    timestamp: msg.timestamp || new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-                }));
-                setMessages(newMessages);
-                // setMessages((prev) => [...prev, { ...message, who, timestamp }]);
-                setShouldScrollToBottom(true);
-            }
+            addMessage(message)
         });
 
         socket.on('chatHistory', (history) => {
-            const formatted = history.map(msg => ({
-                ...msg,
-                who: msg.sender === 'chatbot' ? 'chatbot' : msg.sender === 'user' ? 'you' : 'Abdul Ghaffar',
-                timestamp: msg.timestamp || new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-            }));
-
             const scroll = scrollRef.current;
             const prevScrollHeight = scroll?.scrollHeight;
 
-            const newMessages = [...formatted, ...messages];
-            setMessages(newMessages);
+            // const newMessages = [...history, ...messages];
+            setMessages(history);
+            setLoadingHistory(false);
 
             requestAnimationFrame(() => {
                 const newScrollHeight = scroll?.scrollHeight;
@@ -93,34 +73,6 @@ const ChatSide = () => {
                     scroll.scrollTop = newScrollHeight - prevScrollHeight + scrollTop;
                 }
             });
-        });
-        socket.on('olderMessages', (payload) => {
-            const { messages: olderMessages, hasMore } = payload;
-            console.log("messages", olderMessages, "hasMore", hasMore);
-
-            const formatted = olderMessages.map(msg => ({
-                ...msg,
-                who: msg.sender === 'chatbot' ? 'chatbot' : msg.sender === 'user' ? 'you' : 'Abdul Ghaffar',
-                timestamp: msg.timestamp || new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-            }));
-
-            const scroll = scrollRef.current;
-            const prevScrollHeight = scroll?.scrollHeight;
-            const scrollTop = scroll?.scrollTop;
-
-            // ✅ Prepend older messages to top
-            const newMessages = [...formatted, ...messages]
-            setMessages(newMessages);
-            setIsLoadingOlder(false);
-            console.log("has", hasMore);
-
-            requestAnimationFrame(() => {
-                const newScrollHeight = scroll?.scrollHeight;
-                if (scroll) {
-                    scroll.scrollTop = newScrollHeight - prevScrollHeight + scrollTop;
-                }
-            });
-
         });
 
 
@@ -133,10 +85,8 @@ const ChatSide = () => {
 
     // Scrolling to the bottom when new messages arrive
     useEffect(() => {
-        if (shouldScrollToBottom) {
+        if (shouldScrollToBottom)
             endRef.current?.scrollIntoView({ behavior: "smooth" });
-            setShouldScrollToBottom(false);
-        }
     }, [messages]);
 
     // Detecting the device type (mobile or desktop)
@@ -162,10 +112,8 @@ const ChatSide = () => {
             e.preventDefault();
             sendMessage(messageText,
                 socket,
-                setMessages,
                 userId,
                 setMessageText,
-                setShouldScrollToBottom,
                 textareaRef);
         }
     };
@@ -216,7 +164,17 @@ const ChatSide = () => {
                     </div>
 
                     <div className='flex-1 overflow-y-auto bg-color-light'>
-                        <ChatWindow messages={messages} endRef={endRef} scrollRef={scrollRef} />
+                        {
+                            loadingHistory && (
+                                <div className='w-full h-full flex justify-center items-center'>
+                                    <Spinner />
+                                </div>
+                            )
+                        }{
+
+                            !loadingHistory &&
+                            (< ChatWindow messages={messages} endRef={endRef} scrollRef={scrollRef} />)
+                        }
                     </div>
 
                     <div className='w-full h-fit max-w-screen p-2 md:p-3 bg-color-800 shrink-0 relative'>
@@ -233,10 +191,8 @@ const ChatSide = () => {
                             onClick={() => {
                                 sendMessage(messageText,
                                     socket,
-                                    setMessages,
                                     userId,
                                     setMessageText,
-                                    setShouldScrollToBottom,
                                     textareaRef)
                             }}
                             disabled={!messageText.trim()}

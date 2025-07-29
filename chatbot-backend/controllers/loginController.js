@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
 import connectDB from '../db.js';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret_here'; // Use .env in production
+// const JWT_SECRET = ; // Use .env in production
 
 export const loginController = async (req, res) => {
   try {
@@ -23,7 +23,7 @@ export const loginController = async (req, res) => {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
-    const token = jwt.sign({ userId: user._id }, JWT_SECRET, {
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
       expiresIn: '7d',
     });
 
