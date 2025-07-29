@@ -232,6 +232,35 @@ io.on('connection', async (socket) => {
             }
         }
     });
+
+    // ✅ Admin sends a message to a specific user
+    socket.on("adminSendMessage", async ({ targetUserId, content }) => {
+        try {
+            console.log(`📨 Admin sending message to user: ${targetUserId}`);
+
+            // Save message in DB (sender: admin)
+            const adminMessage = await Message.create({
+                userId: process.env.ADMIN_ACCOUNT_ID,
+                content,
+                sender: "Abdul Ghaffar",
+                to: targetUserId,
+            });
+
+            // Emit to the specific user if they are online
+            const recipientSocketId = userSockets.get(targetUserId);
+            if (recipientSocketId) {
+                io.to(recipientSocketId).emit("receiveMessage", adminMessage);
+            }
+
+            // Also emit to admin for UI sync
+            socket.emit("adminReceiveMessage", adminMessage);
+        } catch (err) {
+            console.error("Error in adminSendMessage:", err.message);
+        }
+    });
+
+
+
     // ✅ Disconnect
     socket.on('disconnect', async () => {
         console.log('🔴 Disconnected:', socket.id);

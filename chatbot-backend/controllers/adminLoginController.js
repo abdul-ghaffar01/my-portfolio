@@ -15,8 +15,8 @@ export default async function adminLoginController(req, res) {
 
     // Check hardcoded admin credentials
     if (
-        email === "admin-chatbot@iabdulghaffar.com" &&
-        password === "@Gs++33193069"
+        email === process.env.ADMIN_EMAIL &&
+        password === process.env.ADMIN_PASSWORD
     ) {
         try {
             const user = await User.findOne({ email })

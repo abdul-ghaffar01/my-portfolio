@@ -48,23 +48,13 @@ const ChatMessages = ({ selectedUserId, adminSocket }) => {
 
 
     const handleSendMessage = async () => {
-        if (!messageText.trim()) return;
-        try {
-            const res = await fetch(`/api/admin/send/${selectedUserId}`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ content: messageText }),
-            });
-            if (res.ok) {
-                setMessages((prev) => [
-                    ...prev,
-                    { content: messageText, sender: "admin", sentAt: new Date() },
-                ]);
-                setMessageText("");
-            }
-        } catch (err) {
-            console.error("Failed to send message:", err);
-        }
+        // Example: Sending message from admin panel to specific user
+        adminSocket.emit("adminSendMessage", {
+            targetUserId: selectedUserId,
+            content: messageText
+        });
+        setMessageText("")
+
     };
 
     if (!selectedUserId) {
