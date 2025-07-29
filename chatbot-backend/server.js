@@ -124,6 +124,44 @@ io.on('connection', async (socket) => {
         }
     });
 
+    // Admin events listening here
+    // ✅ Admin: Listen for all chats
+    socket.on('getAllChats', async () => {
+        try {
+            // Fetch distinct user chats (latest message per user)
+            const chats = await Message.aggregate([
+                {
+                    $group: {
+                        _id: "$userId", // Group messages by user
+                        lastMessage: { $last: "$content" },
+                        lastSentAt: { $last: "$sentAt" }
+                    }
+                },
+                { $sort: { lastSentAt: -1 } }
+            ]);
+
+            // Populate user details
+            const userIds = chats.map((c) => c._id);
+            const users = await User.find({ _id: { $in: userIds } }).select("fullName email");
+
+            // Merge user info with chat info
+            const formattedChats = chats.map((c) => {
+                const user = users.find((u) => u._id.toString() === c._id.toString());
+                return {
+                    userId: c._id,
+                    fullName: user?.fullName || "Unknown User",
+                    email: user?.email,
+                    lastMessage: c.lastMessage,
+                    lastSentAt: c.lastSentAt,
+                };
+            });
+
+            socket.emit('allChats', formattedChats); // ✅ Send chats back to admin
+        } catch (err) {
+            console.error('Error fetching chats:', err.message);
+            socket.emit('allChats', []); // Fallback to empty
+        }
+    });
 
     socket.on('disconnect', () => {
         console.log('🔴 Disconnected:', socket.id);
