@@ -11,6 +11,7 @@ import { guestSignupController } from './controllers/guesSignupController.js';
 import User from './models/User.js';
 import jwtVerifyController from './controllers/jwtVerifyController.js';
 import jwt_verify from './helper/jwt_verify.js';
+import adminLoginController from './controllers/adminLoginController.js';
 
 dotenv.config();
 
@@ -29,6 +30,7 @@ app.post('/login', loginController);
 app.post('/signup', signupController);
 app.post('/signup-guest', guestSignupController);
 app.post('/jwtverify', jwtVerifyController);
+app.post('/adminlogin', adminLoginController)
 
 // Create HTTP server
 const server = http.createServer(app);
