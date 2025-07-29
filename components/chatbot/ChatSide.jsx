@@ -18,7 +18,7 @@ const ChatSide = () => {
     const [messageText, setMessageText] = useState('');
     const [isMobile, setIsMobile] = useState(false);
     const [loadingHistory, setLoadingHistory] = useState(true);
-
+    const [botReplyEnabled, setBotReplyEnabled] = useState(true)
     // Extracting state and actions from chat store
     const {
         userId,
@@ -75,11 +75,16 @@ const ChatSide = () => {
             });
         });
 
+        socket.on("botReplyStatus", ({ enabled }) => {
+            console.log("🤖 Bot reply status updated:", enabled);
+            setBotReplyEnabled(enabled); // update state
+        });
+
 
         return () => {
             socket.off('receiveMessage');
             socket.off('chatHistory');
-            socket.off('olderMessages');
+            socket.off('botReplyStatus');
         };
     }, [socket]);
 
@@ -151,7 +156,12 @@ const ChatSide = () => {
                 <>
                     <div className='w-full flex items-center justify-between p-2 bg-color-800 shrink-0'>
                         <div className='flex items-center gap-2'>
-                            <h1 className='text-lg text-color-light font-medium'>Abdul Ghaffar - Bot</h1>
+                            <h1 className='text-lg text-color-light font-medium flex gap-1'>Abdul Ghaffar - {botReplyEnabled ? <p>Bot</p> : (
+                                <div className='flex gap-2 items-center'>
+                                    <p>Real</p>
+                                    <div className='w-3 h-3 rounded-full bg-color-success'></div>
+                                </div>
+                            )}</h1>
                         </div>
                         <div className='flex items-center gap-2'>
                             <button onClick={handleChatDownload} className='text-color-500 bg-color-light rounded-full p-1'>

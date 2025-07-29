@@ -48,6 +48,7 @@ const userSockets = new Map(); // key: userId or "admin", value: socket.id
 io.on('connection', async (socket) => {
     const token = socket.handshake.query.token;
     const decoded = jwt_verify(token); // Verify token
+    console.log(decoded)
     const userId = decoded?.userId || null;
     const isAdmin = decoded?.role === "admin"; // Role should be in token
 
@@ -71,7 +72,7 @@ io.on('connection', async (socket) => {
             const user = await User.findById(userId).select('fullName');
             const fullName = user?.fullName || 'Guest User';
 
-            onlineUsers.set(socket.id, { userId, fullName });
+            onlineUsers.set(socket.id, { userId, fullName, botRepliesEnabled: true });
             userSockets.set(userId, socket.id);
 
             socket.emit('onlineUsers', currentOnline);
@@ -82,7 +83,7 @@ io.on('connection', async (socket) => {
                     { userId: userId },
                     { to: userId }
                 ]
-            }).sort({ sentAt: 1 }); // Oldest first
+            }).sort({ sentAt: 1 }).limit(1000); // Oldest first
 
             socket.emit('chatHistory', history);
         }
@@ -112,23 +113,29 @@ io.on('connection', async (socket) => {
                 io.to(adminSocketId).emit("adminReceiveMessage", savedUserMessage);
             }
 
-            // Bot Reply
-            const savedBotMessage = await Message.create({
-                userId: process.env.BOT_ACCOUNT_ID || "68860f0b7d694be675bae2ff",
-                content: "The bot is still under development.",
-                sender: "chatbot",
-                to: data.userId
-            });
 
             // Send bot reply to user
             const recipientSocketId = userSockets.get(data.userId);
-            if (recipientSocketId) {
+            const userInfo = onlineUsers.get(recipientSocketId);
+            // ✅ Send bot reply to user only if enabled
+            if (recipientSocketId && userInfo?.botRepliesEnabled) {
+                // Bot Reply
+                const savedBotMessage = await Message.create({
+                    userId: process.env.BOT_ACCOUNT_ID || "68860f0b7d694be675bae2ff",
+                    content: "The bot is still under development.",
+                    sender: "chatbot",
+                    to: data.userId
+                });
+
+                // Send bot reply to user
                 io.to(recipientSocketId).emit('receiveMessage', savedBotMessage);
+
+                // Send bot reply to admin
+                if (adminSocketId) {
+                    io.to(adminSocketId).emit("adminReceiveMessage", savedBotMessage);
+                }
             }
-            // After saving bot reply
-            if (adminSocketId) {
-                io.to(adminSocketId).emit("adminReceiveMessage", savedBotMessage);
-            }
+
 
         } catch (err) {
             console.error('Message error:', err.message);
@@ -180,7 +187,7 @@ io.on('connection', async (socket) => {
                     { userId: targetUserId },
                     { to: targetUserId }
                 ]
-            }).sort({ sentAt: 1 });
+            }).sort({ sentAt: 1 }).limit(1000);
 
             socket.emit("chatHistoryForAdmin", history);
         } catch (err) {
@@ -188,9 +195,45 @@ io.on('connection', async (socket) => {
             socket.emit("chatHistoryForAdmin", []);
         }
     });
+    // Admin toggles bot replies for a user
+    socket.on('toggleBotReply', async ({ targetUserId, enabled }) => {
+        console.log(targetUserId, enabled);
+        for (let [sockId, info] of onlineUsers) {
+            if (info.userId.toString() === targetUserId.toString()) {
+                info.botRepliesEnabled = enabled; // ✅ Toggle in memory
+                onlineUsers.set(sockId, info);
 
+                const targetSocket = io.sockets.sockets.get(sockId);
+
+                // ✅ Create an info message for the user
+                const infoMessage = await Message.create({
+                    userId: targetUserId,
+                    content: enabled
+                        ? "🤖 Bot replies have been re-enabled by Abdul Ghaffar."
+                        : "⛔ Bot replies have been paused by Abdul Ghaffar.",
+                    sender: "info",
+                    to: targetUserId,
+                });
+
+                // Send info message to user
+                if (targetSocket) {
+                    targetSocket.emit('receiveMessage', infoMessage);
+                    targetSocket.emit('botReplyStatus', { enabled });
+                }
+
+
+                // Emit to admin UI (if reconnects quickly or logs are needed)
+                const adminSocketId = userSockets.get("admin");
+                if (adminSocketId) {
+                    io.to(adminSocketId).emit("adminReceiveMessage", infoMessage);
+                }
+                console.log(`⚙️ Bot replies ${enabled ? 'enabled' : 'disabled'} for ${targetUserId}`);
+                break;
+            }
+        }
+    });
     // ✅ Disconnect
-    socket.on('disconnect', () => {
+    socket.on('disconnect', async () => {
         console.log('🔴 Disconnected:', socket.id);
         const userInfo = onlineUsers.get(socket.id);
 
@@ -199,13 +242,47 @@ io.on('connection', async (socket) => {
         }
         onlineUsers.delete(socket.id);
 
-        // Remove admin socket if disconnected
+        // ✅ Check if admin disconnected
         if (userSockets.get("admin") === socket.id) {
+            console.log("⚠️ Admin disconnected. Will re-enable bot replies in 5 minutes...");
             userSockets.delete("admin");
-        }
 
-        io.emit('onlineUsers', Array.from(onlineUsers.values()));
+            // Wait for 5 minutes before re-enabling bot replies
+            setTimeout(async () => {
+                console.log("⏳ 5 minutes passed. Re-enabling bot replies for all users...");
+
+                for (let [sockId, info] of onlineUsers) {
+                    info.botRepliesEnabled = true;
+                    onlineUsers.set(sockId, info);
+
+                    const userSocket = io.sockets.sockets.get(sockId);
+
+                    // ✅ Create an info message for auto-reenable
+                    const infoMessage = await Message.create({
+                        userId: info.userId,
+                        content: "⚠️ Admin disconnected for 5 minutes. Bot replies have been automatically re-enabled.",
+                        sender: "info",
+                        to: info.userId,
+                    });
+
+                    // Send to user
+                    if (userSocket) {
+                        userSocket.emit('receiveMessage', infoMessage);
+                        userSocket.emit('botReplyStatus', { enabled: true });
+                    }
+
+                    // If admin reconnects during this window, we skip
+                    const adminSocketId = userSockets.get("admin");
+                    if (adminSocketId) {
+                        io.to(adminSocketId).emit("adminReceiveMessage", infoMessage);
+                    }
+                }
+            }, 5 * 60 * 1000); // 5 minutes
+        }
     });
+
+    // Broadcast updated online users list
+    io.emit('onlineUsers', Array.from(onlineUsers.values()));
 });
 
 server.listen(PORT, () => {

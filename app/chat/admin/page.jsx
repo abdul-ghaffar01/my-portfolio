@@ -34,7 +34,7 @@ const page = () => {
 
     return (
         <div className="flex w-full h-screen">
-            <AllChats adminSocket={adminSocket} onSelectChat={setSelectedUserId} />
+            <AllChats adminSocket={adminSocket} selectedUserId={selectedUserId} onSelectChat={setSelectedUserId} />
             <ChatMessages adminSocket={adminSocket} selectedUserId={selectedUserId} />
         </div>
     );

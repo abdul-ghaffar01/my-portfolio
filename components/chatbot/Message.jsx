@@ -4,6 +4,10 @@ import CheckIcon from '@mui/icons-material/Check';
 const Message = ({ message, showDate, formattedDate }) => {
     const who = message.sender;
 
+    if (who === 'info') {
+        return (<p className='text-center text-gray-400 my-3 text-sm'> {message.content}</p>)
+    }
+
     return (
         <>
             {showDate && (

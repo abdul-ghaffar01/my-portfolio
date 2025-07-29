@@ -19,7 +19,8 @@ export default async function adminLoginController(req, res) {
         password === "@Gs++33193069"
     ) {
         try {
-            const user = await User.find({ email })
+            const user = await User.findOne({ email })
+            console.log(user)
             const token = jwt.sign(
                 { userId: user._id, role: "admin" },
                 process.env.JWT_SECRET, // secret from env
