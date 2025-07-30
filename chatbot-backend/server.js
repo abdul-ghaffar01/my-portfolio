@@ -42,7 +42,8 @@ passport.use(
         {
             clientID: process.env.GOOGLE_CLIENT_ID,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-            callbackURL: "http://localhost:3009/auth/google/callback",
+            callbackURL: process.env.NODE_ENV === "dev" ? "http://localhost:3009/auth/google/callback"
+                : `${process.env.CHATBOT_BACKEND_URL}/auth/google/callback`,
         },
         (accessToken, refreshToken, profile, done) => {
             console.log("✅ Access Token:", accessToken); // <--- log this
