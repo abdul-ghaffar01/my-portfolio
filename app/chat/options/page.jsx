@@ -41,14 +41,14 @@ const Page = () => {
             case "personal": return <PersonalSettings />;
             case "download": return <DownloadChat />;
             case "delete": return <DeleteChat setSelectedSection={setSelectedSection} />;
-            default: return <p>🚧 Coming soon...</p>;
+            default: return <p className="text-gray-200">🚧 Coming soon...</p>;
         }
     };
 
     return (
-        <div className="md:flex h-screen">
+        <div className="md:flex h-screen bg-gray-900 text-gray-200">
             {/* Sidebar for md+ */}
-            <aside className="w-1/4 bg-gray-100 border-r p-4 hidden md:block">
+            <aside className="w-1/4 bg-gray-800 border-r border-gray-700 p-4 hidden md:block">
                 <h2 className="text-lg font-semibold mb-4">Settings</h2>
                 <nav className="space-y-2">
                     {menuItems.map((item) => (
@@ -56,8 +56,8 @@ const Page = () => {
                             key={item.key}
                             onClick={() => setSelectedSection(item.key)}
                             className={`flex items-center gap-3 w-full text-left px-3 py-2 rounded-md transition ${selectedSection === item.key
-                                ? "bg-blue-600 text-white"
-                                : "hover:bg-gray-200"
+                                ? "bg-gray-700 text-white"
+                                : "hover:bg-gray-700"
                                 }`}
                         >
                             {item.icon}
@@ -68,9 +68,9 @@ const Page = () => {
             </aside>
 
             {/* Mobile Header */}
-            <div className="md:hidden w-full border-b p-4 flex justify-between items-center bg-white">
+            <div className="md:hidden w-full border-b border-gray-700 p-4 flex justify-between items-center bg-gray-800">
                 <h2 className="text-lg font-semibold">Settings</h2>
-                <button onClick={() => setMobileMenuOpen(true)} className="p-2">
+                <button onClick={() => setMobileMenuOpen(true)} className="p-2 text-gray-200">
                     <MenuIcon fontSize="large" />
                 </button>
             </div>
@@ -95,11 +95,11 @@ const Page = () => {
                             animate={{ x: 0 }}
                             exit={{ x: "-100%" }}
                             transition={{ type: "tween", duration: 0.3 }}
-                            className="fixed top-0 left-0 w-3/4 h-full bg-white z-50 p-4 shadow-lg"
+                            className="fixed top-0 left-0 w-3/4 h-full bg-gray-800 text-gray-200 z-50 p-4 shadow-lg"
                         >
                             <button
                                 onClick={() => setMobileMenuOpen(false)}
-                                className="absolute top-4 right-4"
+                                className="absolute top-4 right-4 text-gray-200"
                             >
                                 <CloseIcon fontSize="large" />
                             </button>
@@ -113,8 +113,8 @@ const Page = () => {
                                             setMobileMenuOpen(false);
                                         }}
                                         className={`flex items-center gap-3 w-full text-left px-3 py-2 rounded-md transition ${selectedSection === item.key
-                                            ? "bg-blue-600 text-white"
-                                            : "hover:bg-gray-200"
+                                            ? "bg-gray-700 text-white"
+                                            : "hover:bg-gray-700"
                                             }`}
                                     >
                                         {item.icon}
@@ -128,7 +128,7 @@ const Page = () => {
             </AnimatePresence>
 
             {/* Content */}
-            <main className="flex-1 p-6 overflow-y-auto">{renderContent()}</main>
+            <main className="flex-1 p-2 md:p-6 bg-gray-900 w-fit overflow-y-auto">{renderContent()}</main>
         </div>
     );
 };

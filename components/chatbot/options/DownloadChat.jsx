@@ -31,7 +31,6 @@ const DownloadChat = () => {
                 blob = new Blob([JSON.stringify(filteredMessages, null, 2)], { type: "application/json" });
                 fileName = "chat-history.json";
                 break;
-
             case "csv":
                 const csvContent = filteredMessages
                     .map((msg) =>
@@ -41,7 +40,6 @@ const DownloadChat = () => {
                 blob = new Blob([`Sender,Message,Time\n${csvContent}`], { type: "text/csv" });
                 fileName = "chat-history.csv";
                 break;
-
             case "txt":
             default:
                 const txtContent = filteredMessages
@@ -63,15 +61,15 @@ const DownloadChat = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 md:p-6 p-1 flex flex-col md:items-center">
+        <div className="min-h-screen bg-gray-900 md:p-6 p-1 flex flex-col md:items-center text-gray-200">
             {/* Top Controls */}
             <div className="w-full md:max-w-3xl flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-4">
-                <div className=" w-full md:w-fit flex gap-2 items-center w-fit">
-                    <label className="text-gray-700 text-sm font-medium whitespace-nowrap">File Type:</label>
+                <div className="w-full md:w-fit flex gap-2 items-center">
+                    <label className="text-gray-300 text-sm font-medium whitespace-nowrap">File Type:</label>
                     <select
                         value={fileType}
                         onChange={(e) => setFileType(e.target.value)}
-                        className="w-full md:w-fit border outline-none rounded-md px-3 py-2 text-gray-700 focus:ring focus:ring-blue-300"
+                        className="w-full md:w-fit border border-gray-700 bg-gray-800 rounded-md px-3 py-2 text-gray-200 focus:ring focus:ring-blue-500"
                     >
                         <option value="txt">Text (.txt)</option>
                         <option value="json">JSON (.json)</option>
@@ -80,13 +78,13 @@ const DownloadChat = () => {
                 </div>
 
                 <div className="flex gap-2 items-center">
-                    <label className="text-gray-700 text-sm font-medium">Limit:</label>
+                    <label className="text-gray-300 text-sm font-medium">Limit:</label>
                     <input
                         type="number"
                         value={limit}
                         min={1}
                         onChange={(e) => setLimit(Math.max(1, Number(e.target.value)))} // prevent negatives/zero
-                        className="w-full outline none md:w-20 border rounded-md px-2 py-1 text-gray-700 focus:ring focus:ring-blue-300"
+                        className="w-full md:w-20 border border-gray-700 bg-gray-800 rounded-md px-2 py-1 text-gray-200 focus:ring focus:ring-blue-500"
                     />
                 </div>
 
@@ -95,7 +93,7 @@ const DownloadChat = () => {
                     disabled={messages.length === 0}
                     className={`flex items-center gap-2 px-4 py-2 rounded-md font-medium text-white transition
                         ${messages.length === 0
-                            ? "bg-gray-400 cursor-not-allowed"
+                            ? "bg-gray-700 cursor-not-allowed text-gray-500"
                             : "bg-blue-600 hover:bg-blue-700"
                         }`}
                 >
@@ -104,17 +102,17 @@ const DownloadChat = () => {
             </div>
 
             {/* Chat History */}
-            <div className="bg-white shadow-lg rounded-lg p-6 w-full md:max-w-3xl border">
-                <h1 className="text-2xl font-semibold text-gray-800 flex items-center gap-2 mb-6">
-                    <ChatIcon className="text-blue-600" /> Chat History (Last {limit})
+            <div className="bg-gray-800 shadow-lg rounded-lg p-6 w-full md:max-w-3xl border border-gray-700">
+                <h1 className="text-2xl font-semibold text-gray-100 flex items-center gap-2 mb-6">
+                    <ChatIcon className="text-blue-500" /> Chat History (Last {limit})
                 </h1>
 
                 <div className="space-y-4">
                     {getFilteredMessages().length > 0 ? (
                         getFilteredMessages().map((msg, index) => (
-                            <div key={index} className="pb-2 border-b border-gray-200">
-                                <p className="font-semibold text-gray-800">{msg.sender}</p>
-                                <p className="text-gray-700">{msg.content}</p>
+                            <div key={index} className="pb-2 border-b border-gray-700">
+                                <p className="font-semibold text-gray-200">{msg.sender}</p>
+                                <p className="text-gray-300">{msg.content}</p>
                                 <span className="text-xs text-gray-500">
                                     {new Date(msg.sentAt).toLocaleString()}
                                 </span>
