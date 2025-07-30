@@ -128,7 +128,7 @@ const Page = () => {
             </AnimatePresence>
 
             {/* Content */}
-            <main className="flex-1 p-2 md:p-6 bg-gray-900 w-fit overflow-y-auto">{renderContent()}</main>
+            <main className="flex-1 p-2 md:p-6 mx-auto bg-gray-900 w-fit overflow-y-auto">{renderContent()}</main>
         </div>
     );
 };

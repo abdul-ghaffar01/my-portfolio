@@ -41,12 +41,12 @@ const DeleteChat = ({ setSelectedSection }) => {
                     <button
                         disabled={messages.length === 0}
                         onClick={() => setShowWarning(true)}
-                        className={`flex items-center w-full gap-2 px-4 py-2 rounded-md font-medium transition 
-                        ${messages.length === 0 
-                            ? "bg-gray-700 text-gray-500 cursor-not-allowed" 
-                            : "bg-red-600 hover:bg-red-700 text-white"}`}
+                        className={`flex items-center justify-center w-full gap-2 px-4 py-2 rounded-md font-medium transition 
+                        ${messages.length === 0
+                                ? "bg-gray-700 text-gray-500 cursor-not-allowed"
+                                : "bg-red-600 hover:bg-red-700 text-white"}`}
                     >
-                        <DeleteIcon /> Delete Chat
+                        <DeleteIcon /> <span>Delete Chat</span>
                     </button>
                 </div>
 
