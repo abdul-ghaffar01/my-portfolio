@@ -1,7 +1,5 @@
 "use client";
 import React, { useEffect, useRef, useState } from 'react';
-import DownloadIcon from '@mui/icons-material/Download';
-import DeleteIcon from '@mui/icons-material/Delete';
 import SendIcon from '@mui/icons-material/Send';
 import ChatWindow from '@/components/chatbot/ChatWindow';
 import { connectSocketWithUser } from '@/utils/socket';
@@ -9,6 +7,8 @@ import sendMessage from '@/utils/chatbot/sendMessage';
 import useChatStore from '@/store/chatStore';
 import useSocketStore from '@/store/chatSocketStore';
 import Spinner from '../Spinner';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { useRouter } from 'next/navigation';
 
 const ChatSide = () => {
     const textareaRef = useRef(null);
@@ -33,6 +33,7 @@ const ChatSide = () => {
     } = useChatStore()
 
     const { socket, setSocket } = useSocketStore();
+    const router = useRouter()
 
     // Initializing userId and token from localStorage
     useEffect(() => {
@@ -123,26 +124,10 @@ const ChatSide = () => {
         }
     };
 
-    // Downloading chat 
-    const handleChatDownload = () => {
-        const chatContent = messages.map(msg => `${msg.who}: ${msg.content} (${msg.timestamp})`).join('\n');
-        const blob = new Blob([chatContent], { type: 'text/plain' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'chat.txt';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-    };
 
-    const handleChatDelete = () => {
-        setMessages([]);
-        if (textareaRef.current) {
-            textareaRef.current.style.height = '24px';
-        }
-    };
+    const goToOptions = () => {
+        router.push("/chat/options")
+    }
 
 
 
@@ -164,12 +149,11 @@ const ChatSide = () => {
                             )}</h1>
                         </div>
                         <div className='flex items-center gap-2'>
-                            <button onClick={handleChatDownload} className='text-color-500 bg-color-light rounded-full p-1'>
-                                <DownloadIcon />
+
+                            <button onClick={goToOptions} className='text-color-500 bg-color-light rounded-full p-1'>
+                                <MoreVertIcon />
                             </button>
-                            <button onClick={handleChatDelete} className='text-color-500 bg-color-light rounded-full p-1'>
-                                <DeleteIcon />
-                            </button>
+                            
                         </div>
                     </div>
 
