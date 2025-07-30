@@ -12,11 +12,19 @@ import User from './models/User.js';
 import jwtVerifyController from './controllers/jwtVerifyController.js';
 import jwt_verify from './helper/jwt_verify.js';
 import adminLoginController from './controllers/adminLoginController.js';
-
+import passport from "passport";
+import { Strategy as GoogleStrategy } from "passport-google-oauth20";
+import session from "express-session";
+import jwt from "jsonwebtoken"
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3009;
+
+// Session (required for Passport)
+app.use(session({ secret: "secret", resave: false, saveUninitialized: true }));
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Middleware
 app.use(cors());
@@ -25,12 +33,76 @@ app.use(express.json());
 // Connect DB
 await connectDB();
 
+// Passport Google Strategy
+console.log("GOOGLE_CLIENT_ID:", process.env.GOOGLE_CLIENT_ID);
+console.log("GOOGLE_CLIENT_SECRET:", process.env.GOOGLE_CLIENT_SECRET);
+
+passport.use(
+    new GoogleStrategy(
+        {
+            clientID: process.env.GOOGLE_CLIENT_ID,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+            callbackURL: "http://localhost:3009/auth/google/callback",
+        },
+        (accessToken, refreshToken, profile, done) => {
+            console.log("✅ Access Token:", accessToken); // <--- log this
+            console.log("✅ Profile:", profile);
+            // Return user profile
+            return done(null, profile);
+        }
+    )
+);
+
+passport.serializeUser((user, done) => done(null, user));
+passport.deserializeUser((user, done) => done(null, user));
+
 // Routes
 app.post('/login', loginController);
 app.post('/signup', signupController);
 app.post('/signup-guest', guestSignupController);
 app.post('/jwtverify', jwtVerifyController);
 app.post('/adminlogin', adminLoginController)
+// Login Route
+app.get("/googlelogin", passport.authenticate("google", { scope: ["profile", "email"] }));
+
+
+// Callback Route
+app.get(
+    "/auth/google/callback",
+    passport.authenticate("google", { failureRedirect: `${process.env.FRONTEND_URL}/chat/?error=google` }),
+    async (req, res) => {
+        try {
+            const googleUser = req.user;
+            const email = googleUser.emails[0].value;
+
+            // ✅ Check if user exists
+            let user = await User.findOne({ email });
+
+            // ✅ If not, create a new user
+            if (!user) {
+                user = await User.create({
+                    fullName: googleUser.displayName,
+                    email: email,
+                    password: "chekings"
+                });
+            }
+            console.log("user google", user)
+
+            // ✅ Create JWT with our own DB userId
+            const token = jwt.sign(
+                { userId: user._id, role: "user" },
+                process.env.JWT_SECRET,
+                { expiresIn: "7d" }
+            );
+
+            // ✅ Redirect with JWT
+            res.redirect(`${process.env.FRONTEND_URL}/chat/?token=${token}`);
+        } catch (error) {
+            console.error("Google login error:", error.message);
+            res.redirect("/login?error=google");
+        }
+    }
+);
 
 // Create HTTP server
 const server = http.createServer(app);
@@ -96,9 +168,10 @@ io.on('connection', async (socket) => {
         try {
             console.log("Incoming data:", data);
 
+            console.log("the user id", userId)
             // Save user's message
             const savedUserMessage = await Message.create({
-                userId: data.userId,
+                userId: userId,
                 content: data.content,
                 sender: "user",
                 to: process.env.BOT_ACCOUNT_ID || "68860f0b7d694be675bae2ff"
@@ -115,7 +188,7 @@ io.on('connection', async (socket) => {
 
 
             // Send bot reply to user
-            const recipientSocketId = userSockets.get(data.userId);
+            const recipientSocketId = userSockets.get(userId);
             const userInfo = onlineUsers.get(recipientSocketId);
             // ✅ Send bot reply to user only if enabled
             if (recipientSocketId && userInfo?.botRepliesEnabled) {
@@ -124,7 +197,7 @@ io.on('connection', async (socket) => {
                     userId: process.env.BOT_ACCOUNT_ID || "68860f0b7d694be675bae2ff",
                     content: "The bot is still under development.",
                     sender: "chatbot",
-                    to: data.userId
+                    to: userId
                 });
 
                 // Send bot reply to user
@@ -281,25 +354,29 @@ io.on('connection', async (socket) => {
                 console.log("⏳ 5 minutes passed. Re-enabling bot replies for all users...");
 
                 for (let [sockId, info] of onlineUsers) {
-                    info.botRepliesEnabled = true;
                     onlineUsers.set(sockId, info);
 
-                    const userSocket = io.sockets.sockets.get(sockId);
+                    if (!info.botRepliesEnabled) {
 
-                    // ✅ Create an info message for auto-reenable
-                    const infoMessage = await Message.create({
-                        userId: info.userId,
-                        content: "⚠️ Admin disconnected for 5 minutes. Bot replies have been automatically re-enabled.",
-                        sender: "info",
-                        to: info.userId,
-                    });
+                        info.botRepliesEnabled = true;
 
-                    // Send to user
-                    if (userSocket) {
-                        userSocket.emit('receiveMessage', infoMessage);
-                        userSocket.emit('botReplyStatus', { enabled: true });
+                        const userSocket = io.sockets.sockets.get(sockId);
+
+                        // ✅ Create an info message for auto-reenable
+                        const infoMessage = await Message.create({
+                            userId: info.userId,
+                            content: "⚠️ Admin disconnected for 5 minutes. Bot replies have been automatically re-enabled.",
+                            sender: "info",
+                            to: info.userId,
+                        });
+
+                        // Send to user
+                        if (userSocket) {
+                            userSocket.emit('receiveMessage', infoMessage);
+                            userSocket.emit('botReplyStatus', { enabled: true });
+                        }
+
                     }
-
                     // If admin reconnects during this window, we skip
                     const adminSocketId = userSockets.get("admin");
                     if (adminSocketId) {

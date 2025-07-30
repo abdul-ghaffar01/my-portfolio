@@ -19,6 +19,23 @@ const Page = () => {
     const [onlineUsers, setOnlineUsers] = useState([]);
     const router = useRouter();
 
+    useEffect(() => {
+        // Parse URL params
+        const params = new URLSearchParams(window.location.search);
+        const token = params.get("token");
+
+        if (token) {
+            // ✅ Save token to localStorage (or cookies)
+            localStorage.setItem("jwt", token);
+
+            // ✅ Clean up URL (remove token query param)
+            window.history.replaceState({}, document.title, window.location.pathname);
+
+            // ✅ Redirect to chat or dashboard
+            router.push("/chat");
+        }
+    }, [router]);
+
     // ✅ Connect socket & listen for online users
     useEffect(() => {
         const socket = connectSocketReadOnly();
