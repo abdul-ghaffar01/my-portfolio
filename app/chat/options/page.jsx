@@ -56,7 +56,7 @@ const Page = () => {
                             key={item.key}
                             onClick={() => setSelectedSection(item.key)}
                             className={`flex items-center gap-3 w-full text-left px-3 py-2 rounded-md transition ${selectedSection === item.key
-                                ? "bg-gray-700 text-white"
+                                ? "bg-blue-600 text-white"
                                 : "hover:bg-gray-700"
                                 }`}
                         >
@@ -113,7 +113,7 @@ const Page = () => {
                                             setMobileMenuOpen(false);
                                         }}
                                         className={`flex items-center gap-3 w-full text-left px-3 py-2 rounded-md transition ${selectedSection === item.key
-                                            ? "bg-gray-700 text-white"
+                                            ? "bg-blue-600 text-white"
                                             : "hover:bg-gray-700"
                                             }`}
                                     >
