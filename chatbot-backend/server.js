@@ -36,7 +36,7 @@ await connectDB();
 // Passport Google Strategy
 console.log("GOOGLE_CLIENT_ID:", process.env.GOOGLE_CLIENT_ID);
 console.log("GOOGLE_CLIENT_SECRET:", process.env.GOOGLE_CLIENT_SECRET);
-
+console.log(`${process.env.CHATBOT_BACKEND_URL}/auth/google/callback`)
 passport.use(
     new GoogleStrategy(
         {
