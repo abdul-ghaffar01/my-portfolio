@@ -34,20 +34,14 @@ app.use(express.json());
 await connectDB();
 
 // Passport Google Strategy
-console.log("GOOGLE_CLIENT_ID:", process.env.GOOGLE_CLIENT_ID);
-console.log("GOOGLE_CLIENT_SECRET:", process.env.GOOGLE_CLIENT_SECRET);
-console.log(`${process.env.CHATBOT_BACKEND_URL}/auth/google/callback`)
 passport.use(
     new GoogleStrategy(
         {
             clientID: process.env.GOOGLE_CLIENT_ID,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-            callbackURL: process.env.NODE_ENV === "dev" ? "http://localhost:3009/auth/google/callback"
-                : `${process.env.CHATBOT_BACKEND_URL}/auth/google/callback`,
+            callbackURL: process.env.CHATBOT_BACKEND_URL,
         },
         (accessToken, refreshToken, profile, done) => {
-            console.log("✅ Access Token:", accessToken); // <--- log this
-            console.log("✅ Profile:", profile);
             // Return user profile
             return done(null, profile);
         }

@@ -3,11 +3,10 @@ import React from 'react'
 import Message from './Message'
 import NewChatCard from './NewChatCard'
 import { format } from 'date-fns';
-import LoadOlderMessages from './LoadOlderMessages';
 
 const ChatWindow = ({ messages, endRef, scrollRef }) => {
   return (
-    <div ref={scrollRef} className='flex flex-col h-full overflow-auto max-h-full pb-2'>
+    <div ref={scrollRef} className='flex flex-col h-full overflow-auto max-h-full pb-2 bg-gray-900'>
 
       {/* Load older messages */}
       {/* {hasMoreMessages &&
@@ -20,7 +19,7 @@ const ChatWindow = ({ messages, endRef, scrollRef }) => {
 
       {/* Showing all messages */}
 
-      {Array.isArray(messages) &&
+      {Array.isArray(messages) && messages.length > 0 &&
         messages.map((message, index) => {
           const current = new Date(message.sentAt);
           const previous = index > 0 ? new Date(messages[index - 1].sentAt) : null;

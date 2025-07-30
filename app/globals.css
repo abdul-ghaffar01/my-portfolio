@@ -14,7 +14,6 @@ html {
 
 /* variables */
 :root {
-
   /* Amber theme */
   /* --color-900: #78350f; 
   --color-800: #92400e; 
@@ -36,7 +35,6 @@ html {
   --color-500: #6366f1;
   --color-200: #c7d2fe;
 
-
   /* purple theme */
   /* --color-900: #581c87;
   --color-800: #6b21a8;
@@ -50,25 +48,28 @@ html {
   --color-danger: #ef4444; /* Red for error */
   --color-warning: #f59e0b; /* Amber for warning */
   --color-gray-700: #334155;
-  --color-gray-500: #64748B;
+  --color-gray-500: #64748b;
   --color-gray-400: #d1d1d1;
-  --color-gray-100: #94A3B8;
+  --color-gray-100: #94a3b8;
 }
-
-/* Custom Scrollbar */
+/* Custom Scrollbar for Black & White Theme */
 ::-webkit-scrollbar {
-  width: 6px; /* Short width */
+  width: 8px; /* Slim but visible */
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--color-900);
+  background: #111; /* Deep black track */
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-500); /* A slightly lighter purple for contrast */
-  border-radius: 10px; /* Rounded corners */
+  background: #666; /* Neutral gray thumb */
+  border-radius: 8px; /* Smooth rounded edges */
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-200); /* Even lighter for hover effect */
+  background: #aaa; /* Lighter gray on hover */
+}
+
+::-webkit-scrollbar-corner {
+  background: #111; /* Matches track color */
 }

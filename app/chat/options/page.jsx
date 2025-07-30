@@ -42,19 +42,19 @@ const page = () => {
             case "delete":
                 return <DeleteChat setSelectedSection={setSelectedSection} />
             case "account":
-                return <p>⚙️ Manage account details like username and linked services.</p>;
+                return <p>⚙️ Coming soon</p>;
             case "security":
-                return <p>🔒 Update your password, enable 2FA, and manage sessions.</p>;
+                return <p>🔒 Coming soon</p>;
             case "notifications":
-                return <p>🔔 Customize your notification preferences here.</p>;
+                return <p>🔔 Coming soon</p>;
             case "billing":
-                return <p>💳 Manage payment methods, subscriptions, and invoices.</p>;
+                return <p>💳 Coming soon</p>;
             case "language":
-                return <p>🌐 Choose your language and region preferences.</p>;
+                return <p>🌐 Coming soon</p>;
             case "appearance":
-                return <p>🎨 Switch between light/dark themes and layout options.</p>;
+                return <p>🎨 Coming soon</p>;
             case "help":
-                return <p>❓ Access FAQs, support tickets, or contact us directly.</p>;
+                return <p>❓ Coming soon</p>;
             default:
                 return <p>Select a section from the menu.</p>;
         }

@@ -100,20 +100,20 @@ const Page = () => {
             {guestMode && <GuestMode setAccountSetup={setAccountSetup} setGuestMode={setGuestMode} setSessionStarted={setSessionStarted} />}
 
             {/* Sidebar: Online users */}
-            <div className='hidden md:block md:flex-[1] max-w-[400px] bg-gray-100 flex flex-col overflow-y-auto'>
+            <div className='hidden md:block md:flex-[1] max-w-[400px] border-l border-color-gray-500 bg-gray-700 flex flex-col overflow-y-auto'>
                 <div className='w-full text-center mt-3'>
-                    <span className='text-gray-500 text-sm'>You can't see any of the chat messages</span>
+                    <span className='text-gray-400 text-sm'>You can't see any of the chat messages</span>
                 </div>
 
                 <div className='w-full h-fit overflow-y-auto p-2'>
-                    <h1 className='text-xl text-gray-600 text-left mb-1 font-medium'>Online users</h1>
+                    <h1 className='text-xl text-gray-400 text-left mb-1 font-medium'>Online users</h1>
                     {loading && <p>Loading online users...</p>}
                     {!loading && onlineUsers.length === 0 && <p>Nobody is online</p>}
 
-                    {onlineUsers.map((user, index) => (
+                    {Array.isArray(onlineUsers) && onlineUsers.map((user, index) => (
                         <div
                             key={user.id || user._id || index}
-                            className='flex items-center w-full h-fit bg-gray-500 hover:bg-gray-700 rounded-md p-3 transition duration-300 text-color-light mb-2'
+                            className='flex items-center w-full h-fit bg-gray-500 hover:bg-gray-600 rounded-md p-3 transition duration-300 text-color-light mb-2'
                         >
                             <h2 className='text-lg w-fit'>{user.fullName}</h2>
                             <span className='w-3 h-3 rounded-full ml-2 bg-color-success'></span>

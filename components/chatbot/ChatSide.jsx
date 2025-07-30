@@ -139,9 +139,9 @@ const ChatSide = () => {
                 </div>
             ) : (
                 <>
-                    <div className='w-full flex items-center justify-between p-2 bg-color-800 shrink-0'>
+                    <div className='w-full flex items-center justify-between p-2 bg-color-gray-700 shrink-0'>
                         <div className='flex items-center gap-2'>
-                            <h1 className='text-lg text-color-light font-medium flex gap-1'>Abdul Ghaffar - {botReplyEnabled ? <p>Bot</p> : (
+                            <h1 className='text-lg text-color-gray-100 font-medium flex gap-1'>Abdul Ghaffar - {botReplyEnabled ? <p>Bot</p> : (
                                 <div className='flex gap-2 items-center'>
                                     <p>Real</p>
                                     <div className='w-3 h-3 rounded-full bg-color-success'></div>
@@ -150,17 +150,17 @@ const ChatSide = () => {
                         </div>
                         <div className='flex items-center gap-2'>
 
-                            <button onClick={goToOptions} className='text-color-500 bg-color-light rounded-full p-1'>
+                            <button onClick={goToOptions} className='text-color-dark bg-color-light rounded-full p-1'>
                                 <MoreVertIcon />
                             </button>
-                            
+
                         </div>
                     </div>
 
-                    <div className='flex-1 overflow-y-auto bg-color-light'>
+                    <div className='flex-1 overflow-y-auto bg-color-gray-900'>
                         {
                             loadingHistory && (
-                                <div className='w-full h-full flex justify-center items-center'>
+                                <div className='w-full h-full bg-gray-900 flex justify-center items-center'>
                                     <Spinner />
                                 </div>
                             )
@@ -171,7 +171,7 @@ const ChatSide = () => {
                         }
                     </div>
 
-                    <div className='w-full h-fit max-w-screen p-2 md:p-3 bg-color-800 shrink-0 relative'>
+                    <div className='w-full h-fit max-w-screen p-2 md:p-3 bg-color-gray-700 shrink-0 relative'>
                         <textarea
                             onKeyDown={handleKeyDown}
                             ref={textareaRef}
@@ -191,7 +191,9 @@ const ChatSide = () => {
                             }}
                             disabled={!messageText.trim()}
                             className='w-[60px] text-color-light p-2 absolute right-2 bottom-2'>
-                            <SendIcon className={`${!messageText.trim() ? "text-gray-400" : "text-color-light"}`} />
+                            {messageText.length > 0 && (
+                                <SendIcon className="text-color-light" />
+                            )}
                         </button>
                     </div>
                 </>

@@ -16,7 +16,7 @@ const Message = ({ message, showDate, formattedDate }) => {
                 </div>
             )}
 
-            <div className={`${who === "user" ? "bg-color-500 self-end" : "bg-gray-400"} w-fit min-w-[150px] max-w-[80%] p-1 md:p-2 rounded-md m-1 text-color-light`}>
+            <div className={`${who === "user" ? "bg-color-500 self-end" : "bg-gray-500"} w-fit min-w-[150px] max-w-[80%] p-1 md:p-2 rounded-md m-1 text-color-light`}>
                 <div className='font-semibold break-words whitespace-pre-wrap w-full'>
                     {message.content}
                 </div>
