@@ -39,7 +39,7 @@ passport.use(
         {
             clientID: process.env.GOOGLE_CLIENT_ID,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-            callbackURL: process.env.CHATBOT_BACKEND_URL,
+            callbackURL: `${process.env.CHATBOT_BACKEND_URL}/auth/google/callback`,
         },
         (accessToken, refreshToken, profile, done) => {
             // Return user profile
