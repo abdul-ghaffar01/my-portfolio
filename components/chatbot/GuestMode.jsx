@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Logo from '../navbar/Logo';
+import decodeJWT from '@/utils/chatbot/decodeJwt';
 
 const GuestMode = ({ setAccountSetup, setGuestMode, setSessionStarted }) => {
     const [creatingAccount, setCreatingAccount] = useState(false);
