@@ -15,13 +15,12 @@ const About = () => {
       frameRef.current.style.height = 0;
       boundryRef.current.style.transform = "rotate(0deg)";
     }
-
   }
 
   const handleImageAnimationOut = () => {
     if (frameRef.current && boundryRef.current) {
       frameRef.current.style.height = imgSize.height + "px";
-      boundryRef.current.style.transform = "rotate(-15deg)"
+      boundryRef.current.style.transform = "rotate(-10deg)"
     }
   }
 
@@ -38,93 +37,96 @@ const About = () => {
         const imgRect = imgRef.current.getBoundingClientRect();
         setImgSize({ width: imgRect.width, height: imgRect.height });
       };
-
-      updateSize(); // Initial size update
-      window.addEventListener("resize", updateSize); // Update on resize
+      updateSize();
+      window.addEventListener("resize", updateSize);
       return () => window.removeEventListener("resize", updateSize);
     }
   }, []);
 
   useEffect(() => {
-
     if (frameRef.current) {
-      // color frame 
       frameRef.current.style.width = `${imgSize.width}px`;
       frameRef.current.style.height = `${imgSize.height}px`;
-
-      // Boundry 
       boundryRef.current.style.width = `${imgSize.width}px`;
       boundryRef.current.style.height = `${imgSize.height}px`;
-
-
     }
   }, [imgSize]);
 
   return (
-    <div id='about' className='bg-color-500 h-fit py-5 flex flex-col items-center justify-center pb-[80px]'>
-      <Heading className="" text="About me" color="text-color-light" lineColor="bg-color-light" />
+    <div id='about' className='z-[2] bg-gray-900 h-fit py-16 flex flex-col items-center justify-center relative overflow-hidden'>
+      {/* Background Glow */}
+      <div className="absolute top-0 left-1/2 w-[500px] h-[500px] bg-blue-500/20 blur-[150px] rounded-full -translate-x-1/2"></div>
+
+      <Heading className="" text="About Me" color="text-blue-400" lineColor="bg-blue-400" />
 
       {/* Full content */}
-      <motion.div className="content mt-5 h-fit flex flex-col lg:flex-row items-center gap-[30px] justify-between w-full max-w-[1100px]  overflow-hidden xs:overflow-visible">
+      <motion.div className="content mt-10 h-fit flex flex-col lg:flex-row items-center gap-[50px] justify-between w-full max-w-[1100px] px-4 overflow-hidden">
 
         {/* About me text container */}
         <motion.div
-          initial={{ opacity: 0, y: 100 }}
+          initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0, transition: { duration: .8 } }}
           viewport={{ once: true, amount: .3 }}
-          className="text flex-1 min-h-fit p-6 flex gap-[10px] "
+          className="text flex-1 p-6"
         >
-          {/* Vertical line */}
-          <motion.div
-            className="line w-[50px] bg-color-light rounded-full"
-            initial={{ height: 0 }}
-            whileInView={{ height: "100px" }}
-            transition={{ duration: 1, ease: "easeInOut", delay: .8 }}
-            viewport={{ once: true }}
-          ></motion.div>
-
-          {/* About me text */}
-          <div className="h-fit text-slate-200 text-[17px]">
-            <div className='h-fit flex items-center'>
-              <span className='text-xl font-bold whitespace-nowrap'>
-                I'm Abdul Ghaffar,
-              </span>
-              <motion.div initial={{ flex: 0 }}
-                whileInView={{ flex: 1 }}
-                transition={{ duration: 1, ease: "easeInOut", delay: .8 }}
-                viewport={{ once: true }} className='flex-1  border-t border-b border-gray-300 ml-2 mb-0' ></motion.div>
-            </div>
-            <p className='min-h-fit'>
-              a backend-focused full-stack developer with a strong foundation in problem-solving, algorithms, and scalable system design. Currently pursuing a Bachelor's in Computer Science at SZABIST with a CGPA of 3.8 and two academic scholarships, I balance academic excellence with hands-on development. I specialize in TypeScript, Next.js, and NestJS, and I’m currently learning Golang for cloud computing. My projects include a personal portfolio (iabdulghaffar.com), a MERN-based investment platform with real-time updates, an e-commerce website with secure payments, and a custom DBMS (Aughr) built in C++ with its own query language. With over 180 LeetCode problems solved, I’m driven by building efficient backend systems and contributing to impactful software.
+          <div className="border-l-4 border-blue-500 pl-5">
+            <h3 className="text-2xl font-bold text-blue-400 mb-4">Who am I?</h3>
+            <p className="text-gray-300 text-[17px] leading-relaxed">
+              I'm <span className='font-semibold text-white'>Abdul Ghaffar</span>,
+              a backend-focused full-stack developer with a strong foundation in algorithms,
+              scalable systems, and cloud computing. I’m pursuing a Bachelor's in Computer Science
+              at SZABIST with a CGPA of 3.8 and two scholarships.
+            </p>
+            <p className="text-gray-400 mt-4">
+              I specialize in TypeScript, Next.js, and NestJS, and I'm currently learning
+              <span className='text-blue-400'> Golang </span> for cloud-based systems.
+              My projects include a portfolio, real-time investment platform, e-commerce store,
+              and a custom DBMS (Aughr) built in C++.
             </p>
           </div>
         </motion.div>
 
         {/* Image container */}
         <motion.div
-          className='flex-1 p-2 flex items-center justify-center h-full '
-          initial={{ opacity: 0, y: 100 }}
+          className='flex-1 p-10 flex items-center justify-center relative'
+          initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0, transition: { duration: .8 } }}
-          viewport={{ once: true, amount: .4 }}
+          viewport={{ once: true }}
           onMouseEnter={handleImageAnimationIn}
           onMouseLeave={handleImageAnimationOut}
         >
-          <div className="content relative lg:h-5/4 lg:w-auto w-[300px] sm:w-[400px]">
+          {/* Floating particles */}
+          <div className="absolute w-[250px] h-[250px] rounded-full bg-blue-500/20 blur-[120px] -z-10"></div>
+
+          <motion.div
+            whileHover={{ scale: 1.03 }}
+            className="relative w-[300px] sm:w-[400px]"
+          >
             <Image
               ref={imgRef}
               src="/about_profile.png"
               width={300}
               height={500}
               alt='Profile'
-              className='h-full w-full object-cover mb-[30px]'
+              className='h-full w-full object-cover rounded-lg shadow-lg'
               onLoad={handleImageLoad}
             />
-            <div ref={frameRef} className=" absolute flex flex-col justify-evenly transition-all duration-300 top-0 bg-color-800 opacity-[50%] h-full w-full"></div>
-            <div ref={boundryRef} className="absolute transition-all duration-300 top-0 w-full h-full border-2 p-3 border-color-700 rotate-[-15deg] origin-center "></div>
-          </div>
+
+            {/* Overlay Frame */}
+            <div
+              ref={frameRef}
+              className="absolute top-0 left-0 bg-blue-500/10 backdrop-blur-sm rounded-lg transition-all duration-300"
+            ></div>
+
+            {/* Tilted Border */}
+            <div
+              ref={boundryRef}
+              className="absolute top-0 border-2 border-blue-500/70 rounded-lg p-3 rotate-[-10deg] transition-all duration-300 origin-center"
+            ></div>
+          </motion.div>
         </motion.div>
       </motion.div>
-    </div >
+    </div>
   )
 }
 

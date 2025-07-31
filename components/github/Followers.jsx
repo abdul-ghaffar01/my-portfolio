@@ -20,13 +20,18 @@ const Followers = () => {
   }, []);
 
   return (
-    <div className="w-full overflow-hidden bg-color-dark text-color-light py-4">
-      <h1 className='text-center text-lg'>Followers</h1>
+    <div className="relative w-full overflow-hidden py-8 bg-transparent">
+      {/* Title */}
+      <h2 className="text-center text-2xl font-semibold text-blue-400 mb-6">
+        Followers
+      </h2>
+
+      {/* Slider */}
       <Slider
-        duration={followers.length}  // Smooth animation speed
+        duration={followers.length * 2} // Smooth and slow animation
         pauseOnHover={true}
         blurBorders={false}
-        className="flex items-center gap-4 "
+        className="flex items-center gap-4"
       >
         {followers.map((item, index) => (
           <Slider.Slide key={index} className="w-fit">
@@ -34,16 +39,16 @@ const Followers = () => {
               href={item.html_url || ""}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex flex-1 min-w-[200px] items-center gap-3 p-2 shadow-md rounded-lg"
+              className="flex items-center gap-3 px-4 py-2 bg-gray-800/30 backdrop-blur-md border border-gray-700/50 rounded-xl shadow-md hover:border-blue-500 hover:shadow-[0_0_15px_rgba(59,130,246,0.3)] transition-all duration-300"
             >
               <Image
-                className="rounded-full"
+                className="rounded-full border border-gray-700"
                 src={item.avatar_url || ""}
-                width={40}
-                height={40}
+                width={45}
+                height={45}
                 alt="Follower profile"
               />
-              <p className="text-color-light font-medium break-keep">{item.login}</p>
+              <p className="text-gray-300 font-medium text-sm">{item.login}</p>
             </Link>
           </Slider.Slide>
         ))}

@@ -1,70 +1,61 @@
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const ImageHoverEffect = () => {
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+    const [popups, setPopups] = useState([]);
     const [lastPost, setLastPost] = useState({ x: 50, y: 50 });
 
-    useEffect(() => {
-        const handleMouseMove = (event) => {
-            setMousePos({ x: event.clientX, y: event.clientY });
+    const handleMouseMove = (e) => {
+        const { clientX, clientY } = e;
+        setMousePos({ x: clientX, y: clientY });
 
-            if (Math.abs(lastPost.x - event.clientX) >= 100 || Math.abs(lastPost.y - event.clientY) >= 100) {
-                const pTag = document.createElement("p");
-                pTag.textContent = "Hello!";
-                pTag.style.position = "absolute";
-                pTag.style.left = `${event.clientX}px`;
-                pTag.style.top = `${event.clientY}px`;
-                pTag.style.color = "black";
-                // pTag.style.background = "rgba(255, 255, 255, 0.2)";
-                pTag.style.padding = "5px 10px";
-                pTag.style.borderRadius = "5px";
-                pTag.style.transition = "transform 0.3s ease-out, opacity 0.3s ease-out";
-                pTag.style.transform = "scale(0)"; // Start small for animation
+        if (Math.abs(lastPost.x - clientX) >= 100 || Math.abs(lastPost.y - clientY) >= 100) {
+            const id = Date.now();
+            setPopups((prev) => [...prev, { id, x: clientX, y: clientY }]);
 
-                document.getElementById("checking").appendChild(pTag);
+            setTimeout(() => {
+                setPopups((prev) => prev.filter((p) => p.id !== id));
+            }, 2000);
 
-                // Animate pop-up effect
-                setTimeout(() => {
-                    pTag.style.transform = "scale(1)";
-                    pTag.style.opacity = "1";
-                }, 10);
-
-                // Remove automatically after 2 seconds
-                setTimeout(() => {
-                    pTag.style.opacity = "0";
-                    pTag.style.transform = "scale(0)";
-                    setTimeout(() => {
-                        pTag.remove();
-                    }, 300); // Wait for fade-out animation to complete
-                }, 2000);
-
-                setLastPost({ x: event.clientX, y: event.clientY });
-            }
-        };
-
-        document.addEventListener("mousemove", handleMouseMove);
-
-        return () => {
-            document.removeEventListener("mousemove", handleMouseMove);
-        };
-    }, [lastPost]);
+            setLastPost({ x: clientX, y: clientY });
+        }
+    };
 
     return (
         <div
-            id="checking"
-            onMouseMove={(e) => setMousePos({ x: e.clientX, y: e.clientY })}
-            className="absolute top-0 w-full h-screen bg-gray-100">
+            onMouseMove={handleMouseMove}
+            className="absolute top-0 w-full h-screen bg-gray-900 overflow-hidden"
+        >
+            {/* Popups */}
+            {popups.map((popup) => (
+                <motion.p
+                    key={popup.id}
+                    initial={{ opacity: 0, scale: 0 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="absolute px-3 py-1 rounded-md text-sm text-gray-200 bg-gray-800/80 shadow-[0_0_10px_#3b82f6]"
+                    style={{ left: popup.x, top: popup.y }}
+                >
+                    Hello!
+                </motion.p>
+            ))}
 
+            {/* Hover Image with Blue Glow */}
             <motion.img
                 src="/profile.png"
                 alt="Hover Image"
                 initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1, x: mousePos.x - 50, y: mousePos.y - 50 }}
+                animate={{
+                    opacity: 1,
+                    scale: 1,
+                    x: mousePos.x - 50,
+                    y: mousePos.y - 50,
+                }}
                 transition={{ duration: 0.2 }}
-                className="absolute w-32 h-32 rounded-lg pointer-events-none"
+                className="absolute w-32 h-32 rounded-lg pointer-events-none shadow-[0_0_20px_#3b82f6] border border-blue-500/50"
             />
-
         </div>
     );
 };

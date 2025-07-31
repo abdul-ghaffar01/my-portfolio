@@ -1,13 +1,13 @@
 'use client'
 
 import Link from 'next/link'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Logo from './Logo'
 import { motion } from "framer-motion"
 
 export const fadeInFromTopInViewVariants = {
   initial: { y: -50, opacity: 0 },
-  animate: { y: 0, opacity: 1, transition: { duration: 0.5, ease: "easeOut" } },
+  animate: { y: 0, opacity: 1, transition: { duration: 0.6, ease: "easeOut" } },
 }
 
 const links = [
@@ -16,96 +16,104 @@ const links = [
   { name: "Github", link: "#github" },
   { name: "Skills", link: "#skills" },
 ]
+
 const Navbar = () => {
   const [showSidebar, setShowSidebar] = useState(false);
 
-
   return (
-    <motion.div variants={fadeInFromTopInViewVariants} initial="initial"
-      whileInView="animate"
-      viewport={{ once: true }} className="w-full px-2 sm:px-8 md:mx-auto p-2 flex items-center justify-between lg:w-[80%]">
+    <motion.nav
+      variants={fadeInFromTopInViewVariants}
+      initial="initial"
+      animate="animate"
+      className="fixed top-0 left-0  w-full z-50 bg-gray-900/50 backdrop-blur-md border-b border-gray-800/50"
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 flex items-center justify-between h-[70px] text-gray-200">
+        {/* Logo */}
+        <Link href="/">
+          <Logo />
+        </Link>
 
-      {/* Logo */}
-      <Link href="/">
-        <Logo />
-      </Link>
+        {/* Desktop Menu */}
+        <ul className="hidden md:flex gap-8 items-center">
+          {links.map((item, index) => (
+            <motion.li
+              key={index}
+              whileHover={{ scale: 1.05 }}
+              className="relative group cursor-pointer text-lg font-medium"
+            >
+              <Link href={item.link} className="text-gray-300 hover:text-blue-400 transition">
+                {item.name}
+              </Link>
+              {/* Underline Animation */}
+              <span className="absolute left-1/2 bottom-[-4px] w-0 h-[2px] bg-blue-500 group-hover:w-full group-hover:left-0 transition-all duration-300"></span>
+            </motion.li>
+          ))}
 
-      {/* menus */}
-      <div className='w-fit h-fit'>
-        <motion.ul
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1, }}
-          viewport={{ once: true, amount: "all" }} className='hidden md:flex h-[60px] p-2 items-center gap-[10px]'>
-          {/* All the links */}
-          {links.map((item, index) => {
-            return (<motion.li key={index}
-              initial={{ y: -20, opacity: 0, }}
-              whileInView={{ y: 0, opacity: 1, transition: { delay: (0.1 * index) + 0.8 } }}
-              viewport={{ once: true, amount: "all" }} className=' font-bold text-xl relative mx-2 transition-all duration-300'>
-              <Link className='text-[#00000075] hover:text-color-700' href={item.link}>{item.name}</Link>
-              <div className='absolute bottom-0 w-full h-[10px] rounded-full '></div>
-            </motion.li>)
-          })}
-
-          {/* Resume button */}
+          {/* Resume Button */}
           <Link href="/resume">
-            <button className='hidden md:block bg-color-500 block px-5 py-2 text-center w-fit hover:bg-color-700 text-white font-semibold transition-all duration-200 md:border-slate-100 rounded-md'>
-              View resume
-            </button>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-5 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-white font-semibold shadow-[0_0_12px_#3b82f6]/50 transition-all"
+            >
+              View Resume
+            </motion.button>
           </Link>
-        </motion.ul>
+        </ul>
+
+        {/* Mobile Hamburger */}
+        <button
+          onClick={() => setShowSidebar(true)}
+          className="md:hidden flex flex-col justify-evenly items-center w-12 h-12 bg-gray-800/70 rounded-lg shadow hover:shadow-[0_0_10px_#3b82f6] transition"
+        >
+          <div className="w-6 h-[3px] bg-blue-500 rounded"></div>
+          <div className="w-6 h-[3px] bg-blue-500 rounded"></div>
+          <div className="w-6 h-[3px] bg-blue-500 rounded"></div>
+        </button>
       </div>
 
-
-      {/* Hamburger for menus */}
-      <button onClick={() => { setShowSidebar(true) }} className="md:hidden hamburger w-[50px] h-[50px] bg-white p-2 flex flex-col justify-evenly items-center rounded-lg ">
-        <div className="line w-full h-[05px] bg-color-500 rounded-full"></div>
-        <div className="line w-full h-[05px] bg-color-500 rounded-full"></div>
-        <div className="line w-full h-[05px] bg-color-500 rounded-full"></div>
-      </button>
-
-      {/* mobile side bar */}
+      {/* Mobile Sidebar */}
       <div
-        initial={{}}
-        whileInView={{}}
-        viewport={{ once: true }}
-        className={`fixed md:hidden top-0 left-0 ${showSidebar ? "w-screen" : "w-0"} h-[101vh] bg-color-900 z-[1000] overflow-hidden transition-all duration-500`}
+        className={`fixed md:hidden top-0 left-0 h-screen bg-gray-900/95 backdrop-blur-md z-[1000] overflow-hidden transition-all duration-500 ${
+          showSidebar ? "w-screen" : "w-0"
+        }`}
       >
-        <div className="content p-5">
-
-          {/* Cross button  */}
+        {/* ✅ Hide content when closed */}
+        <div className={`p-6 flex flex-col h-full transition-opacity duration-300 ${showSidebar ? "opacity-100" : "opacity-0 pointer-events-none"}`}>
+          {/* Close Button */}
           <button
-            onClick={() => setShowSidebar(!showSidebar)}
-            className="md:hidden w-[50px] h-[50px] bg-white p-2 flex justify-center items-center rounded-lg relative">
-
-            {/* Top Line */}
-            <div className={`absolute w-[35px] h-[5px] bg-color-500 rounded-full transition-transform duration-300 ease-in-out ${showSidebar ? 'rotate-45 translate-y-0' : '-translate-y-2'}`}>
-            </div>
-
-            {/* Bottom Line */}
-            <div className={`absolute w-[35px] h-[5px] bg-color-500 rounded-full transition-transform duration-300 ease-in-out ${showSidebar ? '-rotate-45 translate-y-0' : 'translate-y-2'}`}>
+            onClick={() => setShowSidebar(false)}
+            className="self-end w-10 h-10 flex justify-center items-center bg-gray-800 rounded-lg"
+          >
+            <div className="relative w-6 h-6">
+              <span className="absolute w-full h-[3px] bg-blue-500 rounded rotate-45 top-1/2"></span>
+              <span className="absolute w-full h-[3px] bg-blue-500 rounded -rotate-45 top-1/2"></span>
             </div>
           </button>
 
-          <div className="menus">
-            <ul className='flex flex-col items-center justify-evenly'>
-              {/* All the links */}
-              {links.map((item, index) => {
-                return (<motion.li key={index}
-                  initial={{ y: -20, opacity: 0, }}
-                  whileInView={{ y: 0, opacity: 1, transition: { delay: (0.1 * index) } }}
-                  viewport={{ once: true, amount: "all" }} className=' font-bold text-xl relative my-4 transition-all duration-300'>
-                  <Link onClick={() => setShowSidebar(false)} className='text-[30px] text-[#00000075] ' href={item.link}>{item.name}</Link>
-                  <div className='absolute bottom-0 w-full h-[10px] rounded-full '></div>
-                </motion.li>)
-              })}
-            </ul>
-          </div>
+          {/* Sidebar Links */}
+          <ul className="flex flex-col items-center justify-center flex-grow gap-6">
+            {links.map((item, index) => (
+              <motion.li
+                key={index}
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1, transition: { delay: index * 0.1 }}
+                }
+                className="text-2xl font-semibold"
+              >
+                <Link
+                  href={item.link}
+                  onClick={() => setShowSidebar(false)}
+                  className="text-gray-300 hover:text-blue-400 transition"
+                >
+                  {item.name}
+                </Link>
+              </motion.li>
+            ))}
+          </ul>
         </div>
       </div>
-    </motion.div >
-
-
+    </motion.nav>
   )
 }
 
