@@ -3,7 +3,7 @@ import Spinner from '@/components/Spinner'
 import React from 'react'
 import { motion } from 'framer-motion'
 
-const Loading = () => {
+const loading = () => {
     return (
         <div className="w-screen h-[100dvh] bg-gray-900 flex flex-col items-center justify-center text-gray-300">
             {/* Spinner */}
@@ -22,7 +22,7 @@ const Loading = () => {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.3, duration: 0.6 }}
             >
-                Loading, please wait...
+                Preparing your chat...
             </motion.p>
 
             {/* Animated dots */}
@@ -49,4 +49,4 @@ const Loading = () => {
     )
 }
 
-export default Loading
+export default loading

@@ -16,6 +16,8 @@ import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import session from "express-session";
 import jwt from "jsonwebtoken"
+import crypto from "crypto";
+
 dotenv.config();
 
 const app = express();
@@ -75,10 +77,11 @@ app.get(
 
             // ✅ If not, create a new user
             if (!user) {
+                const strongPassword = crypto.randomBytes(16).toString("hex"); // 32-char strong password
                 user = await User.create({
                     fullName: googleUser.displayName,
                     email: email,
-                    password: "chekings"
+                    password: strongPassword, // store hashed if using authentication
                 });
             }
             console.log("user google", user)
@@ -112,6 +115,13 @@ const io = new Server(server, {
 const onlineUsers = new Map(); // key: socket.id, value: { userId, fullName }
 const userSockets = new Map(); // key: userId or "admin", value: socket.id
 
+const broadcastOnlineUsers = () => {
+    const uniqueUsers = Array.from(
+        new Map([...onlineUsers.values()].map(user => [user.userId || user.socketId, user])).values()
+    );
+    io.emit('onlineUsers', uniqueUsers);
+};
+
 io.on('connection', async (socket) => {
     const token = socket.handshake.query.token;
     const decoded = jwt_verify(token); // Verify token
@@ -125,8 +135,8 @@ io.on('connection', async (socket) => {
     const allUsers = await User.find().select('fullName _id');
     socket.emit('allUsers', allUsers);
 
-    const currentOnline = Array.from(onlineUsers.values());
-    io.emit('onlineUsers', currentOnline);
+    broadcastOnlineUsers();
+
 
     try {
         if (isAdmin) {
@@ -142,7 +152,7 @@ io.on('connection', async (socket) => {
             onlineUsers.set(socket.id, { userId, fullName, botRepliesEnabled: true });
             userSockets.set(userId, socket.id);
 
-            socket.emit('onlineUsers', currentOnline);
+            broadcastOnlineUsers()
 
             // ✅ Send user's own chat history (Bot + User)
             const history = await Message.find({
@@ -380,10 +390,9 @@ io.on('connection', async (socket) => {
                 }
             }, 5 * 60 * 1000); // 5 minutes
         }
+        broadcastOnlineUsers()
     });
 
-    // Broadcast updated online users list
-    io.emit('onlineUsers', Array.from(onlineUsers.values()));
 });
 
 server.listen(PORT, () => {

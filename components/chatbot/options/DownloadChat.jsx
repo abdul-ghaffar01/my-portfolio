@@ -23,6 +23,8 @@ const DownloadChat = () => {
     // Handle download
     const handleChatDownload = () => {
         const filteredMessages = getFilteredMessages();
+        if (!filteredMessages.length) return;
+
         let blob;
         let fileName;
 
@@ -40,7 +42,6 @@ const DownloadChat = () => {
                 blob = new Blob([`Sender,Message,Time\n${csvContent}`], { type: "text/csv" });
                 fileName = "chat-history.csv";
                 break;
-            case "txt":
             default:
                 const txtContent = filteredMessages
                     .map((msg) => `${msg.sender}: ${msg.content} (${new Date(msg.sentAt).toLocaleString()})`)
@@ -56,9 +57,10 @@ const DownloadChat = () => {
         a.download = fileName;
         document.body.appendChild(a);
         a.click();
-        document.body.removeChild(a);
+        document.body.removeChild(a);  // ✅ ensures it's properly removed
         URL.revokeObjectURL(url);
     };
+
 
     return (
         <div className="min-h-screen bg-gray-900 md:p-6 p-1 flex flex-col md:items-center text-gray-200">

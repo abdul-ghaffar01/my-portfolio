@@ -1,19 +1,10 @@
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
+import Image from "next/image";
 
-const AccountSetup = ({ setCreatingAccount, setGuestMode, setLoggingIn, setAccountSetup }) => {
+const AccountSetup = ({ setGuestMode, setAccountSetup }) => {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
-
-    const handleLogin = () => {
-        setLoggingIn(true);
-        setAccountSetup(false);
-    };
-
-    const handleSignup = () => {
-        setCreatingAccount(true);
-        setAccountSetup(false);
-    };
 
     const handleGuest = () => {
         setGuestMode(true);
@@ -26,56 +17,49 @@ const AccountSetup = ({ setCreatingAccount, setGuestMode, setLoggingIn, setAccou
     };
 
     return (
-        <div className="flex-[2] min-h-[100dvh] flex flex-col justify-center">
-            <div>
-                <h1 className="text-3xl text-color-800 font-semibold text-center mt-10">
-                    Login to start chatting
+        <div className="flex-[3] min-h-[100dvh] flex flex-col justify-center bg-gray-900 text-gray-100 px-4">
+            <div className="max-w-[400px] w-full mx-auto">
+                <h1 className="text-3xl font-semibold text-center text-gray-200 mb-6">
+                    Login to Start Chatting
                 </h1>
-            </div>
 
-            <div className="max-w-[400px] w-full mx-auto p-2 text-lg">
-                <button
-                    onClick={handleLogin}
-                    aria-label="Login with email"
-                    className="w-full bg-color-500 text-color-light px-4 py-2 rounded-md mt-5"
-                >
-                    Login with email and password
-                </button>
-
-                <button
-                    onClick={handleSignup}
-                    aria-label="Create a new account"
-                    className="w-full bg-color-500 text-color-light px-4 py-2 rounded-md mt-5"
-                >
-                    Create new account
-                </button>
-
-                <button
-                    onClick={handleGuest}
-                    aria-label="Continue as guest"
-                    className="w-full bg-color-500 text-color-light px-4 py-2 rounded-md mt-5"
-                >
-                    Continue as guest
-                </button>
-
+                {/* Google Login Button */}
                 <button
                     onClick={handleGoogleLogin}
-                    aria-label="Continue with Google"
                     disabled={loading}
-                    className="w-full flex items-center justify-center gap-2 border border-gray-300 bg-white text-gray-700 px-4 py-2 rounded-md mt-5 hover:bg-gray-50"
+                    className="w-full flex items-center justify-center gap-3 bg-white text-gray-800 px-4 py-3 rounded-lg shadow-md hover:shadow-lg hover:bg-gray-100 transition-all duration-200 disabled:opacity-70"
                 >
                     {loading ? (
-                        <span className="loader border-2 border-gray-400 border-t-transparent rounded-full w-4 h-4 animate-spin"></span>
+                        <>
+                            <span className="loader border-2 border-gray-400 border-t-transparent rounded-full w-4 h-4 animate-spin" />
+                            <span>Signing in...</span>
+                        </>
                     ) : (
                         <>
-                            <img src="/google-icon.svg" alt="Google logo" className="w-5 h-5" />
-                            Continue with Google
+                            <Image src="/google_logo.png" alt="Google logo" width={20} height={20} />
+                            <span>Continue with Google</span>
                         </>
                     )}
                 </button>
 
-                <p className="text-center text-sm text-gray-400 mt-2">
-                    You may lose history in guest mode after clearing browser history.
+                {/* Divider */}
+                <div className="flex items-center my-6">
+                    <span className="flex-1 h-px bg-gray-700"></span>
+                    <span className="px-3 text-sm text-gray-500">OR</span>
+                    <span className="flex-1 h-px bg-gray-700"></span>
+                </div>
+
+                {/* Guest Mode Button */}
+                <button
+                    onClick={handleGuest}
+                    className="w-full bg-gray-700 hover:bg-gray-600 text-gray-100 px-4 py-3 rounded-lg transition-all duration-200 shadow-md"
+                >
+                    Continue as Guest
+                </button>
+
+                {/* Info Text */}
+                <p className="text-center text-xs text-gray-400 mt-3">
+                    ⚠ You may lose history in guest mode after clearing your browser data.
                 </p>
             </div>
         </div>

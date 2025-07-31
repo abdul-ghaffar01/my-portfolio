@@ -1,15 +1,16 @@
-"use client"
+"use client";
+import { useEffect, useState } from 'react';
 import ChatSide from '@/components/chatbot/ChatSide';
 import AccountSetup from '@/components/chatbot/AccountSetup';
 import CreateChatAccount from '@/components/chatbot/CreateChatAccount';
 import LoginChat from '@/components/chatbot/LoginChat';
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import GuestMode from '@/components/chatbot/GuestMode';
 import { connectSocketReadOnly } from '@/utils/socket';
 import Loader from '@/components/Loader';
+import { useRouter } from 'next/navigation';
 
 const Page = () => {
+    const [mounted, setMounted] = useState(false); // ✅ Fix hydration mismatch
     const [sessionStarted, setSessionStarted] = useState(false);
     const [creatingAccount, setCreatingAccount] = useState(false);
     const [loggingIn, setLoggingIn] = useState(false);
@@ -20,102 +21,65 @@ const Page = () => {
     const router = useRouter();
 
     useEffect(() => {
-        // Parse URL params
+        setMounted(true); // ✅ Only render UI after mount
+    }, []);
+
+    useEffect(() => {
+        if (!mounted) return; // ✅ Prevent SSR issues
+
         const params = new URLSearchParams(window.location.search);
         const token = params.get("token");
-
         if (token) {
-            // ✅ Save token to localStorage (or cookies)
             localStorage.setItem("jwt", token);
-
-            // ✅ Clean up URL (remove token query param)
             window.history.replaceState({}, document.title, window.location.pathname);
-
-            // ✅ Redirect to chat or dashboard
             router.push("/chat");
         }
-    }, [router]);
+    }, [mounted, router]);
 
-    // ✅ Connect socket & listen for online users
     useEffect(() => {
+        if (!mounted) return;
         const socket = connectSocketReadOnly();
-        if (socket) {
-            setLoading(false);
-        }
+        if (socket) setLoading(false);
 
         socket.on('onlineUsers', (users) => {
-            console.log("Online users:", users);
-
-            if (!users || !Array.isArray(users)) {
-                console.warn("Invalid users data:", users);
-                setOnlineUsers([]);
-                return;
-            }
+            if (!Array.isArray(users)) return setOnlineUsers([]);
             setOnlineUsers(users);
         });
 
-        return () => {
-            socket.off('onlineUsers');
-        };
-    }, []);
+        return () => socket.off('onlineUsers');
+    }, [mounted]);
 
-    // ✅ JWT check for session
     useEffect(() => {
+        if (!mounted) return;
         const jwt = localStorage.getItem('jwt');
         if (!jwt) {
             setAccountSetup(true);
-            setCreatingAccount(false);
-            setLoggingIn(false);
-            setGuestMode(false);
-            setSessionStarted(false);
         } else {
             setSessionStarted(true);
         }
-    }, []);
+    }, [mounted]);
 
-    // ✅ Force route to /chat
-    useEffect(() => {
-        const handleRouteChange = (url) => {
-            if (url !== window.location.pathname) {
-                router.push('/chat');
-            }
-        };
-        router.events?.on('routeChangeStart', handleRouteChange);
-        return () => {
-            router.events?.off('routeChangeStart', handleRouteChange);
-        };
-    }, []);
+    if (!mounted) return null; // ✅ Skip SSR rendering entirely
 
     return (
-        <div className='w-screen h-[100dvh] top-0 left-0 flex overflow-hidden'>
+        <div className='w-screen h-[100dvh] flex overflow-hidden'>
             {loading && <Loader />}
-
-            {/* Chat Side */}
-            {sessionStarted && <ChatSide />}
-
-            {/* Account setup flow */}
+            {sessionStarted && <ChatSide setSessionStarted={setSessionStarted} setAccountSetup={setAccountSetup} />}
             {accountSetup && <AccountSetup setCreatingAccount={setCreatingAccount} setLoggingIn={setLoggingIn} setGuestMode={setGuestMode} setAccountSetup={setAccountSetup} />}
-            {creatingAccount && <CreateChatAccount setCreatingAccount={setCreatingAccount} setAccountSetup={setAccountSetup} setSessionStarted={setSessionStarted} />}
-            {loggingIn && <LoginChat setLoggingIn={setLoggingIn} setAccountSetup={setAccountSetup} setSessionStarted={setSessionStarted} />}
             {guestMode && <GuestMode setAccountSetup={setAccountSetup} setGuestMode={setGuestMode} setSessionStarted={setSessionStarted} />}
 
-            {/* Sidebar: Online users */}
-            <div className='hidden md:block md:flex-[1] max-w-[400px] border-l border-color-gray-500 bg-gray-700 flex flex-col overflow-y-auto'>
+            {/* Sidebar */}
+            <div className='hidden md:block md:flex-[1] max-w-[400px] border-l border-color-gray-500 bg-gray-900 flex flex-col overflow-y-auto'>
                 <div className='w-full text-center mt-3'>
                     <span className='text-gray-400 text-sm'>You can't see any of the chat messages</span>
                 </div>
-
                 <div className='w-full h-fit overflow-y-auto p-2'>
-                    <h1 className='text-xl text-gray-400 text-left mb-1 font-medium'>Online users</h1>
+                    <h1 className='text-xl text-gray-400 mb-1 font-medium'>Online users</h1>
                     {loading && <p>Loading online users...</p>}
-                    {!loading && onlineUsers.length === 0 && <p>Nobody is online</p>}
-
-                    {Array.isArray(onlineUsers) && onlineUsers.map((user, index) => (
-                        <div
-                            key={user.id || user._id || index}
-                            className='flex items-center w-full h-fit bg-gray-500 hover:bg-gray-600 rounded-md p-3 transition duration-300 text-color-light mb-2'
-                        >
-                            <h2 className='text-lg w-fit'>{user.fullName}</h2>
+                    {!loading && onlineUsers.length === 0 && <p className='text-color-gray-400'>Nobody is online</p>}
+                    {onlineUsers.map((user, index) => (
+                        <div key={user.id || user._id || index} className='flex items-center bg-gray-500 hover:bg-gray-600 rounded-md p-3 mb-2'>
+                            <h2 className='text-lg'>{user.fullName}</h2>
                             <span className='w-3 h-3 rounded-full ml-2 bg-color-success'></span>
                         </div>
                     ))}

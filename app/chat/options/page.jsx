@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
@@ -18,10 +18,15 @@ import {
 } from "@mui/icons-material";
 import DownloadChat from "@/components/chatbot/options/DownloadChat";
 import DeleteChat from "@/components/chatbot/options/DeleteChat";
+import Spinner from "@/components/Spinner";
 
 const Page = () => {
     const [selectedSection, setSelectedSection] = useState("personal");
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => setMounted(true), []);
+
 
     const menuItems = [
         { key: "personal", label: "Personal Details", icon: <PersonIcon /> },
@@ -72,6 +77,7 @@ const Page = () => {
                 <h2 className="text-lg font-semibold">Settings</h2>
                 <button onClick={() => setMobileMenuOpen(true)} className="p-2 text-gray-200">
                     <MenuIcon fontSize="large" />
+
                 </button>
             </div>
 
@@ -105,7 +111,7 @@ const Page = () => {
                             </button>
                             <h2 className="text-lg font-semibold mb-4">Settings</h2>
                             <nav className="space-y-2">
-                                {menuItems.map((item) => (
+                                {Array.isArray(menuItems) && menuItems.map((item) => (
                                     <button
                                         key={item.key}
                                         onClick={() => {
@@ -128,7 +134,11 @@ const Page = () => {
             </AnimatePresence>
 
             {/* Content */}
-            <main className="flex-1 p-2 md:p-6 mx-auto bg-gray-900 w-fit overflow-y-auto">{renderContent()}</main>
+            <main className="flex-1 p-2 md:p-6 mx-auto bg-gray-900 w-fit overflow-y-auto">
+                <Suspense fallback={<Spinner />}>
+                    {mounted ? renderContent() : null}
+                </Suspense>
+            </main>
         </div>
     );
 };

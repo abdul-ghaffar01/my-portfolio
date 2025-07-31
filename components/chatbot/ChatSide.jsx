@@ -9,8 +9,10 @@ import useSocketStore from '@/store/chatSocketStore';
 import Spinner from '../Spinner';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import LogoutIcon from '@mui/icons-material/Logout';
 
-const ChatSide = () => {
+const ChatSide = ({ setSessionStarted, setAccountSetup }) => {
     const textareaRef = useRef(null);
     const endRef = useRef(null);
     const scrollRef = useRef(null);
@@ -18,7 +20,9 @@ const ChatSide = () => {
     const [messageText, setMessageText] = useState('');
     const [isMobile, setIsMobile] = useState(false);
     const [loadingHistory, setLoadingHistory] = useState(true);
-    const [botReplyEnabled, setBotReplyEnabled] = useState(true)
+    const [botReplyEnabled, setBotReplyEnabled] = useState(true);
+
+    const [logoutLoading, setLogoutLoading] = useState(false);
     // Extracting state and actions from chat store
     const {
         userId,
@@ -124,13 +128,21 @@ const ChatSide = () => {
         }
     };
 
+    const handleLogout = () => {
+        setLogoutLoading(true)
+        localStorage.removeItem("jwt");
+        setToken("");
 
-    const goToOptions = () => {
-        router.push("/chat/options")
-    }
 
+        if (socket && socket.connected) {
+            socket.disconnect(); // 🔌 Disconnect socket
+            console.log("Socket disconnected on logout");
+            setSessionStarted(false)
+            setAccountSetup(true)
 
-
+        }
+        setLogoutLoading(false)
+    };
     return (
         <div className='flex-[2] w-full flex flex-col'>
             {(!socket) ? (
@@ -139,7 +151,7 @@ const ChatSide = () => {
                 </div>
             ) : (
                 <>
-                    <div className='w-full flex items-center justify-between p-2 bg-color-gray-700 shrink-0'>
+                    <div className='w-full h-[50px] flex items-center justify-between p-2 bg-color-gray-700 shrink-0'>
                         <div className='flex items-center gap-2'>
                             <h1 className='text-lg text-color-gray-100 font-medium flex gap-1'>Abdul Ghaffar - {botReplyEnabled ? <p>Bot</p> : (
                                 <div className='flex gap-2 items-center'>
@@ -148,10 +160,17 @@ const ChatSide = () => {
                                 </div>
                             )}</h1>
                         </div>
-                        <div className='flex items-center gap-2'>
+                        <div className='flex h-full items-center gap-2'>
 
-                            <button onClick={goToOptions} className='text-color-dark bg-color-light rounded-full p-1'>
+                            {/* Show options */}
+                            <Link href="/chat/options" className='text-color-gray-400 rounded-full p-1'>
                                 <MoreVertIcon />
+                            </Link>
+                            {/* Logout button */}
+                            <button onClick={handleLogout} className='text-color-gray-400 w-[50px] rounded-full p-1' disabled={logoutLoading}>
+                                {logoutLoading ? (
+                                    <Spinner />
+                                ) : <LogoutIcon />}
                             </button>
 
                         </div>

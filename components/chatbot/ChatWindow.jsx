@@ -1,12 +1,11 @@
 
-import React from 'react'
 import Message from './Message'
 import NewChatCard from './NewChatCard'
 import { format } from 'date-fns';
 
 const ChatWindow = ({ messages, endRef, scrollRef }) => {
   return (
-    <div ref={scrollRef} className='flex flex-col h-full overflow-auto max-h-full pb-2 bg-gray-900'>
+    <div ref={scrollRef} className='flex flex-col h-full overflow-auto max-h-full p-2 bg-gray-900'>
 
       {/* Load older messages */}
       {/* {hasMoreMessages &&

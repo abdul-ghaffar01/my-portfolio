@@ -1,11 +1,15 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useChatStore from "@/store/chatStore";
 import { Delete as DeleteIcon, Warning as WarningIcon } from "@mui/icons-material";
 
 const DeleteChat = ({ setSelectedSection }) => {
     const { messages, setMessages } = useChatStore();
     const [showWarning, setShowWarning] = useState(false);
+    const [mounted, setMounted] = useState(false);
+    useEffect(() => setMounted(true), []);
+    if (!mounted) return null;
+
 
     const handleChatDelete = () => {
         setMessages([]);
