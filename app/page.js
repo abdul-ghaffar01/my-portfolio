@@ -24,7 +24,7 @@ export default function page() {
   }, []);
   
   return (
-    <div className="w-screen overflow-hidden">
+    <div className="w-screen overflow-hidden bg-gray-900">
       {loading ? <Loader /> :
         (<>
           {/* <Navbar /> */}
