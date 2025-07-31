@@ -90,7 +90,7 @@ const DeleteChat = ({ setSelectedSection }) => {
             </div>
 
             {/* Delete Chat Action */}
-            <div className="md:col-span-2 fl{messages.length}ex flex-col justify-start">
+            <div className="md:col-span-2 flex flex-col justify-start">
                 <div className="flex mb-4 md:w-fit w-full">
                     <button
                         disabled={messageCount === 0}
