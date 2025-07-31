@@ -153,7 +153,7 @@ const ChatSide = ({ setSessionStarted, setAccountSetup }) => {
                 <>
                     <div className='w-full h-[50px] flex items-center justify-between p-2 bg-color-gray-700 shrink-0'>
                         <div className='flex items-center gap-2'>
-                            <h1 className='text-lg text-color-gray-100 font-medium flex gap-1'>Abdul Ghaffar - {botReplyEnabled ? <p>Bot</p> : (
+                            <h1 className='text-lg text-color-gray-400 font-medium flex gap-1'>Abdul Ghaffar - {botReplyEnabled ? <p>Bot</p> : (
                                 <div className='flex gap-2 items-center'>
                                     <p>Real</p>
                                     <div className='w-3 h-3 rounded-full bg-color-success'></div>

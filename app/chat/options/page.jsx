@@ -49,6 +49,7 @@ const Page = () => {
             default: return <p className="text-gray-200">🚧 Coming soon...</p>;
         }
     };
+    if (!mounted) return null
 
     return (
         <div className="md:flex h-screen bg-gray-900 text-gray-200">
@@ -134,11 +135,16 @@ const Page = () => {
             </AnimatePresence>
 
             {/* Content */}
-            <main className="flex-1 p-2 md:p-6 mx-auto bg-gray-900 w-fit overflow-y-auto">
-                <Suspense fallback={<Spinner />}>
-                    {mounted ? renderContent() : null}
-                </Suspense>
+            <main className="flex-1 p-2 md:p-6 mx-auto bg-gray-900 w-full overflow-y-auto">
+                {!mounted ? (
+                    <Spinner /> // Show spinner until mounted
+                ) : (
+                    <Suspense fallback={<Spinner />}>
+                        {renderContent()}
+                    </Suspense>
+                )}
             </main>
+
         </div>
     );
 };

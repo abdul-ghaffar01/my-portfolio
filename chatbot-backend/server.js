@@ -17,6 +17,8 @@ import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import session from "express-session";
 import jwt from "jsonwebtoken"
 import crypto from "crypto";
+import { updatePersonalDetails } from './controllers/updateInfoController.js';
+import { verifyAuthMiddleware } from './middlewares/verifyAuth.js';
 
 dotenv.config();
 
@@ -57,6 +59,7 @@ passport.deserializeUser((user, done) => done(null, user));
 app.post('/login', loginController);
 app.post('/signup', signupController);
 app.post('/signup-guest', guestSignupController);
+app.put('/update-info', verifyAuthMiddleware, updatePersonalDetails)
 app.post('/jwtverify', jwtVerifyController);
 app.post('/adminlogin', adminLoginController)
 // Login Route

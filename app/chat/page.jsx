@@ -2,8 +2,6 @@
 import { useEffect, useState } from 'react';
 import ChatSide from '@/components/chatbot/ChatSide';
 import AccountSetup from '@/components/chatbot/AccountSetup';
-import CreateChatAccount from '@/components/chatbot/CreateChatAccount';
-import LoginChat from '@/components/chatbot/LoginChat';
 import GuestMode from '@/components/chatbot/GuestMode';
 import { connectSocketReadOnly } from '@/utils/socket';
 import Loader from '@/components/Loader';
