@@ -1,12 +1,34 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Download as DownloadIcon, Chat as ChatIcon } from "@mui/icons-material";
 import useChatStore from "@/store/chatStore";
+import useSocketStore from "@/store/chatSocketStore";
+import { connectSocketWithUser } from "@/utils/socket";
 
 const DownloadChat = () => {
-    const { messages } = useChatStore();
+    const { socket } = useSocketStore();
+    const [messages, setMessages] = useState([])
     const [fileType, setFileType] = useState("txt");
     const [limit, setLimit] = useState(100);
+
+
+    useEffect(() => {
+        const token = localStorage.getItem("jwt");
+
+        const socket = connectSocketWithUser(token)
+        // Request last 20 messages
+        socket.emit("get_last_messages", { limit });
+
+        // Listen for response
+        socket.on("last_messages", (messages) => {
+            setMessages(messages)
+        });
+
+        // Error handler
+        socket.on("error", (err) => console.error(err));
+
+        return () => socket.disconnect();
+    }, [limit]);
 
     // Filter and limit messages
     const getFilteredMessages = () => {

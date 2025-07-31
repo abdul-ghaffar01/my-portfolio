@@ -12,7 +12,7 @@ const messageSchema = new mongoose.Schema({
   },
   sender: {
     type: String,
-    enum: ['user', 'chatbot', 'Abdul Ghaffar', "info"],
+    enum: ['user', 'chatbot', 'Abdul Ghaffar', 'info'],
     required: true,
   },
   to: {
@@ -23,6 +23,10 @@ const messageSchema = new mongoose.Schema({
   sentAt: {
     type: Date,
     default: Date.now,
+  },
+  isDeleted: {
+    type: Boolean,
+    default: false,
   },
 });
 

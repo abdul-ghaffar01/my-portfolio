@@ -6,14 +6,64 @@ import { Delete as DeleteIcon, Warning as WarningIcon } from "@mui/icons-materia
 const DeleteChat = ({ setSelectedSection }) => {
     const { messages, setMessages } = useChatStore();
     const [showWarning, setShowWarning] = useState(false);
-    const [mounted, setMounted] = useState(false);
-    useEffect(() => setMounted(true), []);
-    if (!mounted) return null;
+    const [serverResponse, setServerResponse] = useState(null); // ✅ For server response modal
+    const [messageCount, setMessageCount] = useState(0);
 
 
-    const handleChatDelete = () => {
-        setMessages([]);
-        setShowWarning(false);
+
+    useEffect(() => {
+        const fetchMessageCount = async () => {
+            try {
+                const token = localStorage.getItem("jwt"); // ✅ JWT from localStorage
+                const res = await fetch(`${process.env.NEXT_PUBLIC_CHATBOT_BACKEND_URL}/msg-count`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+
+                const data = await res.json();
+
+                if (!res.ok) throw new Error(data.message || "Failed to fetch count");
+
+                setMessageCount(data.count); // ✅ Store count in state
+            } catch (error) {
+                console.error("Error fetching message count:", error.message);
+            }
+        };
+
+        fetchMessageCount();
+    }, []);
+
+
+    const handleChatDelete = async () => {
+        try {
+            const token = localStorage.getItem("jwt"); // ✅ JWT token stored locally
+            console.log(`${process.env.NEXT_PUBLIC_CHATBOT_BACKEND_URL}/delete-chat`)
+            const res = await fetch(`${process.env.NEXT_PUBLIC_CHATBOT_BACKEND_URL}/delete-chat`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                throw new Error(data.message || "Failed to delete chat.");
+            }
+            console.log(data)
+
+            setMessages([]); // Clear chat locally
+            setMessageCount(0)
+            setServerResponse(data.message); // Show server message
+        } catch (error) {
+            setServerResponse(error.message || "Failed to delete chat.");
+        } finally {
+            setShowWarning(false);
+        }
     };
 
     return (
@@ -22,7 +72,7 @@ const DeleteChat = ({ setSelectedSection }) => {
             <div className="bg-gray-800 rounded-lg shadow p-4 border border-gray-700 mb-5">
                 <h2 className="text-lg font-semibold mb-4">Chat Summary</h2>
                 <p className="text-gray-300">
-                    Total messages: <strong>{messages.length}</strong>
+                    Total messages: <strong>{messageCount}</strong>
                 </p>
                 <p className="text-gray-300">
                     Last message:{" "}
@@ -40,13 +90,13 @@ const DeleteChat = ({ setSelectedSection }) => {
             </div>
 
             {/* Delete Chat Action */}
-            <div className="md:col-span-2 flex flex-col justify-start">
+            <div className="md:col-span-2 fl{messages.length}ex flex-col justify-start">
                 <div className="flex mb-4 md:w-fit w-full">
                     <button
-                        disabled={messages.length === 0}
+                        disabled={messageCount === 0}
                         onClick={() => setShowWarning(true)}
                         className={`flex items-center justify-center w-full gap-2 px-4 py-2 rounded-md font-medium transition 
-                        ${messages.length === 0
+                        ${messageCount === 0
                                 ? "bg-gray-700 text-gray-500 cursor-not-allowed"
                                 : "bg-red-600 hover:bg-red-700 text-white"}`}
                     >
@@ -79,6 +129,21 @@ const DeleteChat = ({ setSelectedSection }) => {
                                     Delete
                                 </button>
                             </div>
+                        </div>
+                    </div>
+                )}
+
+                {/* ✅ Server Response Modal */}
+                {serverResponse && (
+                    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 z-50">
+                        <div className="bg-gray-800 rounded-lg shadow-lg p-6 m-2 w-full max-w-sm border border-gray-700 text-center">
+                            <p className="text-gray-200 mb-4">{serverResponse}</p>
+                            <button
+                                onClick={() => setServerResponse(null)}
+                                className="px-4 py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white transition"
+                            >
+                                OK
+                            </button>
                         </div>
                     </div>
                 )}

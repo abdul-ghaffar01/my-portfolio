@@ -32,13 +32,7 @@ const Page = () => {
         { key: "personal", label: "Personal Details", icon: <PersonIcon /> },
         { key: "download", label: "Download Chat", icon: <DownloadIcon /> },
         { key: "delete", label: "Delete Chat", icon: <DeleteIcon /> },
-        { key: "account", label: "Account Settings", icon: <SettingsIcon /> },
-        { key: "security", label: "Security", icon: <LockIcon /> },
-        { key: "notifications", label: "Notifications", icon: <NotificationsIcon /> },
-        { key: "billing", label: "Billing & Payments", icon: <PaymentIcon /> },
-        { key: "language", label: "Language & Region", icon: <LanguageIcon /> },
         { key: "appearance", label: "Appearance", icon: <PaletteIcon /> },
-        { key: "help", label: "Help & Support", icon: <HelpOutlineIcon /> },
     ];
 
     const renderContent = () => {

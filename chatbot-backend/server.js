@@ -19,6 +19,8 @@ import jwt from "jsonwebtoken"
 import crypto from "crypto";
 import { updatePersonalDetails } from './controllers/updateInfoController.js';
 import { verifyAuthMiddleware } from './middlewares/verifyAuth.js';
+import { deleteAllMessages } from './controllers/deleteChatController.js';
+import { getMessageCount } from './controllers/msgCountController.js';
 
 dotenv.config();
 
@@ -60,6 +62,8 @@ app.post('/login', loginController);
 app.post('/signup', signupController);
 app.post('/signup-guest', guestSignupController);
 app.put('/update-info', verifyAuthMiddleware, updatePersonalDetails)
+app.put('/delete-chat', verifyAuthMiddleware, deleteAllMessages)
+app.get('/msg-count', verifyAuthMiddleware, getMessageCount)
 app.post('/jwtverify', jwtVerifyController);
 app.post('/adminlogin', adminLoginController)
 // Login Route
@@ -87,7 +91,6 @@ app.get(
                     password: strongPassword, // store hashed if using authentication
                 });
             }
-            console.log("user google", user)
 
             // ✅ Create JWT with our own DB userId
             const token = jwt.sign(
@@ -128,7 +131,6 @@ const broadcastOnlineUsers = () => {
 io.on('connection', async (socket) => {
     const token = socket.handshake.query.token;
     const decoded = jwt_verify(token); // Verify token
-    console.log(decoded)
     const userId = decoded?.userId || null;
     const isAdmin = decoded?.role === "admin"; // Role should be in token
 
@@ -159,9 +161,14 @@ io.on('connection', async (socket) => {
 
             // ✅ Send user's own chat history (Bot + User)
             const history = await Message.find({
-                $or: [
-                    { userId: userId },
-                    { to: userId }
+                $and: [
+                    { isDeleted: false }, // Only non-deleted messages
+                    {
+                        $or: [
+                            { userId: userId }, // Sent by user
+                            { to: userId }      // Received by user
+                        ]
+                    }
                 ]
             }).sort({ sentAt: 1 }).limit(1000); // Oldest first
 
@@ -174,9 +181,6 @@ io.on('connection', async (socket) => {
     // ✅ Send Message (User -> Bot -> Admin Notification)
     socket.on('sendMessage', async (data) => {
         try {
-            console.log("Incoming data:", data);
-
-            console.log("the user id", userId)
             // Save user's message
             const savedUserMessage = await Message.create({
                 userId: userId,
@@ -223,6 +227,25 @@ io.on('connection', async (socket) => {
         }
     });
 
+    // Event: Fetch last N messages
+    socket.on("get_last_messages", async ({ limit }) => {
+        try {
+            // ✅ Fetch last N messages (only user's messages, not deleted)
+            const messages = await Message.find({
+                $and: [
+                    { isDeleted: false },
+                    { $or: [{ userId }, { to: userId }] }
+                ]
+            })
+                .sort({ sentAt: -1 }) // Newest first
+                .limit(limit || 10); // Default to 10 if no limit provided
+            // ✅ Send messages back to client
+            socket.emit("last_messages", messages.reverse()); // Reverse to oldest-first order
+        } catch (error) {
+            socket.emit("error", { message: "Failed to fetch messages", error: error.message });
+        }
+    });
+
     // ✅ Admin: Fetch All Chats (latest per user)
     socket.on('getAllChats', async () => {
         try {
@@ -261,7 +284,6 @@ io.on('connection', async (socket) => {
     // ✅ Admin: Fetch Chat History of Specific User
     socket.on("chatHistoryForAdmin", async (targetUserId) => {
         try {
-            console.log(`📥 Admin requested chat history for: ${targetUserId}`);
 
             const history = await Message.find({
                 $or: [
@@ -278,7 +300,6 @@ io.on('connection', async (socket) => {
     });
     // Admin toggles bot replies for a user
     socket.on('toggleBotReply', async ({ targetUserId, enabled }) => {
-        console.log(targetUserId, enabled);
         for (let [sockId, info] of onlineUsers) {
             if (info.userId.toString() === targetUserId.toString()) {
                 info.botRepliesEnabled = enabled; // ✅ Toggle in memory
@@ -308,7 +329,6 @@ io.on('connection', async (socket) => {
                 if (adminSocketId) {
                     io.to(adminSocketId).emit("adminReceiveMessage", infoMessage);
                 }
-                console.log(`⚙️ Bot replies ${enabled ? 'enabled' : 'disabled'} for ${targetUserId}`);
                 break;
             }
         }
@@ -317,7 +337,6 @@ io.on('connection', async (socket) => {
     // ✅ Admin sends a message to a specific user
     socket.on("adminSendMessage", async ({ targetUserId, content }) => {
         try {
-            console.log(`📨 Admin sending message to user: ${targetUserId}`);
 
             // Save message in DB (sender: admin)
             const adminMessage = await Message.create({
@@ -354,12 +373,10 @@ io.on('connection', async (socket) => {
 
         // ✅ Check if admin disconnected
         if (userSockets.get("admin") === socket.id) {
-            console.log("⚠️ Admin disconnected. Will re-enable bot replies in 5 minutes...");
             userSockets.delete("admin");
 
             // Wait for 5 minutes before re-enabling bot replies
             setTimeout(async () => {
-                console.log("⏳ 5 minutes passed. Re-enabling bot replies for all users...");
 
                 for (let [sockId, info] of onlineUsers) {
                     onlineUsers.set(sockId, info);
