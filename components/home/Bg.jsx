@@ -1,48 +1,41 @@
-import { animate, motion } from "framer-motion"
-
-const bgVariants = {
-    // initial: {},
-    // animate: {},
-    // exit: {},
-    // hover: {},
-    // inView: {},
-    initial: { rotate: 0 },
-    animate: {
-        rotate: 360,
-        transition: {
-            duration: 20,
-            repeat: Infinity,
-            repeatType: "loop",
-            ease: "linear"
-        },
-    },
-    exit: {
-        rotate: 0
-    }
-
-}
+import { motion } from "framer-motion";
 
 const Bg = () => {
+  return (
+    <div className="absolute inset-0 w-full h-full overflow-hidden z-0 bg-gray-950">
+      {/* Diagonal glowing streaks */}
+      <motion.div
+        initial={{ x: "-50%" }}
+        animate={{ x: "50%" }}
+        transition={{ duration: 20, repeat: Infinity, repeatType: "reverse", ease: "linear" }}
+        className="absolute top-1/4 w-[200%] h-[4px] bg-gradient-to-r from-transparent via-blue-500/40 to-transparent rotate-[10deg]"
+      ></motion.div>
 
-    return (
-        <motion.div variants={bgVariants}
-            style={{
-                transformOrigin: 'center',  // Ensures rotation happens around the center without affecting the layout
-                willChange: 'transform' // Optimizes performance
-            }}
-            exit="exit" initial="initial" animate="animate" className='relative w-full h-full bg-transparent  blur-[100px] overflow-hidden z-[0] flex items-center justify-center ' >
-            {/* Center circle */}
-            <div className="rounded-full w-[25%] h-[50%] bg-gradient-to-br from-color-900 to-color-500 z-[-1]"></div>
+      <motion.div
+        initial={{ x: "50%" }}
+        animate={{ x: "-50%" }}
+        transition={{ duration: 25, repeat: Infinity, repeatType: "reverse", ease: "linear" }}
+        className="absolute bottom-1/3 w-[200%] h-[4px] bg-gradient-to-r from-transparent via-blue-400/30 to-transparent -rotate-[8deg]"
+      ></motion.div>
 
-            {/* Lines */}
-            <div className="absolute w-full h-full flex flex-col items-center justify-center">
-                <div className="absolute w-full h-[55px] bg-gradient-to-r from-color-900 via-color-700 to-color-500"></div>
-                <div className="absolute w-full rotate-45 h-[55px] bg-gradient-to-r from-color-900 via-color-700 to-color-900"></div>
-                <div className="absolute w-full rotate-90 h-[55px] bg-gradient-to-r from-color-900 via-color-700 to-color-900"></div>
-                <div className="absolute w-full rotate-[135deg] h-[55px] bg-gradient-to-r from-color-900 via-color-700 to-color-900"></div>
-            </div>
-        </motion.div>
-    )
-}
+      {/* Floating glass shards */}
+      <motion.div
+        initial={{ rotate: 0 }}
+        animate={{ rotate: 360 }}
+        transition={{ duration: 90, repeat: Infinity, ease: "linear" }}
+        className="absolute w-[150%] h-[150%] -top-1/4 -left-1/4"
+      >
+        <div className="absolute w-[300px] h-[400px] bg-white/5 backdrop-blur-2xl border border-white/10 rounded-2xl rotate-[8deg] left-[15%] top-[10%] shadow-[0_0_30px_rgba(59,130,246,0.15)]"></div>
+        <div className="absolute w-[250px] h-[350px] bg-white/5 backdrop-blur-2xl border border-white/10 rounded-3xl -rotate-[12deg] right-[20%] bottom-[15%] shadow-[0_0_30px_rgba(59,130,246,0.15)]"></div>
+        <div className="absolute w-[200px] h-[300px] bg-white/5 backdrop-blur-2xl border border-white/10 rounded-xl rotate-[18deg] left-[40%] top-[40%] shadow-[0_0_30px_rgba(59,130,246,0.2)]"></div>
+      </motion.div>
 
-export default Bg
+      {/* Ambient Glows */}
+      <div className="absolute top-1/3 left-1/4 w-[400px] h-[400px] rounded-full bg-blue-500/20 blur-[160px]"></div>
+      <div className="absolute bottom-1/4 right-1/3 w-[350px] h-[350px] rounded-full bg-gray-600/20 blur-[140px]"></div>
+      <div className="absolute top-1/2 left-1/2 w-[600px] h-[600px] rounded-full bg-blue-400/10 blur-[250px] -translate-x-1/2 -translate-y-1/2"></div>
+    </div>
+  );
+};
+
+export default Bg;
