@@ -24,7 +24,7 @@ export const guestSignupController = async (req, res) => {
 
     // Generate JWT
     const token = jwt.sign(
-      { userId: newUser._id, email: newUser.email },
+      { userId: newUser._id, email: newUser.email, fullName: newUser.fullName },
       process.env.JWT_SECRET,
     );
 

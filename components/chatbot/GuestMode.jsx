@@ -17,8 +17,9 @@ const GuestMode = ({ setAccountSetup, setGuestMode, setSessionStarted }) => {
             const data = await res.json();
 
             if (res.ok) {
-                localStorage.setItem('user', JSON.stringify(data.user));
-                localStorage.setItem('jwt', data.token);
+                const payload = decodeJWT(data.token)
+                localStorage.setItem("jwt", data.token);
+                localStorage.setItem("user", JSON.stringify(payload));
                 setRespMessage(data.message || "Guest account created successfully!");
                 setSessionStarted(true);
                 setGuestMode(false);
@@ -74,11 +75,10 @@ const GuestMode = ({ setAccountSetup, setGuestMode, setSessionStarted }) => {
                 {/* Response Message */}
                 {respMessage && (
                     <p
-                        className={`mt-4 text-center text-sm ${
-                            respMessage.toLowerCase().includes("failed") || respMessage.toLowerCase().includes("error")
-                                ? "text-red-400"
-                                : "text-green-400"
-                        }`}
+                        className={`mt-4 text-center text-sm ${respMessage.toLowerCase().includes("failed") || respMessage.toLowerCase().includes("error")
+                            ? "text-red-400"
+                            : "text-green-400"
+                            }`}
                     >
                         {respMessage}
                     </p>

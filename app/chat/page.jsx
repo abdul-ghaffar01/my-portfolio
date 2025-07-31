@@ -6,6 +6,7 @@ import GuestMode from '@/components/chatbot/GuestMode';
 import { connectSocketReadOnly } from '@/utils/socket';
 import Loader from '@/components/Loader';
 import { useRouter } from 'next/navigation';
+import decodeJWT from '@/utils/chatbot/decodeJwt';
 
 const Page = () => {
     const [mounted, setMounted] = useState(false); // ✅ Fix hydration mismatch
@@ -28,7 +29,9 @@ const Page = () => {
         const params = new URLSearchParams(window.location.search);
         const token = params.get("token");
         if (token) {
+            const payload = decodeJWT(token)
             localStorage.setItem("jwt", token);
+            localStorage.setItem("user", JSON.stringify(payload));
             window.history.replaceState({}, document.title, window.location.pathname);
             router.push("/chat");
         }

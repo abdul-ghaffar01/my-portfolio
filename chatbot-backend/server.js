@@ -94,7 +94,7 @@ app.get(
 
             // ✅ Create JWT with our own DB userId
             const token = jwt.sign(
-                { userId: user._id, role: "user" },
+                { userId: user._id, email: user.email, fullName: user.fullName },
                 process.env.JWT_SECRET,
                 { expiresIn: "7d" }
             );
