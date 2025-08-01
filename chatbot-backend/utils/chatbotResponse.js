@@ -1,5 +1,15 @@
-import chatbotData from '../training/train.json' assert { type: 'json' };
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import stringSimilarity from 'string-similarity';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const chatbotData = JSON.parse(
+    fs.readFileSync(path.join(__dirname, '../training/train.json'), 'utf-8')
+);
+
 
 export function getChatbotResponse(userMessage = '') {
     const input = userMessage.trim().toLowerCase();
@@ -20,6 +30,6 @@ export function getChatbotResponse(userMessage = '') {
 
     // Default fallback response
     const fallback = chatbotData.find(e => e.tags.includes('default'));
-    return fallback?.responses?.[Math.floor(Math.random() * fallback.responses.length)] 
+    return fallback?.responses?.[Math.floor(Math.random() * fallback.responses.length)]
         || "I'm not sure how to respond to that.";
 }
