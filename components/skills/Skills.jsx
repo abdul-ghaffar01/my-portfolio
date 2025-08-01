@@ -5,7 +5,7 @@ import Image from 'next/image';
 import data from "./data";
 
 const floatingBubbles = Array.from({ length: 15 }).map(() => ({
-  size: 40 + Math.random() * 70,
+  size: 30 + Math.random() * 60,
   left: Math.random() * 100,
   top: Math.random() * 100,
   delay: Math.random() * 5,
@@ -17,18 +17,18 @@ const Skills = () => {
 
   useEffect(() => {
     controls.start((i) => ({
-      y: [0, -30, 0],
-      x: [0, i % 2 === 0 ? 15 : -15, 0],
+      y: [0, -20, 0],
+      x: [0, i % 2 === 0 ? 10 : -10, 0],
       transition: { duration: floatingBubbles[i].duration, delay: floatingBubbles[i].delay, repeat: Infinity, ease: "easeInOut" },
     }));
   }, [controls]);
 
   return (
-    <section id="skills" className="relative w-full min-h-[700px] flex flex-col items-center overflow-hidden py-20">
-      {/* Tilted Background (Lowest Layer) */}
-      <div className="absolute w-[200vw] h-[160%] bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rotate-[-4deg] top-[-80px] z-[0]" />
+    <section id="skills" className="relative w-full min-h-[650px] flex flex-col items-center overflow-hidden py-16">
+      {/* Sticky Glass Background */}
+      <div className="absolute inset-0 z-0 bg-gradient-to-br from-gray-900/90 via-gray-950/95 to-gray-900/90 backdrop-blur-[6px] sticky top-0" />
 
-      {/* Floating Bubbles (Above Tilted Background) */}
+      {/* Floating Bubbles */}
       <div className="absolute inset-0 z-[1] pointer-events-none">
         {floatingBubbles.map((bubble, i) => (
           <motion.div
@@ -39,7 +39,7 @@ const Skills = () => {
             style={{
               width: `${bubble.size}px`,
               height: `${bubble.size}px`,
-              background: `radial-gradient(circle, rgba(59,130,246,0.25), rgba(147,51,234,0.2))`,
+              background: `radial-gradient(circle, rgba(59,130,246,0.2), rgba(147,51,234,0.15))`,
               left: `${bubble.left}%`,
               top: `${bubble.top}%`,
             }}
@@ -47,14 +47,14 @@ const Skills = () => {
         ))}
       </div>
 
-      {/* Content Layer (Above Bubbles) */}
+      {/* Content */}
       <div className="relative z-[2] flex flex-col items-center">
         {/* Heading */}
         <motion.h2 
           initial={{ opacity: 0, y: 40 }} 
           whileInView={{ opacity: 1, y: 0, transition: { duration: 0.6 } }}
           viewport={{ once: true }}
-          className="text-4xl md:text-5xl font-extrabold text-blue-400 mt-10"
+          className="text-3xl md:text-4xl font-extrabold text-blue-400 mt-8"
         >
           My Skills
         </motion.h2>
@@ -64,40 +64,40 @@ const Skills = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0, transition: { duration: 0.6, delay: 0.2 }}}
           viewport={{ once: true }}
-          className="mt-4 text-gray-300 max-w-2xl text-center px-4 italic"
+          className="mt-3 text-gray-300 max-w-xl text-center px-4 text-sm italic"
         >
           Tools and technologies I use to craft modern, efficient, and scalable solutions.
         </motion.p>
 
-        {/* Skills Grid */}
+        {/* Skills Grid (Compact) */}
         <motion.div 
-          className="mt-14 flex flex-wrap justify-center gap-6 px-6 max-w-5xl"
+          className="mt-10 flex flex-wrap justify-center gap-4 px-4 max-w-4xl"
         >
           {data.map((item, index) => (
             <motion.div
               key={index}
-              initial={{ y: 50, opacity: 0 }}
-              whileInView={{ y: 0, opacity: 1, transition: { delay: index * 0.07, duration: 0.5, ease: "easeOut" }}}
+              initial={{ y: 40, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1, transition: { delay: index * 0.05, duration: 0.4, ease: "easeOut" }}}
               viewport={{ once: true }}
-              whileHover={{ scale: 1.08 }}
-              className="group relative flex items-center gap-3 px-6 py-4 rounded-xl 
-                        bg-gray-800/70 backdrop-blur-md border border-gray-700 
-                        hover:border-blue-500/50 hover:shadow-[0_0_20px_rgba(59,130,246,0.4)]
-                        transition-all duration-300 cursor-pointer"
+              whileHover={{ scale: 1.06 }}
+              className="group flex items-center gap-2 px-4 py-2 rounded-lg 
+                         bg-white/10 backdrop-blur-lg border border-gray-700 
+                         hover:border-blue-400 hover:shadow-[0_0_15px_rgba(59,130,246,0.4)]
+                         transition-all duration-300 cursor-pointer"
             >
-              {/* Icon Glow */}
-              <div className="relative flex items-center justify-center w-12 h-12 rounded-full 
-                              bg-gradient-to-br from-blue-500/20 to-purple-500/20 
-                              group-hover:from-blue-500/40 group-hover:to-purple-500/40">
+              {/* Smaller Icon */}
+              <div className="flex items-center justify-center w-9 h-9 rounded-full 
+                              bg-white/80 shadow-inner group-hover:scale-110 transition">
                 <Image 
                   src={item.img} 
-                  width={26} 
-                  height={26} 
+                  width={20} 
+                  height={20} 
                   alt={item.name} 
-                  className="brightness-125 group-hover:brightness-150"
+                  className="brightness-110"
                 />
               </div>
-              <p className="text-sm md:text-base font-semibold text-gray-200 group-hover:text-blue-400 transition">
+
+              <p className="text-xs md:text-sm font-semibold text-gray-200 group-hover:text-blue-400 transition">
                 {item.name}
               </p>
             </motion.div>
