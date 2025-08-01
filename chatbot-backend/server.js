@@ -21,6 +21,7 @@ import { updatePersonalDetails } from './controllers/updateInfoController.js';
 import { verifyAuthMiddleware } from './middlewares/verifyAuth.js';
 import { deleteAllMessages } from './controllers/deleteChatController.js';
 import { getMessageCount } from './controllers/msgCountController.js';
+import { chatbotController } from './controllers/chatbot.js';
 
 dotenv.config();
 
@@ -64,6 +65,7 @@ app.post('/signup-guest', guestSignupController);
 app.put('/update-info', verifyAuthMiddleware, updatePersonalDetails)
 app.put('/delete-chat', verifyAuthMiddleware, deleteAllMessages)
 app.get('/msg-count', verifyAuthMiddleware, getMessageCount)
+app.post('/chatbot-resp', chatbotController)
 app.post('/jwtverify', jwtVerifyController);
 app.post('/adminlogin', adminLoginController)
 // Login Route
@@ -189,7 +191,7 @@ io.on('connection', async (socket) => {
                 to: process.env.BOT_ACCOUNT_ID || "68860f0b7d694be675bae2ff"
             });
 
-            // Send message back to sender
+            // Send message back to sender (user)
             socket.emit('receiveMessage', savedUserMessage);
 
             // Notify admin in real-time
@@ -198,16 +200,28 @@ io.on('connection', async (socket) => {
                 io.to(adminSocketId).emit("adminReceiveMessage", savedUserMessage);
             }
 
-
-            // Send bot reply to user
+            // Send bot reply (if enabled)
             const recipientSocketId = userSockets.get(userId);
             const userInfo = onlineUsers.get(recipientSocketId);
-            // ✅ Send bot reply to user only if enabled
+
             if (recipientSocketId && userInfo?.botRepliesEnabled) {
-                // Bot Reply
+                // Fetch bot reply
+                const res = await fetch(`${process.env.CHATBOT_BACKEND_URL}/chatbot-resp`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${process.env.CHATBOT_API_TOKEN}`  
+                    },
+                    body: JSON.stringify({ message: data.content }),
+                });
+
+                const botData = await res.json();
+                const botReply = botData.reply || botData || "I'm here to help!";
+
+                // Save bot message
                 const savedBotMessage = await Message.create({
                     userId: process.env.BOT_ACCOUNT_ID || "68860f0b7d694be675bae2ff",
-                    content: "The bot is still under development.",
+                    content: botReply,
                     sender: "chatbot",
                     to: userId
                 });
@@ -220,12 +234,11 @@ io.on('connection', async (socket) => {
                     io.to(adminSocketId).emit("adminReceiveMessage", savedBotMessage);
                 }
             }
-
-
         } catch (err) {
             console.error('Message error:', err.message);
         }
     });
+
 
     // Event: Fetch last N messages
     socket.on("get_last_messages", async ({ limit }) => {
