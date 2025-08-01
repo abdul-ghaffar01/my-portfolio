@@ -9,7 +9,6 @@ import Loader from "@/components/Loader";
 import Projects from "@/components/projects/Projects";
 import Skills from "@/components/skills/Skills";
 import { useEffect, useRef, useState } from "react";
-import Loading from "./loading";
 
 export default function page() {
   const [loading, setLoading] = useState(true)
