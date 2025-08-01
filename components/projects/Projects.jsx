@@ -7,14 +7,15 @@ const Projects = () => {
   return (
     <section 
       id="projects" 
-      className="relative w-full bg-gray-950 text-gray-200 py-20 overflow-hidden"
+      className="relative w-full bg-[#0B0B0F] text-gray-200 py-20 overflow-hidden"
     >
-      {/* Background Accent Blobs */}
-      <div className="absolute -top-20 -left-20 w-[400px] h-[400px] bg-blue-500/10 rounded-full blur-[120px]"></div>
-      <div className="absolute bottom-0 right-0 w-[300px] h-[300px] bg-blue-400/10 rounded-full blur-[120px]"></div>
+      {/* Soft Static Light Accents */}
+      <div className="absolute -top-24 -left-32 w-[350px] h-[350px] rounded-full bg-blue-500/5"></div>
+      <div className="absolute top-1/3 right-[-100px] w-[250px] h-[250px] rounded-full bg-purple-500/5"></div>
+      <div className="absolute bottom-[-150px] left-1/3 w-[400px] h-[400px] rounded-full bg-blue-400/5"></div>
 
-      {/* Grid Overlay */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
+      {/* Grid Overlay - Ultra Subtle */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:50px_50px] pointer-events-none"></div>
 
       {/* Heading */}
       <div className="relative z-10 flex flex-col items-center">
@@ -35,8 +36,8 @@ const Projects = () => {
         ))}
       </div>
 
-      {/* Subtle Bottom Divider Glow */}
-      <div className="absolute bottom-0 left-0 w-full h-[120px] bg-gradient-to-t from-gray-950 to-transparent"></div>
+      {/* Bottom Fade Divider */}
+      <div className="absolute bottom-0 left-0 w-full h-[100px] bg-gradient-to-t from-[#0B0B0F] to-transparent"></div>
     </section>
   )
 }
