@@ -1,6 +1,7 @@
 export async function POST(request) {
     const body = await request.json();
     const { sessionId, input } = body
+    console.log("url", process.env.SEND_INPUT)
     try {
         // Requesting my cpp-server to start a process
         const resp = await fetch(process.env.SEND_INPUT, {
