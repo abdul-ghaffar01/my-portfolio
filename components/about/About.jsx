@@ -72,7 +72,7 @@ const About = () => {
           <div className="border-l-4 border-blue-500 pl-5">
             <h3 className="text-2xl font-bold text-blue-400 mb-4">Who am I?</h3>
             <p className="text-gray-300 text-[17px] leading-relaxed">
-              I'm <span className='font-semibold text-white'>Abdul Ghaffar</span>,
+              I' <span className='font-semibold text-white'>Abdul Ghaffar</span>,
               a backend-focused full-stack developer with a strong foundation in algorithms,
               scalable systems, and cloud computing. I’m pursuing a Bachelor's in Computer Science
               at SZABIST with a CGPA of 3.8 and two scholarships.

@@ -1,0 +1,29 @@
+# Node modules (will be installed in container)
+node_modules
+npm-debug.log
+yarn-error.log
+
+# Environment files (never copy secrets into image)
+.env
+.env.local
+.env.production
+.env.development
+
+# Build caches and temporary files
+*.log
+.cache
+.next
+out
+dist
+
+# OS/System files
+.DS_Store
+Thumbs.db
+
+# Git files
+.git
+.gitignore
+
+# Docker-related
+Dockerfile
+docker-compose.yml
