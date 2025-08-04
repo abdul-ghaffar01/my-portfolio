@@ -75,7 +75,7 @@ const About = () => {
               I'm <span className='font-semibold text-white'>Abdul Ghaffar</span>,
               a backend-focused full-stack developer with a strong foundation in algorithms,
               scalable systems, and cloud computing. I’m pursuing a Bachelor's in Computer Science
-              at SZABIST with a CGPA of 3.78 and two scholarships.
+              at SZABIST with a CGPA of 3.8 and two scholarships.
             </p>
             <p className="text-gray-400 mt-4">
               I specialize in TypeScript, Next.js, and NestJS, and I'm currently learning
