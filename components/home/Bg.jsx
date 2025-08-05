@@ -6,6 +6,7 @@ const Bg = () => {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    if (!window) return;
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile();
     window.addEventListener("resize", checkMobile);

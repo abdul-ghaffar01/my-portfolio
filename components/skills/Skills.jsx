@@ -1,109 +1,56 @@
-"use client";
-import React, { useEffect } from 'react';
-import { motion, useAnimation } from "framer-motion";
-import Image from 'next/image';
-import data from "./data";
+import React from 'react'
+import Heading from '../Heading'
+import { delay, motion } from "framer-motion"
+import Image from 'next/image'
+import data from "./data"
+import { duration } from '@mui/material'
 
-const floatingBubbles = Array.from({ length: 4 }).map(() => ({
-  size: 20 + Math.random() * 40,
-  left: Math.random() * 100,
-  top: Math.random() * 100,
-  delay: Math.random() * 4,
-  duration: 8 + Math.random() * 4,
-}));
 
 const Skills = () => {
-  const controls = useAnimation();
-
-  useEffect(() => {
-    controls.start((i) => ({
-      y: [0, -10, 0],
-      x: [0, i % 2 === 0 ? 6 : -6, 0],
-      transition: { duration: floatingBubbles[i].duration, delay: floatingBubbles[i].delay, repeat: Infinity, ease: "easeInOut" },
-    }));
-  }, [controls]);
-
   return (
-    <section 
-      id="skills" 
-      className="relative w-full min-h-[550px] flex flex-col items-center overflow-hidden py-16 bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950"
-    >
-      {/* Floating Subtle Bubbles */}
-      <div className="absolute inset-0 z-[1] pointer-events-none">
-        {floatingBubbles.map((bubble, i) => (
-          <motion.div
-            key={i}
-            custom={i}
-            animate={controls}
-            className="absolute rounded-full blur-2xl opacity-15"
-            style={{
-              width: `${bubble.size}px`,
-              height: `${bubble.size}px`,
-              background: `radial-gradient(circle, rgba(255,255,255,0.05), transparent)`,
-              left: `${bubble.left}%`,
-              top: `${bubble.top}%`,
-            }}
-          />
-        ))}
-      </div>
+    <div id='skills'
+      className='relative w-full min-h-[100dvh] bg-gray-900 h-fit flex flex-col items-center '>
+      <div className='w-[200vw] absolute h-[400px] bg-gray-900 z-[2] rotate-[-3deg] top-[-50px] '></div>
+      {/* All the content */}
+      <Heading
+        text="What I Bring to the Table"
+        color="text-gray-400"
+        lineColor="bg-gray-400"
+        className="z-[2] mt-10"
+      />
+      <motion.div
+        className='z-[3] mt-10 flex flex-col items-center max-w-[800px] text-center'
+      >
+        {/* Punch line */}
+        <p className='mt-3 text-color-gray-500 p-2 text-sm italic'>
+          Mastering the art of software development requires the right set of tools. From backend logic to frontend aesthetics, every technology I use plays a crucial role in transforming ideas into reality. Here’s a glimpse of my technical arsenal that helps me build, innovate, and optimize.
+        </p>
+        <div className="skills mt-10 flex justify-center w-full flex-wrap">
 
-      {/* Content */}
-      <div className="relative z-[2] flex flex-col items-center">
-        {/* Heading */}
-        <motion.h2 
-          initial={{ opacity: 0, y: 30 }} 
-          whileInView={{ opacity: 1, y: 0, transition: { duration: 0.6 } }}
-          viewport={{ once: true }}
-          className="text-3xl md:text-4xl font-bold text-gray-100"
-        >
-          My Skills
-        </motion.h2>
 
-        {/* Punchline */}
-        <motion.p 
-          initial={{ opacity: 0, y: 15 }}
-          whileInView={{ opacity: 1, y: 0, transition: { duration: 0.6, delay: 0.2 }}}
-          viewport={{ once: true }}
-          className="mt-2 text-gray-400 max-w-lg text-center px-4 text-sm italic"
-        >
-          Tools and technologies I use to craft efficient, scalable, and modern solutions.
-        </motion.p>
+          {data.map((item, index) => {
+            return (
+              <motion.div
+                key={index}
+                initial={{ y: 40, opacity: 0 }}
+                whileInView={{
+                  y: 0,
+                  opacity: 1,
+                  transition: { delay: (0.1 * index) + 0.5, }
+                }}
+                viewport={{ once: true, amount: "all" }}
+                className="relative m-3 bg-gray-400 group hover:bottom-2 p-2 rounded-md flex items-center justify-between gap-[10px] shadow-md border border-color-gray-400"
+              >
+                <Image src={item.img} width={30} height={30} alt={item.name} />
+                <p className="text-lg font-bold transition-all duration-200">{item.name}</p>
+              </motion.div>
+            );
+          })}
 
-        {/* Skills Wrap (Auto-width tags, centered) */}
-        <motion.div 
-          className="mt-10 flex flex-wrap justify-center gap-4 px-6 max-w-4xl"
-        >
-          {data.map((item, index) => (
-            <motion.div
-              key={index}
-              initial={{ y: 30, opacity: 0 }}
-              whileInView={{ y: 0, opacity: 1, transition: { delay: index * 0.04, duration: 0.4, ease: "easeOut" }}}
-              viewport={{ once: true }}
-              whileHover={{ scale: 1.05 }}
-              className="group flex items-center gap-2 px-4 py-2 rounded-md
-                         bg-gray-100/80 shadow-sm hover:shadow-md border border-gray-300/40
-                         transition-all duration-300 cursor-pointer w-auto"
-            >
-              {/* Icon */}
-              <div className="flex items-center justify-center w-8 h-8">
-                <Image 
-                  src={item.img} 
-                  width={18} 
-                  height={18} 
-                  alt={item.name} 
-                  className="brightness-100"
-                />
-              </div>
+        </div>
+      </motion.div >
+    </div >
+  )
+}
 
-              <p className="text-xs md:text-sm font-medium text-gray-800 group-hover:text-blue-600 transition">
-                {item.name}
-              </p>
-            </motion.div>
-          ))}
-        </motion.div>
-      </div>
-    </section>
-  );
-};
-
-export default Skills;
+export default Skills
