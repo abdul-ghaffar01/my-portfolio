@@ -1,194 +1,209 @@
-"use client"
-import React, { useEffect, useState, useRef } from 'react'
+"use client";
+import React, { useEffect, useState, useRef } from 'react';
+import { io } from "socket.io-client";
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
+import ReplayIcon from '@mui/icons-material/Replay';
+
+const SOCKET_URL = "http://localhost:4000";
+
 const Console = ({ project }) => {
     const [outputs, setOutputs] = useState([]);
+    const [cleanOutput, setCleanOutput] = useState([]);
     const [input, setInput] = useState("");
     const [showInput, setShowInput] = useState(true);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
+
     const outputRef = useRef(null);
     const fontContRef = useRef(null);
+    const socketRef = useRef(null);
+    const sessionIdRef = useRef(null);
 
-    // Auto-scroll to bottom when outputs change
-    useEffect(() => {
-        if (outputRef.current) {
-            outputRef.current.scrollTop = outputRef.current.scrollHeight;
-        }
-    }, [outputs]);
+    const connectSocket = () => {
+        setIsLoading(true);
+        setOutputs([]);
+        const socket = io(SOCKET_URL, { transports: ["websocket"] });
+        socketRef.current = socket;
 
+        socket.on("connect", () => {
+            console.log("Connected to exec-server");
+            socket.emit("start-process", project);
+        });
 
-    // Fetch output from the backend
-    const getOutput = async () => {
-        try {
-            const resp = await fetch('/api/cpp-server/get-output', {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    sessionId: localStorage.getItem("sessionId")
-                })
-            });
-            const result = await resp.json();
-            const outputsStringToArray = result.output ? result.output.split("\n") : []
-            setOutputs(outputsStringToArray);
-        } catch (error) {
-            console.error("Error fetching output:", error);
-        }
-    };
-
-    // Start the C++ process
-    const startApp = async () => {
-        try {
-            const resp = await fetch("/api/cpp-server/start-process", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ appName: project })
-            });
-            const result = await resp.json();
-            localStorage.setItem("sessionId", result.sessionId);
-        } catch (error) {
-            console.error("Error starting process:", error);
-        }
-    };
-
-    // Stop the C++ process
-    const stopProcess = async () => {
-        try {
-            const resp = await fetch("/api/cpp-server/stop-process", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ sessionId: localStorage.getItem("sessionId") })
-            });
-            const result = await resp.json();
-            setOutputs(prev => [...prev, "\n\nYou terminated the session."]);
-            setShowInput(false);
-        } catch (error) {
-            console.error("Error stopping process:", error);
-        }
-    };
-
-    // Handle component mount
-    useEffect(() => {
-        const initialize = async () => {
-            await startApp();
-            await getOutput();
+        socket.on("session-started", ({ sessionId }) => {
+            sessionIdRef.current = sessionId;
             setIsLoading(false);
-        };
-        initialize();
+            setShowInput(true);
+        });
 
-        // Add event listener for Ctrl + C
+        socket.on("output", (data) => {
+            setOutputs(prev => [...prev, ...data.split("\n")]);
+        });
+
+        socket.on("terminated", (info) => {
+            setOutputs(prev => [...prev, `[Process ended] ${info.reason || ""}`]);
+            setShowInput(false);
+        });
+
+        socket.on("disconnect", () => {
+            setShowInput(false);
+        });
+
+        socket.on("error", (err) => {
+            setOutputs(prev => [...prev, `[Error] ${err}`]);
+        });
+    };
+
+    useEffect(() => {
+        connectSocket();
+
         const handleKeyDown = (e) => {
             if ((e.ctrlKey || e.metaKey) && e.key === 'c') {
-                e.preventDefault(); // Prevent default behavior (e.g., copying text)
-                stopProcess();
+                e.preventDefault();
+                socketRef.current.emit("stop-process", sessionIdRef.current);
             }
         };
-
         document.addEventListener('keydown', handleKeyDown);
 
-        // Cleanup event listener on unmount
         return () => {
             document.removeEventListener('keydown', handleKeyDown);
+            socketRef.current?.disconnect();
         };
-    }, []);
+    }, [project]);
 
-    // Handle user input
-    const handleInput = async (e) => {
+    useEffect(() => {
+        const formatted = outputs
+            .flatMap(line => line.split("\n"))
+            .filter(line => line.trim() !== ">")
+            .map(line => ({
+                text: line,
+                type: line.toLowerCase().includes("error") 
+                    ? "error" 
+                    : line.toLowerCase().includes("warning") 
+                        ? "warning"
+                        : line.toLowerCase().includes("process ended") 
+                            ? "terminated" 
+                            : "normal"
+            }));
+        setCleanOutput(formatted);
+    }, [outputs]);
+
+    const handleInput = (e) => {
         e.preventDefault();
-        if (!input.trim()) return; // Ignore empty input
-
-        try {
-            const resp = await fetch("/api/cpp-server/send-input", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ sessionId: localStorage.getItem("sessionId"), input })
-            });
-            const result = await resp.json();
-
-            if (!result.terminated) {
-                await getOutput();
-            } else {
-                setOutputs((result.history + "\n\nProgram exited with exit code " + result.exitCode).split("\n"));
-                setShowInput(false);
-            }
-
-            setInput("");
-        } catch (error) {
-            console.error("Error sending input:", error);
-        }
+        if (!input.trim()) return;
+        socketRef.current.emit("send-input", { sessionId: sessionIdRef.current, input });
+        setOutputs((prev) => [...prev, "> " + input]);
+        setInput("");
     };
 
     return (
-        <div className="w-full min-h-[100dvh] bg-gray-900 text-slate-300 overflow-x-hidden pb-[120px]">
-            <div className='fixed bottom-0 left-0 w-full bg-gray-900 py-2'>
+        <div 
+            className="w-full min-h-[100vh] bg-gray-900 text-slate-300 font-mono overflow-hidden relative"
+            onClick={() => document.querySelector("input")?.focus()}
+        >
+            {/* Header */}
+            <div className="bg-gray-800 w-full h-[35px] flex items-center px-4 border-b border-gray-700 justify-between">
+                <div className="flex space-x-2">
+                    <span className="w-3 h-3 bg-red-500 rounded-full"></span>
+                    <span className="w-3 h-3 bg-yellow-400 rounded-full"></span>
+                    <span className="w-3 h-3 bg-green-500 rounded-full"></span>
+                </div>
+                <p className="text-gray-300 text-sm">Abdul Ghaffar Console</p>
+
+                {/* Restart Button - Always Visible */}
+                <button 
+                    onClick={() => { connectSocket(); }} 
+                    className="flex items-center space-x-1 bg-gray-700 hover:bg-gray-600 px-3 py-1 rounded text-sm text-green-400 transition"
+                >
+                    <ReplayIcon fontSize="small" /> <span>Restart</span>
+                </button>
+            </div>
+
+            {/* Console Output */}
+            <div 
+                ref={fontContRef} 
+                className="w-full h-[calc(100vh-120px)] p-4 text-sm overflow-y-auto custom-scrollbar"
+            >
+                <pre ref={outputRef} className="whitespace-pre-wrap leading-5">
+                    {cleanOutput.map((line, idx) => (
+                        <div key={idx} className={
+                            line.type === "error" ? "text-red-400" :
+                            line.type === "warning" ? "text-yellow-400" :
+                            line.type === "terminated" ? "text-green-400 italic" :
+                            "text-slate-300"
+                        }>
+                            {line.text}
+                        </div>
+                    ))}
+                </pre>
+            </div>
+
+            {/* Input */}
+            {showInput && !isLoading && (
+                <form 
+                    onSubmit={handleInput} 
+                    className="absolute bottom-[60px] w-full px-4 flex items-center"
+                >
+                    <span className="text-green-400 pr-2">&gt;</span>
+                    <input
+                        className="flex-1 bg-transparent outline-none caret-green-400 text-slate-200"
+                        value={input}
+                        onChange={(e) => setInput(e.target.value)}
+                        autoFocus
+                    />
+                </form>
+            )}
+
+            {/* Loading Overlay */}
+            {isLoading && (
+                <div className="absolute inset-0 flex flex-col items-center justify-center bg-gray-900 bg-opacity-95 z-50">
+                    <div className="w-8 h-8 border-4 border-gray-500 border-t-green-400 rounded-full animate-spin mb-4"></div>
+                    <p className="text-slate-400 text-lg">Starting app...</p>
+                </div>
+            )}
+
+            {/* Font Controls */}
+            <div className="fixed bottom-2 left-2 flex space-x-2">
                 <button
                     onClick={() => {
                         if (fontContRef.current) {
-                            let currentSize = parseInt(window.getComputedStyle(fontContRef.current).fontSize, 10);
-                            fontContRef.current.style.fontSize = `${currentSize - 1}px`; // Decrease font size
+                            let size = parseInt(window.getComputedStyle(fontContRef.current).fontSize, 10);
+                            fontContRef.current.style.fontSize = `${size - 1}px`;
                         }
                     }}
-                    className=" relative bottom-4 left-4 bg-gray-900 shadow-sm shadow-slate-400 rounded-full w-[50px] h-[50px] mx-2"
+                    className="bg-gray-800 hover:bg-gray-700 rounded-full w-[40px] h-[40px] flex items-center justify-center shadow"
                 >
                     <RemoveIcon />
                 </button>
                 <button
                     onClick={() => {
                         if (fontContRef.current) {
-                            let currentSize = parseInt(window.getComputedStyle(fontContRef.current).fontSize, 10);
-                            fontContRef.current.style.fontSize = `${currentSize + 1}px`; // Decrease font size
+                            let size = parseInt(window.getComputedStyle(fontContRef.current).fontSize, 10);
+                            fontContRef.current.style.fontSize = `${size + 1}px`;
                         }
                     }}
-                    className="relative bottom-4 left-4 bg-gray-900 shadow-sm shadow-slate-400 rounded-full w-[50px] h-[50px] mx-2"
+                    className="bg-gray-800 hover:bg-gray-700 rounded-full w-[40px] h-[40px] flex items-center justify-center shadow"
                 >
                     <AddIcon />
                 </button>
-
-            </div>
-            {isLoading && (
-                <div className='fixed w-screen h-[100dvh] flex flex-col items-center justify-center'>
-                    <Logo />
-                    <p>Starting app</p>
-                </div>
-            )}
-            <div className="bg-slate-400 w-full h-[30px] flex items-center justify-center font-bold text-black">
-                Abdul Ghaffar
             </div>
 
-            <div ref={fontContRef} className="w-full h-fit p-2 text-[12px] sm:text-[15px] ">
-                <pre ref={outputRef} className="whitespace-pre-wrap">
-                    {outputs.map((item, index) => (
-                        index < outputs.length - 1 && <span key={index}>{item + "\n"}</span>
-                    ))}
-                </pre>
-
-                {/* Last line of output and input */}
-                <div className="w-full flex items-center">
-                    <pre className="whitespace-nowrap">{outputs[outputs.length - 1]}</pre>
-                    {showInput && (
-                        <form onSubmit={handleInput} className="flex flex-1">
-                            <input
-                                className="flex-1 bg-transparent outline-none"
-                                autoFocus
-                                value={input}
-                                onChange={(e) => setInput(e.target.value)}
-                                aria-label="Command input"
-                                disabled={isLoading}
-                            />
-                            <button type="submit" className="hidden" aria-label="Submit command"></button>
-                        </form>
-                    )}
-                </div>
-
-            </div>
+            {/* Custom Scrollbar */}
+            <style jsx>{`
+                .custom-scrollbar::-webkit-scrollbar {
+                    width: 8px;
+                }
+                .custom-scrollbar::-webkit-scrollbar-thumb {
+                    background: #4b5563;
+                    border-radius: 4px;
+                }
+                .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+                    background: #6b7280;
+                }
+                .custom-scrollbar::-webkit-scrollbar-track {
+                    background: #1f2937;
+                }
+            `}</style>
         </div>
     );
 };
