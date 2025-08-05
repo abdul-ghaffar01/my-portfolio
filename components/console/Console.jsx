@@ -98,7 +98,7 @@ const Console = ({ project }) => {
 
     return (
         <div 
-            className="w-full min-h-[100vh] bg-gray-900 text-slate-300 font-mono overflow-hidden relative"
+            className="w-full min-h-[100vh] bg-gray-900 text-slate-300 font-mono overflow-hidden relative border-r border-gray-600"
             onClick={() => document.querySelector("input")?.focus()}
         >
             {/* Header */}
