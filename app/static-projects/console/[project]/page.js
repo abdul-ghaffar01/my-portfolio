@@ -14,7 +14,8 @@ export default async function Page({ params }) {
         markdownContent = fs.readFileSync(filePath, "utf-8").trim();
         fileExists = true;
     } catch (error) {
-        console.error("Error reading markdown file:", error);
+        // some projects has docs while others don't so no need to handle this
+        // console.error("Error reading markdown file:", error);
     }
 
     return (

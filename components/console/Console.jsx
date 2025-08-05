@@ -74,30 +74,44 @@ const Console = ({ project }) => {
     useEffect(() => {
         const formatted = outputs
             .flatMap(line => line.split("\n"))
-            .filter(line => line.trim() !== ">")
-            .map(line => ({
-                text: line,
-                type: line.toLowerCase().includes("error") 
-                    ? "error" 
-                    : line.toLowerCase().includes("warning") 
-                        ? "warning"
-                        : line.toLowerCase().includes("process ended") 
-                            ? "terminated" 
-                            : "normal"
-            }));
-        setCleanOutput(formatted);
+            .filter(line => line.trim() !== ">");
+
+        const cleaned = formatted.map(line => ({
+            text: line,
+            type: line.toLowerCase().includes("error")
+                ? "error"
+                : line.toLowerCase().includes("warning")
+                    ? "warning"
+                    : line.toLowerCase().includes("process ended")
+                        ? "terminated"
+                        : "normal",
+        }));
+
+        setCleanOutput(cleaned);
     }, [outputs]);
+
 
     const handleInput = (e) => {
         e.preventDefault();
         if (!input.trim()) return;
+
+        // Append input to the last line of outputs (instead of new line)
+        setOutputs((prev) => {
+            if (prev.length === 0) return ["> " + input];
+            const updated = [...prev];
+            updated[updated.length - 1] = updated[updated.length - 1] + input;
+            return updated;
+        });
+
+        // Send input to backend
         socketRef.current.emit("send-input", { sessionId: sessionIdRef.current, input });
-        setOutputs((prev) => [...prev, "> " + input]);
+
         setInput("");
     };
 
+
     return (
-        <div 
+        <div
             className="w-full min-h-[100vh] bg-gray-900 text-slate-300 font-mono overflow-hidden relative border-r border-gray-600"
             onClick={() => document.querySelector("input")?.focus()}
         >
@@ -108,11 +122,11 @@ const Console = ({ project }) => {
                     <span className="w-3 h-3 bg-yellow-400 rounded-full"></span>
                     <span className="w-3 h-3 bg-green-500 rounded-full"></span>
                 </div>
-                <p className="text-gray-300 text-sm">Abdul Ghaffar Console</p>
+                <p className="text-gray-300 text-sm">Abdul Ghaffar</p>
 
                 {/* Restart Button - Always Visible */}
-                <button 
-                    onClick={() => { connectSocket(); }} 
+                <button
+                    onClick={() => { connectSocket(); }}
                     className="flex items-center space-x-1 bg-gray-700 hover:bg-gray-600 px-3 py-1 rounded text-sm text-green-400 transition"
                 >
                     <ReplayIcon fontSize="small" /> <span>Restart</span>
@@ -120,28 +134,37 @@ const Console = ({ project }) => {
             </div>
 
             {/* Console Output */}
-            <div 
-                ref={fontContRef} 
+            <div
+                ref={fontContRef}
                 className="w-full h-[calc(100vh-120px)] p-4 text-sm overflow-y-auto custom-scrollbar"
             >
                 <pre ref={outputRef} className="whitespace-pre-wrap leading-5">
                     {cleanOutput.map((line, idx) => (
-                        <div key={idx} className={
-                            line.type === "error" ? "text-red-400" :
-                            line.type === "warning" ? "text-yellow-400" :
-                            line.type === "terminated" ? "text-green-400 italic" :
-                            "text-slate-300"
-                        }>
+                        <div
+                            key={idx}
+                            className={
+                                line.text.includes(">")
+                                    ? "text-green-400 tracking-wider" // ✅ Green + wider letter spacing
+                                    : line.type === "error"
+                                        ? "text-red-400"
+                                        : line.type === "warning"
+                                            ? "text-yellow-400"
+                                            : line.type === "terminated"
+                                                ? "text-green-400 italic"
+                                                : "text-slate-300"
+                            }
+                        >
                             {line.text}
                         </div>
                     ))}
+
                 </pre>
             </div>
 
             {/* Input */}
             {showInput && !isLoading && (
-                <form 
-                    onSubmit={handleInput} 
+                <form
+                    onSubmit={handleInput}
                     className="absolute bottom-[60px] w-full px-4 flex items-center"
                 >
                     <span className="text-green-400 pr-2">&gt;</span>
