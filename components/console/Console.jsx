@@ -5,7 +5,7 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import ReplayIcon from '@mui/icons-material/Replay';
 
-const SOCKET_URL = "http://localhost:4000";
+const SOCKET_URL = "https://exec-server.iabdulghaffar.com";
 
 const Console = ({ project }) => {
     const [outputs, setOutputs] = useState([]);
