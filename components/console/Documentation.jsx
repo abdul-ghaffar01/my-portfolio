@@ -23,24 +23,22 @@ export default function Documentation({ content }) {
     return (
         <>
             {/* Floating Open Button */}
-            <button
+            {!isDocVisible && <button
                 className="md:hidden fixed bottom-4 right-4 z-50 bg-gray-800 text-white p-3 rounded-full shadow-lg hover:bg-gray-700 transition"
                 onClick={() => setIsDocVisible(true)}
             >
                 <ArticleIcon sx={{ fontSize: 25 }} />
-            </button>
+            </button>}
 
             {/* Documentation Panel */}
             <div
-                className={`absolute inset-0 transition-transform duration-300 transform ${
-                    isDocVisible ? "translate-x-0" : "translate-x-full"
-                } md:translate-x-0 md:relative md:w-1/2 md:ml-[50%] md:block ${
-                    isDarkMode ? "bg-gray-900" : "bg-gray-100"
-                } overflow-y-auto h-full p-6`}
+                className={`absolute inset-0 transition-transform duration-300 transform ${isDocVisible ? "translate-x-0" : "translate-x-full"
+                    } md:translate-x-0 md:relative md:w-1/2 md:ml-[50%] md:block ${isDarkMode ? "bg-gray-900" : "bg-gray-100"
+                    } overflow-y-auto h-full p-6`}
             >
                 {/* Close Button */}
                 <button
-                    className="md:hidden fixed top-4 right-4 z-50 bg-gray-800 text-white p-2 rounded-full shadow-lg hover:bg-gray-700"
+                    className="md:hidden fixed bottom-4 right-4 z-50 bg-gray-800 text-white p-2 rounded-full shadow-lg hover:bg-gray-700"
                     onClick={() => setIsDocVisible(false)}
                 >
                     <Close sx={{ fontSize: 30 }} />
@@ -48,7 +46,7 @@ export default function Documentation({ content }) {
 
                 {/* Theme Toggle */}
                 <button
-                    className="absolute top-4 left-4 md:left-auto md:right-20 bg-gray-700 text-white p-2 rounded-md shadow hover:bg-gray-600"
+                    className="absolute top-4 right-4 md:left-auto md:right-20 bg-gray-700 text-white p-2 rounded-md shadow hover:bg-gray-600"
                     onClick={() => setIsDarkMode(!isDarkMode)}
                 >
                     {isDarkMode ? "☀️" : "🌙"}
@@ -56,18 +54,16 @@ export default function Documentation({ content }) {
 
                 {/* Header */}
                 <h2
-                    className={`text-2xl font-bold mb-4 pb-2 ${
-                        isDarkMode ? "text-gray-100" : "text-gray-800"
-                    }`}
+                    className={`text-2xl font-bold mb-4 pb-2 ${isDarkMode ? "text-gray-100" : "text-gray-800"
+                        }`}
                 >
                     Documentation
                 </h2>
 
                 {/* Markdown Content */}
                 <div
-                    className={`prose max-w-none ${
-                        isDarkMode ? "prose-invert" : ""
-                    } prose-pre:bg-transparent`}
+                    className={`prose max-w-none ${isDarkMode ? "prose-invert" : ""
+                        } prose-pre:bg-transparent`}
                 >
                     <ReactMarkdown
                         remarkPlugins={[remarkGfm]}

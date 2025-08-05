@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import Logo from './Logo'
 
 const links = [
+  { name: "Home", link: "#" },
   { name: "About", link: "#about" },
   { name: "Projects", link: "#projects" },
   { name: "Github", link: "#github" },
