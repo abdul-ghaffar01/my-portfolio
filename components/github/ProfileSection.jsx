@@ -36,7 +36,7 @@ const ProfileSection = () => {
         {/* Profile Image */}
         <div className="flex-shrink-0 rounded-full overflow-hidden border-4 border-blue-500/30 shadow-lg">
           <Image
-            src={profileData.avatar_url || ""}
+            src={profileData.avatar_url || "/profile.png"}
             width={130}
             height={130}
             alt="Github Profile"

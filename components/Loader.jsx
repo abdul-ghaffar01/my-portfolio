@@ -3,15 +3,20 @@ import React, { useEffect, useState } from "react";
 import Logo from "./navbar/Logo";
 import { motion } from "framer-motion";
 
-const bubbles = Array.from({ length: 8 }).map(() => ({
-  size: 30 + Math.random() * 60,
-  left: Math.random() * 100,
-  delay: Math.random() * 3,
-  duration: 6 + Math.random() * 4,
-}));
-
 const Loader = () => {
   const [loadingText, setLoadingText] = useState("Loading");
+  const [bubbles, setBubbles] = useState([]);
+
+  // Generate bubbles client-side only
+  useEffect(() => {
+    const generated = Array.from({ length: 8 }).map(() => ({
+      size: 30 + Math.random() * 60,
+      left: Math.random() * 100,
+      delay: Math.random() * 3,
+      duration: 6 + Math.random() * 4,
+    }));
+    setBubbles(generated);
+  }, []);
 
   // Animate "Loading..." dots
   useEffect(() => {
@@ -42,7 +47,8 @@ const Loader = () => {
           }}
           className="absolute rounded-full blur-3xl"
           style={{
-            background: "radial-gradient(circle, rgba(180,180,180,0.08), rgba(80,80,80,0.04))",
+            background:
+              "radial-gradient(circle, rgba(180,180,180,0.08), rgba(80,80,80,0.04))",
             width: `${bubble.size}px`,
             height: `${bubble.size}px`,
             left: `${bubble.left}%`,

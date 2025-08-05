@@ -1,9 +1,17 @@
 'use client'
 import Spinner from '@/components/Spinner'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 
-const loading = () => {
+const Loading = () => {
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true); // ✅ Prevents hydration mismatch
+    }, []);
+
+    if (!mounted) return null; // ✅ Avoids animation issues on SSR
+
     return (
         <div className="w-screen h-[100dvh] bg-gray-900 flex flex-col items-center justify-center text-gray-300">
             {/* Spinner */}
@@ -25,28 +33,14 @@ const loading = () => {
                 Preparing your chat...
             </motion.p>
 
-            {/* Animated dots */}
-            <motion.div
-                className="flex gap-1 mt-2"
-                initial="hidden"
-                animate="visible"
-                variants={{
-                    visible: { transition: { staggerChildren: 0.2, repeat: Infinity } },
-                }}
-            >
-                {[0, 1, 2].map((i) => (
-                    <motion.span
-                        key={i}
-                        className="w-2 h-2 bg-gray-500 rounded-full"
-                        variants={{
-                            hidden: { opacity: 0 },
-                            visible: { opacity: [0.2, 1, 0.2], transition: { duration: 0.8, repeat: Infinity } },
-                        }}
-                    />
-                ))}
-            </motion.div>
+            {/* Animated Dots (CSS-based) */}
+            <div className="flex gap-1 mt-2">
+                <span className="w-2 h-2 bg-gray-500 rounded-full animate-pulse"></span>
+                <span className="w-2 h-2 bg-gray-500 rounded-full animate-pulse [animation-delay:200ms]"></span>
+                <span className="w-2 h-2 bg-gray-500 rounded-full animate-pulse [animation-delay:400ms]"></span>
+            </div>
         </div>
     )
 }
 
-export default loading
+export default Loading;
