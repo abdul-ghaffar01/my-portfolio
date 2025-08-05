@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import MessageIcon from "@mui/icons-material/Message";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
@@ -15,28 +15,36 @@ const messages = [
 const ChatBot = () => {
   const router = useRouter();
   const [activeMessage, setActiveMessage] = useState(null);
+  const timeoutRef = useRef(null); // ✅ Track timeout reference
 
   const handleClick = () => {
     router.push("/chat");
   };
 
-  // Show random pop-up messages periodically
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveMessage(messages[Math.floor(Math.random() * messages.length)]);
-      setTimeout(() => setActiveMessage(null), 2500); // Hide after 2.5s
-    }, 5000); // Every 5 seconds
 
-    return () => clearInterval(interval);
+      // Clear previous timeout to prevent overlap
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+
+      // Hide message after 2.5s
+      timeoutRef.current = setTimeout(() => setActiveMessage(null), 2500);
+    }, 5000);
+
+    return () => {
+      clearInterval(interval);
+      if (timeoutRef.current) clearTimeout(timeoutRef.current); // ✅ Clean up timeout
+    };
   }, []);
 
   return (
     <div className="fixed bottom-5 right-5 z-50 flex flex-col items-end">
       {/* Animated Pop-up Message */}
-      <AnimatePresence>
+      <AnimatePresence mode="wait">
         {activeMessage && (
           <motion.div
-            key={activeMessage}
+            key="chat-popup" // ✅ Stable key prevents errors
             initial={{ opacity: 0, y: 20, scale: 0.8 }}
             animate={{ opacity: 1, y: -10, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.8 }}
