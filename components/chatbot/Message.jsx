@@ -1,11 +1,22 @@
-import React from 'react'
+import React from 'react';
 import CheckIcon from '@mui/icons-material/Check';
 
 const Message = ({ message, showDate, formattedDate }) => {
     const who = message.sender;
 
+    // Function to format bold text (convert **bold** to <strong>bold</strong>)
+    const formatContent = (content) => {
+        return content.split(/(\*\*.*?\*\*)/g).map((part, idx) =>
+            part.startsWith('**') && part.endsWith('**') ? (
+                <strong key={idx}>{part.slice(2, -2)}</strong>
+            ) : (
+                part
+            )
+        );
+    };
+
     if (who === 'info') {
-        return (<p className='text-center text-gray-400 my-3 text-sm'> {message.content}</p>)
+        return <p className='text-center text-gray-400 my-3 text-sm'>{message.content}</p>;
     }
 
     return (
@@ -18,7 +29,7 @@ const Message = ({ message, showDate, formattedDate }) => {
 
             <div className={`${who === "user" ? "bg-color-500 self-end" : "bg-gray-500"} w-fit min-w-[150px] max-w-[80%] p-1 md:p-2 rounded-md m-1 text-color-light`}>
                 <div className='font-semibold break-words whitespace-pre-wrap w-full'>
-                    {message.content}
+                    {formatContent(message.content)}
                 </div>
 
                 <div className='text-xs flex items-center justify-between mt-1'>
@@ -36,7 +47,7 @@ const Message = ({ message, showDate, formattedDate }) => {
                 </div>
             </div>
         </>
-    )
-}
+    );
+};
 
 export default Message;
