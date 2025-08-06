@@ -1,29 +1,24 @@
 const projectsData = [{
+    title: "Personal AI Chatbot with Admin Panel",
+    desc: "A fully functional personal AI chatbot integrated into my portfolio website. Built with Node.js and MongoDB for backend training data management and fuzzy matching logic. It features an admin panel for managing intents, responses, and training data, with future plans to integrate OpenAI APIs for improved conversational capabilities.",
+    img: "/projects/chatbot.png",
+    tools: ["Node.js", "MongoDB", "WebSockets", "React"],
+    link: "https://iabdulghaffar.com/chat",
+    isCompleted: true
+}, {
+    title: "Full-stack Portfolio with Dockerized Microservices & DevOps Automation",
+    desc: "A fully containerized, microservices-based portfolio website deployed using Docker and automated via CI/CD pipelines and webhooks.\nThis project demonstrates my skills in DevOps, Docker, and automated deployments for scalable web applications. It integrates multiple services (frontend, backend API, chatbot, and Nginx reverse proxy) orchestrated in a production environment.",
+    img: "/projects/deployment/architecture.png",
+    tools: ["Docker", "Nginx", "GitHub Webhooks", "Ubuntu"],
+    link: "/static-projects/portfolio-deployment",
+    btnTxt: "Read more",
+    isCompleted: true
+}, {
     title: "Authentication system",
     desc: "A secure and scalable authentication system built using Golang and Next.js. It features JWT-based user login and registration, role-based access control, and protected API routes. Designed with modularity and performance in mind, this system serves as a robust foundation for modern full-stack web applications.",
     img: "/projects/auth.png",
     tools: ["NextJs", "Golang"],
     link: "https://auth.iabdulghaffar.com",
-    isCompleted: false
-}, {
-    title: "Full-stack Portfolio with Dockerized Microservices & DevOps Automation",
-    desc: "A fully containerized, microservices-based portfolio website deployed using Docker and automated via CI/CD pipelines and webhooks.\nThis project demonstrates my skills in DevOps, Docker, and automated deployments for scalable web applications.It integrates multiple services(frontend, backend API, chatbot, and Nginx reverse proxy) orchestrated in a production environment.",
-    img: "/projects/auth.png",
-    tools: [
-        "Docker",
-        "Nginx",
-        "GitHub Webhooks",
-        "Ubuntu"
-    ],
-    link: "/static-projects/portfolio-deployment",
-    btnTxt: "Read more",
-    isCompleted: false
-}, {
-    title: "Binanify - explored binance apis",
-    desc: "Binanify is a real-time crypto market tracking app that leverages Binance WebSockets to provide live trade data, order book updates, and price tickers. Built with Next.js and Node.js, it offers a seamless and efficient way to monitor cryptocurrency trends with a responsive interface.",
-    img: "/projects/binanify.png",
-    tools: ["Javascript NextJs NodeJs WebSockets"],
-    link: "https://binance.iabdulghaffar.com",
     isCompleted: false
 }, {
     title: "Database management system first semester",
@@ -40,14 +35,7 @@ const projectsData = [{
     tools: ["C++"],
     link: "/static-projects/console/cbes",
     isCompleted: true
-}, {
-    title: "E-commerce store using Django",
-    desc: "A dynamic eCommerce platform built with Django, offering a seamless shopping experience with user authentication, cart management, and secure transactions. Designed for efficiency and scalability, it ensures smooth navigation and easy product browsing",
-    img: "/projects/ecom-using-django.png",
-    tools: ["Python", "Javascript", "Django"],
-    link: "/coming-soon",
-    isCompleted: true
-}, {
+},{
     title: "Instagram home page clone",
     desc: "I built an Instagram home page clone using Tailwind CSS, designed specifically for laptop screens. While it isn’t fully responsive, the layout is pixel-perfect, closely mirroring Instagram’s design with a clean and structured UI. The project showcases my ability to replicate modern interfaces with precision and attention to detail",
     img: "/projects/instaclone.png",
@@ -61,6 +49,6 @@ const projectsData = [{
     tools: ["TailwindCss", "Html5"],
     link: "/static-projects/facebook-clone-using-tailwindcss",
     isCompleted: true
-},
-]
-export default projectsData
+}]
+
+export default projectsData;
