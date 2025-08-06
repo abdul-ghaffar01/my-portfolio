@@ -23,9 +23,8 @@ const ProjectItem = ({ project, left }) => {
         {/* Status Badge */}
         <div className="absolute top-3 left-3 z-20">
           <span
-            className={`px-3 py-1 text-sm rounded-full shadow-md ${
-              project.isCompleted ? "bg-green-500/80 text-white" : "bg-yellow-500/80 text-white"
-            }`}
+            className={`px-3 py-1 text-sm rounded-full shadow-md ${project.isCompleted ? "bg-green-500/80 text-white" : "bg-yellow-500/80 text-white"
+              }`}
           >
             {project.isCompleted ? "Completed" : "In Progress"}
           </span>
@@ -81,7 +80,7 @@ const ProjectItem = ({ project, left }) => {
           target="_blank"
           className="relative inline-block px-5 py-2 rounded-lg text-white bg-blue-600 hover:bg-blue-700 shadow-lg hover:shadow-[0_0_20px_rgba(59,130,246,0.5)] transition-all"
         >
-          View Project →
+          {project.btnTxt ? project.btnTxt : "View Project →"}
         </Link>
       </motion.div>
     </motion.div>

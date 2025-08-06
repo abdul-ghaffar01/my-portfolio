@@ -5,7 +5,20 @@ const projectsData = [{
     tools: ["NextJs", "Golang"],
     link: "https://auth.iabdulghaffar.com",
     isCompleted: false
-},{
+}, {
+    title: "Full-stack Portfolio with Dockerized Microservices & DevOps Automation",
+    desc: "A fully containerized, microservices-based portfolio website deployed using Docker and automated via CI/CD pipelines and webhooks.\nThis project demonstrates my skills in DevOps, Docker, and automated deployments for scalable web applications.It integrates multiple services(frontend, backend API, chatbot, and Nginx reverse proxy) orchestrated in a production environment.",
+    img: "/projects/auth.png",
+    tools: [
+        "Docker",
+        "Nginx",
+        "GitHub Webhooks",
+        "Ubuntu"
+    ],
+    link: "/static-projects/portfolio-deployment",
+    btnTxt: "Read more",
+    isCompleted: false
+}, {
     title: "Binanify - explored binance apis",
     desc: "Binanify is a real-time crypto market tracking app that leverages Binance WebSockets to provide live trade data, order book updates, and price tickers. Built with Next.js and Node.js, it offers a seamless and efficient way to monitor cryptocurrency trends with a responsive interface.",
     img: "/projects/binanify.png",
