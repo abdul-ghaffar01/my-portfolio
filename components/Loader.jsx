@@ -7,7 +7,6 @@ const Loader = () => {
   const [loadingText, setLoadingText] = useState("Loading");
   const [bubbles, setBubbles] = useState([]);
 
-  // Generate bubbles client-side only
   useEffect(() => {
     const generated = Array.from({ length: 8 }).map(() => ({
       size: 30 + Math.random() * 60,
@@ -18,7 +17,6 @@ const Loader = () => {
     setBubbles(generated);
   }, []);
 
-  // Animate "Loading..." dots
   useEffect(() => {
     const interval = setInterval(() => {
       setLoadingText((prev) =>
@@ -31,30 +29,32 @@ const Loader = () => {
   return (
     <div className="relative w-screen h-[100dvh] bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 flex flex-col items-center justify-center overflow-hidden">
       {/* Floating Grey Bubbles */}
-      {bubbles.map((bubble, i) => (
-        <motion.div
-          key={i}
-          initial={{ y: "100vh", opacity: 0 }}
-          animate={{
-            y: "-10vh",
-            opacity: [0.15, 0.4, 0],
-          }}
-          transition={{
-            duration: bubble.duration,
-            delay: bubble.delay,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-          className="absolute rounded-full blur-3xl"
-          style={{
-            background:
-              "radial-gradient(circle, rgba(180,180,180,0.08), rgba(80,80,80,0.04))",
-            width: `${bubble.size}px`,
-            height: `${bubble.size}px`,
-            left: `${bubble.left}%`,
-          }}
-        />
-      ))}
+      {Array.isArray(bubbles) &&
+        bubbles.length > 0 &&
+        bubbles.map((bubble, i) => (
+          <motion.div
+            key={i}
+            initial={{ y: "100vh", opacity: 0 }}
+            animate={{
+              y: "-10vh",
+              opacity: [0.15, 0.4, 0],
+            }}
+            transition={{
+              duration: bubble.duration,
+              delay: bubble.delay,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+            className="absolute rounded-full blur-3xl"
+            style={{
+              background:
+                "radial-gradient(circle, rgba(180,180,180,0.08), rgba(80,80,80,0.04))",
+              width: `${bubble.size}px`,
+              height: `${bubble.size}px`,
+              left: `${bubble.left}%`,
+            }}
+          />
+        ))}
 
       {/* Logo Animation */}
       <motion.div
