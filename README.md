@@ -18,6 +18,20 @@ Visit: [iabdulghaffar.com](https://iabdulghaffar.com)
 
 ## 📦 Getting Started
 
+```env
+GITHUB_PAT=github_pat
+
+# All the routes for cpp-server 
+START_PROCESS=http://localhost:4000/start-process
+GET_OUTPUT=http://localhost:4000/get-output
+SEND_INPUT=http://localhost:4000/send-input
+STOP_PROCESS=http://localhost:4000/stop-process
+
+# Base url for chatbot backend
+NEXT_PUBLIC_CHATBOT_BACKEND_URL=chatbot.iabdulghaffar.com
+
+```
+
 To run the project locally:
 
 Make sure to clone chatbot-backend and cpp-server for full functionality.
