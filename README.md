@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+# 🧑‍💻 Abdul Ghaffar's Portfolio – Built with Next.js
 
-First, run the development server:
+Welcome to my personal portfolio website, built using the latest tech stack to showcase my skills, projects, and experience as a full-stack developer.
+
+Visit: [iabdulghaffar.com](https://iabdulghaffar.com)
+
+---
+
+## 🚀 Tech Stack
+
+- **Frontend:** Next.js 14 (App Router), React, Tailwind CSS
+- **Backend:** Node.js / Express (for APIs)
+- **Deployment:** VPS
+- **Design:** Responsive, mobile-friendly, and fast-loading UI
+
+---
+
+## 📦 Getting Started
+
+To run the project locally:
+
+Make sure to clone chatbot-backend and cpp-server for full functionality.
 
 ```bash
+git clone https://github.com/abdul-ghaffar01/my-portfolio.git
+cd my-portfolio
+
+# Install dependencies
+npm install
+
+# Run the development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## ✨ Features
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+* Clean and modern UI using Tailwind CSS
+* Deployed and hosted on VPS
+* Includes links to GitHub projects, resume, and contact form
+* Optimized for performance and accessibility
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 🧠 Learn More
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Want to explore the tools I used?
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+* [Next.js Documentation](https://nextjs.org/docs)
+* [React Documentation](https://react.dev/)
+* [Tailwind CSS](https://tailwindcss.com/)
+* Zustand (for state management)
+* Framer motion (for animations)
+* docker (for containerization)
 
-## Deploy on Vercel
+## 📫 Contact
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Feel free to reach out via [iabdulghaffar.com](https://iabdulghaffar.com/) or [LinkedIn]([https://linkedin.com/in/](https://www.linkedin.com/in/abdul-ghaffar01/))
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+---
+
+## 🔒 License
+
+This project is open-source. You're welcome to explore and learn from it, but please give proper credit if you reuse parts of the code — it's the result of hard work and dedication.
