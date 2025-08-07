@@ -17,7 +17,7 @@ Visit: [iabdulghaffar.com](https://iabdulghaffar.com)
 ---
 
 ## 📦 Getting Started
-
+Create .env file first
 ```env
 GITHUB_PAT=github_pat
 
