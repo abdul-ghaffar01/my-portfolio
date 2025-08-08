@@ -12,14 +12,15 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <head>
         {/* <!-- Google tag (gtag.js) --> */}
+        {```
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-JTMJLBDLGG"></script>
         <script>
           window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments)}
+          function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
 
           gtag('config', 'G-JTMJLBDLGG');
-        </script>
+        </script>```}
       </head>
       <body className="overflow-x-hidden">
         {children}
