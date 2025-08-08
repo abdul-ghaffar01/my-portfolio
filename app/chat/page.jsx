@@ -8,6 +8,7 @@ import Loader from '@/components/Loader';
 import { useRouter } from 'next/navigation';
 import decodeJWT from '@/utils/chatbot/decodeJwt';
 
+
 const Page = () => {
     const [mounted, setMounted] = useState(false); // ✅ Fix hydration mismatch
     const [sessionStarted, setSessionStarted] = useState(false);
