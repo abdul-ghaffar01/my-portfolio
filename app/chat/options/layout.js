@@ -4,7 +4,7 @@ export const metadata = {
     openGraph: {
         title: "Chatbot Settings | Abdul Ghaffar",
         description: "Customize your AI chatbot experience and update your account preferences.",
-        url: "https://iabdulghaffar.com/chat/settings",
+        url: "https://iabdulghaffar.com/chat/options",
         siteName: "Abdul Ghaffar",
         locale: "en_US",
         type: "website",
