@@ -2,6 +2,12 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 
 export default function ProjectItem({ project, left }) {
+  const statusColors = {
+    completed: 'bg-green-500/80 text-white',
+    ongoing: 'bg-yellow-500/80 text-white',
+    archived: 'bg-gray-500/80 text-white'
+  }
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 60, scale: 0.98 }}
@@ -12,7 +18,7 @@ export default function ProjectItem({ project, left }) {
         transition: { type: 'spring', stiffness: 60, damping: 15 }
       }}
       viewport={{ once: true, amount: 0.3 }}
-      className={`relative group max-w-5xl mx-auto flex flex-col md:flex-row 
+      className={`relative group max-w-5xl mx-auto flex flex-col md:flex-row my-2
         ${left ? '' : 'md:flex-row-reverse'} 
         items-stretch gap-6 min-h-[400px] rounded-2xl overflow-hidden bg-gray-900/50 border border-gray-800 backdrop-blur-lg 
         hover:shadow-[0_0_25px_rgba(59,130,246,0.2)] transition-all duration-500`}
@@ -22,13 +28,10 @@ export default function ProjectItem({ project, left }) {
         {/* Status Badge */}
         <div className="absolute top-3 left-3 z-20">
           <span
-            className={`px-3 py-1 text-sm rounded-full shadow-md ${
-              project.isCompleted
-                ? 'bg-green-500/80 text-white'
-                : 'bg-yellow-500/80 text-white'
-            }`}
+            className={`px-3 py-1 text-sm rounded-full shadow-md ${statusColors[project.status]
+              }`}
           >
-            {project.isCompleted ? 'Completed' : 'In Progress'}
+            {project.status.charAt(0).toUpperCase() + project.status.slice(1)}
           </span>
         </div>
 
@@ -61,35 +64,53 @@ export default function ProjectItem({ project, left }) {
           {project.title}
         </h3>
 
-        {/* Description */}
+        {/* Short Description */}
         <p className="text-gray-400 text-sm md:text-base leading-relaxed mb-4 max-w-md">
-          {project.desc}
+          {project.short}
         </p>
 
-        {/* Tools */}
+        {/* Tags */}
         <ul
-          className={`flex flex-wrap gap-2 mb-4 ${
-            left ? 'justify-start' : 'justify-start md:justify-end'
-          }`}
+          className={`flex flex-wrap gap-2 mb-4 ${left ? 'justify-start' : 'justify-start md:justify-end'
+            }`}
         >
-          {project.tools.map((tool, index) => (
+          {project.tags.map((tag, index) => (
             <li
               key={index}
               className="px-3 py-1 text-xs md:text-sm rounded-full bg-gray-800/70 border border-gray-700 text-gray-300"
             >
-              {tool}
+              {tag}
             </li>
           ))}
         </ul>
 
-        {/* Button */}
-        <Link
-          href={project.link}
-          target="_blank"
-          className="inline-block px-5 py-2 rounded-lg text-white text-center bg-blue-600 hover:bg-blue-700 shadow-lg hover:shadow-[0_0_20px_rgba(59,130,246,0.5)] transition-all"
-        >
-          {project.btnTxt || 'View Project →'}
-        </Link>
+        {/* Action Buttons */}
+        <div className="flex gap-3 flex-wrap">
+          {project.github && (
+            <Link
+              href={project.github}
+              target="_blank"
+              className="inline-block px-5 py-2 rounded-lg text-white text-center bg-gray-700 hover:bg-gray-800 shadow-lg hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] transition-all"
+            >
+              GitHub
+            </Link>
+          )}
+          {project.demo && (
+            <Link
+              href={project.demo}
+              target="_blank"
+              className="inline-block px-5 py-2 rounded-lg text-white text-center bg-blue-600 hover:bg-blue-700 shadow-lg hover:shadow-[0_0_20px_rgba(59,130,246,0.5)] transition-all"
+            >
+              Live Demo
+            </Link>
+          )}
+          <Link
+            href={`/projects/${project.id}`}
+            className="inline-block px-5 py-2 rounded-lg text-white text-center bg-purple-600 hover:bg-purple-700 shadow-lg hover:shadow-[0_0_20px_rgba(168,85,247,0.5)] transition-all"
+          >
+            View Docs →
+          </Link>
+        </div>
       </motion.div>
     </motion.div>
   )
