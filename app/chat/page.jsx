@@ -54,7 +54,8 @@ const Page = () => {
     useEffect(() => {
         if (!mounted) return;
         const jwt = localStorage.getItem('jwt');
-        if (!jwt) {
+        const isValidJwt = decodeJWT(jwt)
+        if (!isValidJwt) {
             setAccountSetup(true);
         } else {
             setSessionStarted(true);

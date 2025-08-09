@@ -11,6 +11,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import LogoutIcon from '@mui/icons-material/Logout';
+import ProtectedChatBot from './ProtectedChatBot';
 
 const ChatSide = ({ setSessionStarted, setAccountSetup }) => {
     const textareaRef = useRef(null);
@@ -144,80 +145,83 @@ const ChatSide = ({ setSessionStarted, setAccountSetup }) => {
         setLogoutLoading(false)
     };
     return (
-        <div className='flex-[2] w-full flex flex-col'>
-            {(!socket) ? (
-                <div className='flex-1 flex items-center justify-center'>
-                    <p className='text-color-dark'>Connecting to chat...</p>
-                </div>
-            ) : (
-                <>
-                    <div className='w-full h-[50px] flex items-center justify-between p-2 bg-color-gray-700 shrink-0'>
-                        <div className='flex items-center gap-2'>
-                            <h1 className='text-lg text-color-gray-400 font-medium flex gap-1'>Abdul Ghaffar - {botReplyEnabled ? <p>Bot</p> : (
-                                <div className='flex gap-2 items-center'>
-                                    <p>Real</p>
-                                    <div className='w-3 h-3 rounded-full bg-color-success'></div>
-                                </div>
-                            )}</h1>
-                        </div>
-                        <div className='flex h-full items-center gap-2'>
+        <ProtectedChatBot>
 
-                            {/* Show options */}
-                            <Link href="/chat/options" className='text-color-gray-400 rounded-full p-1'>
-                                <MoreVertIcon />
-                            </Link>
-                            {/* Logout button */}
-                            <button onClick={handleLogout} className='text-color-gray-400 w-[50px] rounded-full p-1' disabled={logoutLoading}>
-                                {logoutLoading ? (
-                                    <Spinner />
-                                ) : <LogoutIcon />}
+            <div className='flex-[2] w-full flex flex-col'>
+                {(!socket) ? (
+                    <div className='flex-1 flex items-center justify-center'>
+                        <p className='text-color-dark'>Connecting to chat...</p>
+                    </div>
+                ) : (
+                    <>
+                        <div className='w-full h-[50px] flex items-center justify-between p-2 bg-color-gray-700 shrink-0'>
+                            <div className='flex items-center gap-2'>
+                                <h1 className='text-lg text-color-gray-400 font-medium flex gap-1'>Abdul Ghaffar - {botReplyEnabled ? <p>Bot</p> : (
+                                    <div className='flex gap-2 items-center'>
+                                        <p>Real</p>
+                                        <div className='w-3 h-3 rounded-full bg-color-success'></div>
+                                    </div>
+                                )}</h1>
+                            </div>
+                            <div className='flex h-full items-center gap-2'>
+
+                                {/* Show options */}
+                                <Link href="/chat/options" className='text-color-gray-400 rounded-full p-1'>
+                                    <MoreVertIcon />
+                                </Link>
+                                {/* Logout button */}
+                                <button onClick={handleLogout} className='text-color-gray-400 w-[50px] rounded-full p-1' disabled={logoutLoading}>
+                                    {logoutLoading ? (
+                                        <Spinner />
+                                    ) : <LogoutIcon />}
+                                </button>
+
+                            </div>
+                        </div>
+
+                        <div className='flex-1 overflow-y-auto bg-color-gray-900'>
+                            {
+                                loadingHistory && (
+                                    <div className='w-full h-full bg-gray-900 flex justify-center items-center'>
+                                        <Spinner />
+                                    </div>
+                                )
+                            }{
+
+                                !loadingHistory &&
+                                (< ChatWindow messages={messages} endRef={endRef} scrollRef={scrollRef} />)
+                            }
+                        </div>
+
+                        <div className='w-full h-fit max-w-screen p-2 md:p-3 bg-color-gray-700 shrink-0 relative'>
+                            <textarea
+                                onKeyDown={handleKeyDown}
+                                ref={textareaRef}
+                                onChange={handleChange}
+                                value={messageText}
+                                placeholder='Type your message'
+                                style={{ height: "24px", lineHeight: "24px" }}
+                                className='w-[calc(100%-70px)] h-fit bg-transparent mt-1 outline-none text-lg text-color-light resize-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden'
+                            ></textarea>
+                            <button
+                                onClick={() => {
+                                    sendMessage(messageText,
+                                        socket,
+                                        userId,
+                                        setMessageText,
+                                        textareaRef)
+                                }}
+                                disabled={!messageText.trim()}
+                                className='w-[60px] text-color-light p-2 absolute right-2 bottom-2'>
+                                {messageText.length > 0 && (
+                                    <SendIcon className="text-color-light" />
+                                )}
                             </button>
-
                         </div>
-                    </div>
-
-                    <div className='flex-1 overflow-y-auto bg-color-gray-900'>
-                        {
-                            loadingHistory && (
-                                <div className='w-full h-full bg-gray-900 flex justify-center items-center'>
-                                    <Spinner />
-                                </div>
-                            )
-                        }{
-
-                            !loadingHistory &&
-                            (< ChatWindow messages={messages} endRef={endRef} scrollRef={scrollRef} />)
-                        }
-                    </div>
-
-                    <div className='w-full h-fit max-w-screen p-2 md:p-3 bg-color-gray-700 shrink-0 relative'>
-                        <textarea
-                            onKeyDown={handleKeyDown}
-                            ref={textareaRef}
-                            onChange={handleChange}
-                            value={messageText}
-                            placeholder='Type your message'
-                            style={{ height: "24px", lineHeight: "24px" }}
-                            className='w-[calc(100%-70px)] h-fit bg-transparent mt-1 outline-none text-lg text-color-light resize-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden'
-                        ></textarea>
-                        <button
-                            onClick={() => {
-                                sendMessage(messageText,
-                                    socket,
-                                    userId,
-                                    setMessageText,
-                                    textareaRef)
-                            }}
-                            disabled={!messageText.trim()}
-                            className='w-[60px] text-color-light p-2 absolute right-2 bottom-2'>
-                            {messageText.length > 0 && (
-                                <SendIcon className="text-color-light" />
-                            )}
-                        </button>
-                    </div>
-                </>
-            )}
-        </div>
+                    </>
+                )}
+            </div>
+        </ProtectedChatBot>
     );
 };
 
