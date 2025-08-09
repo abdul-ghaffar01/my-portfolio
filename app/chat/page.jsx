@@ -54,12 +54,15 @@ const Page = () => {
     useEffect(() => {
         if (!mounted) return;
         const jwt = localStorage.getItem('jwt');
-        const isValidJwt = decodeJWT(jwt)
-        if (!isValidJwt) {
+        if (jwt) {
+            const isValidJwt = decodeJWT(jwt)
+            if (!isValidJwt) {
+                setAccountSetup(true);
+            } else {
+                setSessionStarted(true);
+            }
+        } else
             setAccountSetup(true);
-        } else {
-            setSessionStarted(true);
-        }
     }, [mounted]);
 
     if (!mounted) return null; // ✅ Skip SSR rendering entirely
@@ -73,9 +76,7 @@ const Page = () => {
 
             {/* Sidebar */}
             <div className='hidden md:block md:flex-[1] max-w-[400px] border-l border-color-gray-500 bg-gray-900 flex flex-col overflow-y-auto'>
-                <div className='w-full text-center mt-3'>
-                    <span className='text-gray-400 text-sm'>You can't see any of the chat messages</span>
-                </div>
+            
                 <div className='w-full h-fit overflow-y-auto p-2'>
                     <h1 className='text-xl text-gray-400 mb-1 font-medium'>Online users</h1>
                     {loading && <p>Loading online users...</p>}
