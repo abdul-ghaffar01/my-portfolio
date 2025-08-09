@@ -40,9 +40,9 @@ const Message = ({ message, showDate, formattedDate }) => {
 
     const initialAnim =
         who === 'user'
-            ? variants.fromLeft
+            ? variants.fromRight
             : (who.toLowerCase() === 'abdul ghaffar' || who.toLowerCase() === 'chatbot')
-                ? variants.fromRight
+                ? variants.fromLeft
                 : variants.fadeIn;
 
     return (
