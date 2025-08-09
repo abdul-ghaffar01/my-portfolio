@@ -22,6 +22,7 @@ const ChatSide = ({ setSessionStarted, setAccountSetup }) => {
     const [isMobile, setIsMobile] = useState(false);
     const [loadingHistory, setLoadingHistory] = useState(true);
     const [botReplyEnabled, setBotReplyEnabled] = useState(true);
+    const [stopSendingMessage, setStopSendingMessage] = useState(false);
 
     const [logoutLoading, setLogoutLoading] = useState(false);
     // Extracting state and actions from chat store
@@ -125,7 +126,7 @@ const ChatSide = ({ setSessionStarted, setAccountSetup }) => {
                 socket,
                 userId,
                 setMessageText,
-                textareaRef);
+                textareaRef, stopSendingMessage);
         }
     };
 
@@ -189,34 +190,43 @@ const ChatSide = ({ setSessionStarted, setAccountSetup }) => {
                             }{
 
                                 !loadingHistory &&
-                                (< ChatWindow messages={messages} endRef={endRef} scrollRef={scrollRef} />)
+                                (< ChatWindow messages={messages} endRef={endRef} scrollRef={scrollRef} setStopSendingMessage={setStopSendingMessage} />)
                             }
                         </div>
 
-                        <div className='w-full h-fit max-w-screen p-2 md:p-3 bg-color-gray-700 shrink-0 relative'>
-                            <textarea
-                                onKeyDown={handleKeyDown}
-                                ref={textareaRef}
-                                onChange={handleChange}
-                                value={messageText}
-                                placeholder='Type your message'
-                                style={{ height: "24px", lineHeight: "24px" }}
-                                className='w-[calc(100%-70px)] h-fit bg-transparent mt-1 outline-none text-lg text-color-light resize-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden'
-                            ></textarea>
-                            <button
-                                onClick={() => {
-                                    sendMessage(messageText,
-                                        socket,
-                                        userId,
-                                        setMessageText,
-                                        textareaRef)
-                                }}
-                                disabled={!messageText.trim()}
-                                className='w-[60px] text-color-light p-2 absolute right-2 bottom-2'>
-                                {messageText.length > 0 && (
-                                    <SendIcon className="text-color-light" />
-                                )}
-                            </button>
+                        {/* Send message textarea and button */}
+                        <div className='w-full bg-gray-900 pt-2 px-2'>
+                            <div className='w-full rounded-[30px] pl-5 h-fit max-w-screen p-2 bg-color-gray-700 shrink-0 relative'>
+                                <textarea
+                                    onKeyDown={handleKeyDown}
+                                    ref={textareaRef}
+                                    onChange={handleChange}
+                                    value={messageText}
+                                    placeholder='Type your message'
+                                    style={{ height: "24px", lineHeight: "24px" }}
+                                    className='w-[calc(100%-70px)] h-fit bg-transparent mt-1 outline-none text-color-light resize-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden'
+                                ></textarea>
+                                {/* If a message is sent and hasn't got reply stop sending other */}
+                                {!stopSendingMessage && (<button
+                                    onClick={() => {
+                                        sendMessage(messageText,
+                                            socket,
+                                            userId,
+                                            setMessageText,
+                                            textareaRef, stopSendingMessage)
+                                    }}
+                                    disabled={!messageText.trim()}
+                                    className='w-[60px] text-color-light p-2 absolute right-2 bottom-2'>
+                                    {messageText.length > 0 && (
+                                        <SendIcon className="text-color-light" />
+                                    )}
+                                </button>)}
+                            </div>
+                        </div>
+
+                        {/* Disclaimer */}
+                        <div className="text-xs text-gray-400 bg-gray-900 text-center py-2">
+                            This model is still learning and may occasionally provide inaccurate or incomplete responses.
                         </div>
                     </>
                 )}

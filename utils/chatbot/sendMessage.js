@@ -4,7 +4,8 @@ const sendMessage = (messageText,
     socketInstance,
     userId,
     setMessageText,
-    textareaRef) => {
+    textareaRef, stopSendingMessage) => {
+    if (stopSendingMessage) return;
     if (!messageText.trim() || !socketInstance) return;
     socketInstance.emit('sendMessage', {
         userId,
