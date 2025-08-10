@@ -1,5 +1,4 @@
-// app/projects/page.js  (Next.js app-router page)
-// Requires: framer-motion, tailwindcss
+
 "use client";
 
 import React, { useMemo, useState } from "react";
@@ -37,7 +36,7 @@ export default function ProjectsPage() {
     }, [projects, activeTab, query]);
 
     return (
-        <main className="min-h-screen bg-gray-800 text-gray-100 p-6 md:p-12">
+        <main className="min-h-screen bg-gray-800 text-gray-100 p-2 md:p-12">
             <div className="max-w-6xl mx-auto space-y-6">
                 <header className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                     <div>
@@ -45,8 +44,8 @@ export default function ProjectsPage() {
                         <p className="text-gray-400 mt-1">All my work — deep docs available for every project.</p>
                     </div>
 
-                    <div className="flex items-center gap-3 w-full md:w-auto">
-                        <div className="relative flex-1 md:flex-none">
+                    <div className="md:flex md:items-center gap-3 w-full md:w-auto">
+                        <div className="relative mb-3 md:md-0 flex-1 md:flex-none">
                             <input
                                 value={query}
                                 onChange={(e) => setQuery(e.target.value)}
