@@ -33,20 +33,6 @@ export default function RootLayout({ children }) {
         <meta property="og:url" content="https://iabdulghaffar.com" />
         <meta name="twitter:card" content="summary_large_image" />
 
-        {/* ✅ Google Analytics */}
-        <Script
-          async
-          src="https://www.googletagmanager.com/gtag/js?id=G-JTMJLBDLGG"
-          strategy="afterInteractive"
-        />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-JTMJLBDLGG');
-          `}
-        </Script>
 
         {/* ✅ JSON-LD Structured Data */}
         <Script

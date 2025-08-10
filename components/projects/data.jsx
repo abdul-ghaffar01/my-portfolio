@@ -24,7 +24,7 @@ const projectsData = [
                 "Training: Custom fuzzy matching logic"
             ],
             images: ["/projects/chatbot.png"],
-            long: `## Why I built this\nI wanted a personal assistant integrated into my portfolio...`
+            long: "desc/chatbot.md"
         }
     },
     {
@@ -80,9 +80,8 @@ const projectsData = [
                 "/projects/deployment/docker-containers.png",
                 "/projects/deployment/nginx-config.png"
             ],
-            long: `## Why I built this
-                    I wanted to deepen my understanding of DevOps workflows, CI/CD pipelines, and scalable microservices deployments.  
-                    This project allowed me to integrate multiple services, automate deployments, and ensure high availability, all while running on my own VPS.`
+            long: "desc/chatbot.md"
+
         }
     },
     {
@@ -110,7 +109,7 @@ const projectsData = [
                 "Auth: JWT + RBAC"
             ],
             images: ["/projects/auth.png"],
-            long: `## Why I built this\nTo create a reusable authentication boilerplate for modern apps...`
+            long: "desc/chatbot.md"
         }
     },
     {
@@ -137,7 +136,7 @@ const projectsData = [
                 "Backend: C++ data structures"
             ],
             images: ["/projects/dbms.png"],
-            long: `## Why I built this\nTo learn DBMS internals during my first semester...`
+            long: "desc/chatbot.md"
         }
     },
     {
@@ -164,7 +163,7 @@ const projectsData = [
                 "Backend: C++ with file storage"
             ],
             images: ["/projects/console-ecom.png"],
-            long: `## Why I built this\nTo strengthen OOP and file handling skills in C++...`
+            long: "desc/chatbot.md"
         }
     },
     {
@@ -190,7 +189,7 @@ const projectsData = [
                 "Frontend: HTML + Tailwind CSS"
             ],
             images: ["/projects/instaclone.png"],
-            long: `## Why I built this\nTo practice replicating modern UI designs with Tailwind CSS...`
+            long: "desc/chatbot.md"
         }
     },
     {
@@ -216,7 +215,7 @@ const projectsData = [
                 "Frontend: HTML + Tailwind CSS"
             ],
             images: ["/projects/facebookclone.png"],
-            long: `## Why I built this\nTo improve UI layout skills with Tailwind CSS...`
+            long: "desc/chatbot.md"
         }
     }
 ];

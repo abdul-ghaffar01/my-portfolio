@@ -6,11 +6,11 @@ import { motion, AnimatePresence } from "framer-motion"
 import Logo from './Logo'
 
 const links = [
-  { name: "Home", link: "#" },
-  { name: "About", link: "#about" },
-  { name: "Projects", link: "#projects" },
-  { name: "Github", link: "#github" },
-  { name: "Skills", link: "#skills" },
+  { name: "Home", link: "/#" },
+  { name: "About", link: "/#about" },
+  { name: "Projects", link: "/#projects" },
+  { name: "Github", link: "/#github" },
+  { name: "Skills", link: "/#skills" },
 ]
 
 const Navbar = () => {
@@ -125,7 +125,7 @@ const Navbar = () => {
                   <motion.li
                     key={index}
                     initial={{ y: 20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1, transition: { delay: index * 0.1 }}
+                    animate={{ y: 0, opacity: 1, transition: { delay: index * 0.1 } }
                     }
                   >
                     <Link href={item.link} onClick={() => setSidebarOpen(false)}>{item.name}</Link>

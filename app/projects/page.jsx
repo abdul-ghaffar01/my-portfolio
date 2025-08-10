@@ -3,20 +3,9 @@
 "use client";
 
 import React, { useMemo, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import Link from "next/link";
-import { ChevronDown, X } from "lucide-react"; // optional icon lib; or swap with MUI icons
 import projectsData from "@/components/projects/data";
-import ProjectItem from "@/components/projects/ProjectItem";
+import ProjectItemProjectsPage from "@/components/projects/ProjectsPageItem";
 
-// export const metadata = {
-//     title: "Projects | Abdul Ghaffar",
-//     description: "All projects — ongoing, completed and archived. Deep docs and demos for each project.",
-// };
-
-/* ----------------------
-   Utility / UI pieces
-   ---------------------- */
 
 const STATUS_TABS = [
     { key: "all", label: "All" },
@@ -86,9 +75,9 @@ export default function ProjectsPage() {
 
                     <hr className="border border-gray-700 my-5" />
                     <h2 className="text-xl font-semibold mb-3">Featured</h2>
-                    <div className="flex flex-col">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                         {projects.filter(p => p.featured && (activeTab === "all" || p.status === activeTab)).map((p, i) => (
-                            <ProjectItem project={p} left={i % 2} />
+                            <ProjectItemProjectsPage project={p} left={i % 2} />
                         ))}
                     </div>
                 </section>}
@@ -98,9 +87,9 @@ export default function ProjectsPage() {
                 {/* All projects grid */}
                 <section>
                     <h2 className="text-xl font-semibold mb-3">{activeTab.charAt(0).toUpperCase() + activeTab.slice(1)} Projects</h2>
-                    <div className="flex flex-col gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
                         {filtered.map((p, i) => (
-                            <ProjectItem project={p} left={i % 2} />
+                            <ProjectItemProjectsPage project={p} left={i % 2} />
                         ))}
 
                         {filtered.length === 0 && (
@@ -110,6 +99,10 @@ export default function ProjectsPage() {
                         )}
                     </div>
                 </section>
+
+
+
+
             </div>
 
         </main>
