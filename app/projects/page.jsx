@@ -51,7 +51,7 @@ export default function ProjectsPage() {
                                 value={query}
                                 onChange={(e) => setQuery(e.target.value)}
                                 placeholder="Search projects, tech or short descriptions..."
-                                className="w-full md:w-72 px-3 py-2 rounded-md bg-gray-800 border border-gray-700 text-gray-100"
+                                className="w-full md:w-72 px-3 py-2 rounded-md bg-gray-800 border border-gray-700 text-gray-400 outline-none"
                                 aria-label="Search projects"
                             />
                         </div>
@@ -71,7 +71,7 @@ export default function ProjectsPage() {
                 </header>
 
                 {/* Featured section */}
-                {activeTab === "all" && <section>
+                {activeTab === "all" && query.length === 0 && <section>
 
                     <hr className="border border-gray-700 my-5" />
                     <h2 className="text-xl font-semibold mb-3">Featured</h2>
