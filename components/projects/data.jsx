@@ -24,7 +24,7 @@ const projectsData = [
                 "Training: Custom fuzzy matching logic"
             ],
             images: ["/projects/chatbot.png"],
-            long: "desc/chatbot.md"
+
         }
     },
     {
@@ -40,7 +40,6 @@ const projectsData = [
         ],
         date: "2024-03-22",
         github: null,
-        demo: "/static-projects/portfolio-deployment",
         docs: {
             summary: "This project showcases the end-to-end deployment of my microservices-based portfolio website using a full DevOps pipeline. It includes multiple services (frontend, backend API, and chatbot) containerized with Docker and deployed on an Ubuntu VPS. Automated deployments are handled via GitHub Webhooks to ensure zero downtime.",
             how: [
@@ -80,7 +79,7 @@ const projectsData = [
                 "/projects/deployment/docker-containers.png",
                 "/projects/deployment/nginx-config.png"
             ],
-            long: "desc/chatbot.md"
+
 
         }
     },
@@ -109,7 +108,7 @@ const projectsData = [
                 "Auth: JWT + RBAC"
             ],
             images: ["/projects/auth.png"],
-            long: "desc/chatbot.md"
+
         }
     },
     {
@@ -136,7 +135,7 @@ const projectsData = [
                 "Backend: C++ data structures"
             ],
             images: ["/projects/dbms.png"],
-            long: "desc/chatbot.md"
+
         }
     },
     {
@@ -163,7 +162,7 @@ const projectsData = [
                 "Backend: C++ with file storage"
             ],
             images: ["/projects/console-ecom.png"],
-            long: "desc/chatbot.md"
+
         }
     },
     {
@@ -189,7 +188,7 @@ const projectsData = [
                 "Frontend: HTML + Tailwind CSS"
             ],
             images: ["/projects/instaclone.png"],
-            long: "desc/chatbot.md"
+
         }
     },
     {
@@ -215,7 +214,7 @@ const projectsData = [
                 "Frontend: HTML + Tailwind CSS"
             ],
             images: ["/projects/facebookclone.png"],
-            long: "desc/chatbot.md"
+
         }
     }
 ];
