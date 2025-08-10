@@ -56,24 +56,6 @@ const projectsData = [
                 "Deployment: Docker + Docker Compose on Ubuntu",
                 "Automation: GitHub Webhooks + Shell Scripting"
             ],
-            challenges: [
-                {
-                    title: "Container Networking Issues",
-                    solution: "Created a dedicated Docker network and used container service names instead of localhost to enable communication."
-                },
-                {
-                    title: "SSL & Nginx Configuration",
-                    solution: "Automated SSL setup using Certbot and configured Nginx for proxy forwarding and WebSocket support."
-                },
-                {
-                    title: "Automated Deployment",
-                    solution: "Used GitHub Webhooks and a server-side Node.js script to rebuild and restart containers on every push."
-                },
-                {
-                    title: "Downtime During Rebuilds",
-                    solution: "Implemented zero-downtime deployments by spinning up new containers before removing the old ones."
-                }
-            ],
             images: [
                 "/projects/deployment/architecture.png",
                 "/projects/deployment/docker-containers.png",
