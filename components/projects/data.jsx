@@ -1,5 +1,32 @@
 const projectsData = [
     {
+        id: "p8",
+        title: "Modern Blog System with Admin Dashboard",
+        short: "A feature-rich blogging platform with categories, featured posts, modern UI, and automated deployments.",
+        img: "/projects/blogs.png",
+        featured: true,
+        status: "ongoing",
+        tags: ["Next.js", "Node.js", "MongoDB", "TailwindCSS"],
+        date: "2025-08-13",
+        github: "https://github.com/abdul-ghaffar01/blog-system",
+        demo: "https://blogs.iabdulghaffar.com",
+        docs: {
+            summary:
+                "A modern blog platform built with Next.js and Node.js, featuring category-based browsing, featured blog carousel, and secure admin dashboard for content management.",
+            how: [
+                "Built responsive UI with TailwindCSS and theme variables for light/dark mode.",
+                "Developed admin panel for adding, editing, and deleting blogs and categories.",
+                "Integrated GitHub webhooks for automated deployments.",
+                "Implemented modern blog details page using unique slugs."
+            ],
+            architecture: [
+                "Frontend: Next.js + TailwindCSS",
+                "Backend: Node.js + Express + MongoDB",
+                "Deployment: Nginx reverse proxy + PM2 + GitHub Webhooks"
+            ],
+            images: ["/projects/blogs.png"]
+        }
+    }, {
         id: "p1",
         title: "Personal AI Chatbot with Admin Panel",
         short: "A portfolio-integrated AI chatbot with an admin panel for managing intents and responses.",
@@ -153,7 +180,7 @@ const projectsData = [
         short: "Static clone of Instagram's homepage built with Tailwind CSS.",
         img: "/projects/instaclone.png",
         featured: false,
-        status: "completed",
+        status: "arvhieved",
         tags: ["Tailwind CSS", "HTML5", "UI Clone"],
         date: "2023-09-14",
         github: null,
