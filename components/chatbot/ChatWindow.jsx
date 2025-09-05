@@ -32,7 +32,7 @@ const ChatWindow = ({ messages, endRef, scrollRef, setStopSendingMessage }) => {
   return (
     <div
       ref={scrollRef}
-      className="flex flex-col h-full overflow-auto max-h-full p-2 bg-gray-900"
+      className="flex flex-col h-full overflow-y-auto overflow-x-hidden max-h-full p-2 bg-gray-900"
     >
       {messages.length === 0 && <NewChatCard />}
 
