@@ -14,7 +14,7 @@ const AccountSetup = ({ setGuestMode, setAccountSetup }) => {
     const handleGoogleLogin = () => {
         setLoading(true);
         console.log(process.env.NEXT_PUBLIC_CHATBOT_BACKEND_URL)
-        window.location.href = `https://chatbot.iabdulghaffar.com/googlelogin`;
+        window.location.href = `${process.env.NEXT_PUBLIC_CHATBOT_BACKEND_URL}/googlelogin`;
     };
 
     return (
