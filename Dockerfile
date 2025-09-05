@@ -1,15 +1,27 @@
-FROM node:18-alpine
-WORKDIR /portfolio
+# --- Stage 1: Build ---
+FROM node:18-alpine AS builder
+WORKDIR /app
 
-# Install dependencies
+# Install dependencies first (better cache)
 COPY package*.json ./
 RUN npm install
 
-# Copy all files
+# Copy source code AFTER dependencies
 COPY . .
 
-# Expose Next.js port
-EXPOSE 3001
+# Build Next.js
+RUN npm run build
 
-# Build and run at container startup (env vars injected by docker-compose will be available here)
-CMD ["sh", "-c", "npm run build && npm run start -- -H 0.0.0.0 -p 3001"]
+# --- Stage 2: Run ---
+FROM node:18-alpine AS runner
+WORKDIR /app
+
+# Copy only what’s needed for production
+COPY package*.json ./
+RUN npm install --only=production
+
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/public ./public
+
+EXPOSE 3001
+CMD ["npm", "start", "--", "-H", "0.0.0.0", "-p", "3001"]
