@@ -18,7 +18,8 @@ const ChatBot = () => {
   const timeoutRef = useRef(null);
 
   const handleClick = () => {
-    router.push("/chat");
+    if (window)
+      window.open("https://chat.iabdulghaffar.com", "_blank");
   };
 
   useEffect(() => {
