@@ -125,7 +125,7 @@ const projectsData = [
         title: "Aughr — Custom DBMS",
         short: "A console-based database management system for structured data operations.",
         img: "/projects/dbms.png",
-        featured: true,
+        featured: false,
         status: "completed",
         tags: ["C++", "DBMS", "CLI"],
         date: "2023-12-01",
