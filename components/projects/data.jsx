@@ -1,7 +1,7 @@
 const projectsData = [
     {
         id: "p8",
-        title: "Modern Blog System with Admin Dashboard",
+        title: "Modern Blog System with Admin panel",
         short: "A feature-rich blogging platform with categories, featured posts, modern UI, and automated deployments.",
         img: "/projects/blogs.png",
         featured: true,
