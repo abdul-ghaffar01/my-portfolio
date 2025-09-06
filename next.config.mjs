@@ -10,9 +10,6 @@ const nextConfig = {
             },
         ],
     },
-    env: {
-        NEXT_PUBLIC_CHATBOT_BACKEND_URL: process.env.NEXT_PUBLIC_CHATBOT_BACKEND_URL,
-    }
 };
 
 export default nextConfig;
