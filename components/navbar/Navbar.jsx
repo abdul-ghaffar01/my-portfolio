@@ -6,11 +6,11 @@ import { motion, AnimatePresence } from "framer-motion"
 import Logo from './Logo'
 
 const links = [
-  { name: "Home", link: "/#" },
-  { name: "About", link: "/#about" },
-  { name: "Projects", link: "/#projects" },
-  { name: "Github", link: "/#github" },
-  { name: "Skills", link: "/#skills" },
+  { name: "Home", link: "/#", ariaLabel: "Home" },
+  { name: "About", link: "/#about", ariaLabel: "About Me" },
+  { name: "Projects", link: "/#projects", ariaLabel: "Projects" },
+  { name: "Github", link: "/#github", ariaLabel: "GitHub Repositories" },
+  { name: "Skills", link: "/#skills", ariaLabel: "Skills" },
 ]
 
 const Navbar = () => {
@@ -42,7 +42,7 @@ const Navbar = () => {
       {/* Main Container */}
       <div className="relative max-w-7xl mx-auto flex items-center justify-between px-6 md:px-10 h-[70px]">
         {/* Logo */}
-        <Link href="/">
+        <Link href="/" aria-label="Home" >
           <Logo />
         </Link>
 
@@ -56,7 +56,7 @@ const Navbar = () => {
               onMouseLeave={() => setHoveredIndex(null)}
               onClick={() => setActiveIndex(index)}
             >
-              <Link href={item.link} className="hover:text-blue-400 transition">{item.name}</Link>
+              <Link href={item.link} aria-label={item.ariaLabel} className="hover:text-blue-400 transition">{item.name}</Link>
 
               {/* Floating Neon Dot */}
               {(hoveredIndex === index || activeIndex === index) && (
@@ -71,7 +71,7 @@ const Navbar = () => {
         </div>
 
         {/* Resume Button */}
-        <Link href="/resume" className="hidden md:block">
+        <Link aria-label='Resume' href="/resume" className="hidden md:block">
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -83,6 +83,7 @@ const Navbar = () => {
 
         {/* Mobile Hamburger */}
         <button
+          aria-label='Open Menu'
           onClick={() => setSidebarOpen(true)}
           className="md:hidden flex flex-col gap-1 w-10 h-10 justify-center items-center bg-gray-800/60 rounded-lg"
         >
@@ -113,7 +114,7 @@ const Navbar = () => {
               transition={{ type: "spring", stiffness: 80 }}
               className="fixed top-0 right-0 h-screen w-3/4 bg-gray-950/90 backdrop-blur-xl border-l border-gray-800 z-50 flex flex-col p-8"
             >
-              <button onClick={() => setSidebarOpen(false)} className="self-end mb-8">
+              <button aria-label='Close menu' onClick={() => setSidebarOpen(false)} className="self-end mb-8">
                 <div className="relative w-6 h-6">
                   <span className="absolute w-6 h-[2px] bg-blue-400 rotate-45 top-3"></span>
                   <span className="absolute w-6 h-[2px] bg-blue-400 -rotate-45 top-3"></span>
@@ -128,7 +129,7 @@ const Navbar = () => {
                     animate={{ y: 0, opacity: 1, transition: { delay: index * 0.1 } }
                     }
                   >
-                    <Link href={item.link} onClick={() => setSidebarOpen(false)}>{item.name}</Link>
+                    <Link href={item.link} aria-label={item.ariaLabel} onClick={() => setSidebarOpen(false)}>{item.name}</Link>
                   </motion.li>
                 ))}
               </ul>

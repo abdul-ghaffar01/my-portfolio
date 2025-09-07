@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Bg from './Bg'
 import { motion, AnimatePresence } from "framer-motion"
-import Navbar from '../navbar/Navbar'
+import Navbar from '../navbar/NavbarClient'
 import Image from 'next/image'
 
 const skills = [

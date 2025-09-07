@@ -10,7 +10,7 @@ export default function Home() {
     return (
         <div
             id="home"
-            className="w-screen relative overflow-hidden bg-gray-900 text-gray-200"
+            className="w-screen relative overflow-hidden bg-gray-950 text-gray-200"
             style={{ height: "100vh" }}
         >
             <Bg />
@@ -24,10 +24,11 @@ export default function Home() {
                     {/* Profile Image */}
                     <Image
                         src="/profile.png"
-                        width={3600}
-                        height={3600}
+                        width={1600}
+                        height={1600}
                         quality={100}
                         alt="Profile"
+                        loading='eager'
                         className="h-4/5 w-auto absolute bottom-0 z-[10]"
                     />
                 </div>

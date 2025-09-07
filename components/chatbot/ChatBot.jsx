@@ -52,6 +52,7 @@ const ChatBot = () => {
 
       {/* Chat Button */}
       <motion.button
+        aria-label="Chat with me"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.9 }}
         onClick={handleClick}

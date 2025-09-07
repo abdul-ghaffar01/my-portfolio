@@ -1,4 +1,4 @@
-"use client"
+
 import About from "@/components/about/About";
 import ChatBot from "@/components/chatbot/ChatBot";
 import Contact from "@/components/contact/Contact";

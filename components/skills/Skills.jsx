@@ -1,9 +1,9 @@
+"use client"
 import React from 'react'
 import Heading from '../Heading'
-import { delay, motion } from "framer-motion"
+import { motion } from "framer-motion"
 import Image from 'next/image'
 import data from "./data"
-import { duration } from '@mui/material'
 
 
 const Skills = () => {
