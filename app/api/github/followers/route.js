@@ -4,7 +4,6 @@ export async function GET(request) {
             headers: {
                 Authorization: "token " + process.env.GITHUB_PAT
             },
-            cache: "no-store",
         });
         const data = await profileData.json()
         return new Response(JSON.stringify(data))
