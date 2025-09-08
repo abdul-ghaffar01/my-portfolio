@@ -10,19 +10,19 @@ export default function ProjectItemProjectsPage({ project }) {
 
     return (
         <motion.div
-            initial={{ opacity: 0, y: 60, scale: 0.98 }}
+            initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{
                 opacity: 1,
-                y: 0,
                 scale: 1,
-                transition: { type: 'spring', stiffness: 60, damping: 15 }
+                transition: { duration: 0.5, ease: "easeOut" }
             }}
-            viewport={{ once: true, amount: 0.3 }}
+            viewport={{ once: true, amount: 0.2 }}
             whileHover={{ y: -8, transition: { duration: 0.3 } }}
             className={`relative group w-full h-fit min-w-[300px] m-2 max-w-md mx-auto flex flex-col gap-4 rounded-2xl overflow-hidden 
-            bg-gray-900/50 border border-gray-800 backdrop-blur-lg 
-            hover:shadow-[0_0_25px_rgba(59,130,246,0.2)] transition-all duration-500`}
+    bg-gray-900/50 border border-gray-800 backdrop-blur-lg 
+    hover:shadow-[0_0_25px_rgba(59,130,246,0.2)] transition-all duration-500`}
         >
+
             {/* Image Section */}
             <div className="relative w-full h-[250px] overflow-hidden">
                 {/* Status Badge */}
