@@ -69,6 +69,7 @@ export default function ProjectItemProjectsPage({ project }) {
                 <div className="flex gap-3 flex-wrap mt-2">
                     {project.github && (
                         <Link
+                            aria-label={`Github repository link of ${project.title}`}
                             href={project.github}
                             target="_blank"
                             className="inline-block px-5 py-2 rounded-lg text-white bg-gray-700 hover:bg-gray-800 shadow-lg hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] transition-all"
@@ -78,6 +79,7 @@ export default function ProjectItemProjectsPage({ project }) {
                     )}
                     {project.demo && (
                         <Link
+                            aria-label={`Live demo of ${project.title}`}
                             href={project.demo}
                             target="_blank"
                             className="inline-block px-5 py-2 rounded-lg text-white bg-blue-600 hover:bg-blue-700 shadow-lg hover:shadow-[0_0_20px_rgba(59,130,246,0.5)] transition-all"
@@ -86,6 +88,7 @@ export default function ProjectItemProjectsPage({ project }) {
                         </Link>
                     )}
                     <Link
+                        aria-label={`${project.title} Documentation Link`}
                         href={`/projects/${project.id}`}
                         className="inline-block px-5 py-2 rounded-lg text-white bg-purple-600 hover:bg-purple-700 shadow-lg hover:shadow-[0_0_20px_rgba(168,85,247,0.5)] transition-all"
                     >

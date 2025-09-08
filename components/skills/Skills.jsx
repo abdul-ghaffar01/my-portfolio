@@ -1,14 +1,12 @@
-"use client"
 import React from 'react'
 import Heading from '../Heading'
-import { motion } from "framer-motion"
-import Image from 'next/image'
-import data from "./data"
+import ShowSkills from './ShowSkills'
 
 
 const Skills = () => {
   return (
-    <div id='skills'
+    <div
+      id='skills'
       className='relative w-full min-h-[100dvh] bg-gray-900 h-fit flex flex-col items-center '>
       <div className='w-[200vw] absolute h-[400px] bg-gray-900 z-[2] rotate-[-3deg] top-[-50px] '></div>
       {/* All the content */}
@@ -18,7 +16,7 @@ const Skills = () => {
         lineColor="bg-gray-400"
         className="z-[2] mt-10"
       />
-      <motion.div
+      <div
         className='z-[3] mt-10 flex flex-col items-center max-w-[800px] text-center'
       >
         {/* Punch line */}
@@ -27,7 +25,8 @@ const Skills = () => {
         </p>
         <div className="skills mt-10 flex justify-center w-full flex-wrap">
 
-
+          <ShowSkills />
+          {/* 
           {data.map((item, index) => {
             return (
               <motion.div
@@ -45,10 +44,10 @@ const Skills = () => {
                 <p className="text-lg font-bold transition-all duration-200">{item.name}</p>
               </motion.div>
             );
-          })}
+          })} */}
 
         </div>
-      </motion.div >
+      </div>
     </div >
   )
 }

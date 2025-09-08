@@ -1,5 +1,3 @@
-// app/projects/[id]/page.jsx
-
 import projectsData from "@/components/projects/data";
 import fs from "fs";
 import path from "path";

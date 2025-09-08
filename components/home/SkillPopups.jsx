@@ -5,7 +5,6 @@ import { useEffect, useState, useRef } from "react"
 const skills = [
     "💻 JavaScript", "⚛️ React", "🔗 Next.js", "🟢 Node.js",
     "🚀 Express.js", "🏗️ NestJS", "🎨 Tailwind CSS", "🖌️ MUI"
-    // ... rest of your skills
 ]
 
 export default function SkillPopups() {
@@ -36,8 +35,8 @@ export default function SkillPopups() {
             }
         }
 
-        document.addEventListener("mousemove", handleMouseMove)
-        return () => document.removeEventListener("mousemove", handleMouseMove)
+        document.getElementById("home").addEventListener("mousemove", handleMouseMove)
+        return () => document.getElementById("home").removeEventListener("mousemove", handleMouseMove)
     }, [])
 
     return (

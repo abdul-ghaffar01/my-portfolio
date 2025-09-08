@@ -47,8 +47,8 @@ export default function ProjectsPageClient({ projects }) {
                             key={t.key}
                             onClick={() => setActiveTab(t.key)}
                             className={`px-3 py-2 rounded-lg text-sm ${activeTab === t.key
-                                    ? "bg-gray-800 text-white"
-                                    : "bg-gray-800/60 text-gray-300 hover:bg-gray-800"
+                                ? "bg-gray-800 text-white"
+                                : "bg-gray-800/60 text-gray-300 hover:bg-gray-800"
                                 }`}
                         >
                             {t.label}
@@ -66,7 +66,8 @@ export default function ProjectsPageClient({ projects }) {
                         {projects
                             .filter((p) => p.featured)
                             .map((p, i) => (
-                                <ProjectItemProjectsPage key={p.slug} project={p} left={i % 2} />
+                                <ProjectItemProjectsPage key={`${p.slug}-${i}`} project={p} left={i % 2} />
+
                             ))}
                     </div>
                 </section>
@@ -81,7 +82,7 @@ export default function ProjectsPageClient({ projects }) {
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
                     {filtered.map((p, i) => (
-                        <ProjectItemProjectsPage key={p.slug} project={p} left={i % 2} />
+                        <ProjectItemProjectsPage key={`${p.slug}-${i}`} project={p} left={i % 2} />
                     ))}
 
                     {filtered.length === 0 && (
