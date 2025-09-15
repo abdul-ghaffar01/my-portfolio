@@ -10,8 +10,14 @@ const skills = [
 export default function SkillPopups() {
     const [popups, setPopups] = useState([])
     const lastPost = useRef({ x: 0, y: 0 })
+    const selfRef = useRef(null) // ref to SkillPopups container
 
     useEffect(() => {
+        if (!selfRef.current) return
+        const parent = selfRef.current.parentElement // get #home or any wrapper
+
+        if (!parent) return
+
         const handleMouseMove = (event) => {
             const { clientX, clientY } = event
 
@@ -35,25 +41,27 @@ export default function SkillPopups() {
             }
         }
 
-        document.getElementById("home").addEventListener("mousemove", handleMouseMove)
-        return () => document.getElementById("home").removeEventListener("mousemove", handleMouseMove)
+        parent.addEventListener("mousemove", handleMouseMove)
+        return () => parent.removeEventListener("mousemove", handleMouseMove)
     }, [])
 
     return (
-        <AnimatePresence>
-            {popups.map((popup) => (
-                <motion.p
-                    key={popup.id}
-                    initial={{ opacity: 0, scale: 0 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="absolute px-3 py-1 rounded-md text-sm text-blue-400 bg-gray-800/80 shadow-[0_0_10px_#3b82f6]"
-                    style={{ left: popup.x, top: popup.y }}
-                >
-                    {popup.text}
-                </motion.p>
-            ))}
-        </AnimatePresence>
+        <div ref={selfRef}>
+            <AnimatePresence>
+                {popups.map((popup) => (
+                    <motion.p
+                        key={popup.id}
+                        initial={{ opacity: 0, scale: 0 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="absolute px-3 py-1 rounded-md text-sm text-blue-400 bg-gray-800/80 shadow-[0_0_10px_#3b82f6]"
+                        style={{ left: popup.x, top: popup.y }}
+                    >
+                        {popup.text}
+                    </motion.p>
+                ))}
+            </AnimatePresence>
+        </div>
     )
 }
