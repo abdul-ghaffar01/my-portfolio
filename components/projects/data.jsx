@@ -36,7 +36,7 @@ const projectsData = [
         tags: ["Node.js", "MongoDB", "WebSockets", "React"],
         date: "2024-05-10",
         github: null,
-        demo: "https://iabdulghaffar.com/chat",
+        demo: "https://chat.iabdulghaffar.com/",
         docs: {
             summary:
                 "A fully functional AI chatbot built with Node.js and MongoDB for backend training data management and fuzzy matching logic.",
