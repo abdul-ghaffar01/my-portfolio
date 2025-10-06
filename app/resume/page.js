@@ -14,6 +14,7 @@ const Resume = () => {
     btnRef.current.style.display = 'none';
     // Swap with html2pdf/react-to-pdf for real PDF export
     window.print();
+    btnRef.current.style.display = 'flex';
   };
 
   return (

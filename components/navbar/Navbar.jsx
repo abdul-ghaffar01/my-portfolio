@@ -6,6 +6,7 @@ const links = [
   { name: "Home", link: "/#", ariaLabel: "Home" },
   { name: "About", link: "/#about", ariaLabel: "About Me" },
   { name: "Projects", link: "/#projects", ariaLabel: "Projects" },
+  { name: "Blogs", link: "https://blogs.iabdulghaffar.com", ariaLabel: "Blogs" },
   { name: "Github", link: "/#github", ariaLabel: "GitHub Repositories" },
   { name: "Skills", link: "/#skills", ariaLabel: "Skills" },
 ];
