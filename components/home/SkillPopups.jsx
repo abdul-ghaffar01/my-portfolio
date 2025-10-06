@@ -3,9 +3,26 @@ import { motion, AnimatePresence } from "framer-motion"
 import { useEffect, useState, useRef } from "react"
 
 const skills = [
-    "💻 JavaScript", "⚛️ React", "🔗 Next.js", "🟢 Node.js",
-    "🚀 Express.js", "🏗️ NestJS", "🎨 Tailwind CSS", "🖌️ MUI"
-]
+    // Frontend
+    "💻 JavaScript", "⚛️ React", "🔗 Next.js", "🖼️ Redux", "🎨 Tailwind CSS", "🖌️ MUI", "🧩 TypeScript",
+    "🌈 HTML5", "🎯 CSS3", "🧠 Zustand", "📱 Responsive Design",
+
+    // Backend
+    "🟢 Node.js", "🚀 Express.js", "🏗️ NestJS", "🧮 REST APIs", "⚙️ GraphQL",
+
+    // Databases
+    "🗄️ MongoDB", "🐘 PostgreSQL", "🧩 MySQL", "🪶 Mongoose", "🧰 Redis",
+
+    // DevOps / Tools
+    "🐳 Docker", "☁️ AWS", "📦 Vercel", "🚢 Netlify", "🔧 Nginx",
+
+    // Version Control / Collaboration
+    "🌍 Git", "📂 GitHub", "🧭 GitLab",
+
+    // Others
+    "📈 SEO",
+];
+
 
 export default function SkillPopups() {
     const [popups, setPopups] = useState([])
