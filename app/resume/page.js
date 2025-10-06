@@ -3,13 +3,15 @@
 import { useRef } from "react";
 import { motion } from "framer-motion";
 import { Download, Github, Globe } from "lucide-react";
-import projectsData from "@/components/projects/data"; 
+import projectsData from "@/components/projects/data";
 
 const Resume = () => {
   const resumeRef = useRef();
   const featuredProjects = projectsData.filter(p => p.featured).slice(0, 3);
+  const btnRef = useRef();
 
   const handleDownload = () => {
+    btnRef.current.style.display = 'none';
     // Swap with html2pdf/react-to-pdf for real PDF export
     window.print();
   };
@@ -21,6 +23,7 @@ const Resume = () => {
         <header className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900">Abdul Ghaffar</h1>
           <button
+            ref={btnRef}
             onClick={handleDownload}
             className="bg-blue-600 text-white px-5 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700"
           >
