@@ -28,14 +28,15 @@ const Resume = () => {
             <p className="text-gray-700 text-sm mt-1">
               Backend-Focused Full Stack Developer
             </p>
-            <div className="flex flex-col sm:flex-row sm:items-center gap-1 mt-2 text-sm text-gray-600">
+            <div className="flex flex-col gap-1 mt-2 text-sm text-gray-600">
               <a
-                href="mailto:abdulghaffar@gmail.com"
+                href="mailto:agscontact777@gmail.com"
                 className="flex items-center gap-1 hover:text-blue-600"
               >
                 <Mail size={14} /> agscontact777@gmail.com
               </a>
-              <span className="hidden sm:block">•</span>
+              
+
               <a
                 href="https://github.com/abdul-ghaffar01"
                 target="_blank"
@@ -44,7 +45,8 @@ const Resume = () => {
               >
                 <Github size={14} /> github.com/abdul-ghaffar01
               </a>
-              <span className="hidden sm:block">•</span>
+              
+
               <a
                 href="https://www.linkedin.com/in/abdul-ghaffar01/"
                 target="_blank"
@@ -53,7 +55,18 @@ const Resume = () => {
               >
                 <Linkedin size={14} /> linkedin.com/in/abdul-ghaffar01
               </a>
+              
+
+              <a
+                href="https://iabdulghaffar.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1 hover:text-blue-600"
+              >
+                🌐 iabdulghaffar.com
+              </a>
             </div>
+
           </div>
 
           <button
@@ -81,24 +94,39 @@ const Resume = () => {
           </p>
         </section>
 
-        {/* Skills */}
+        {/* Experience */}
         <section className="mb-6">
-          <h2 className="text-lg font-semibold text-gray-800 border-b pb-1 mb-2">
-            Technical Skills
+          <h2 className="text-lg font-semibold text-gray-800 border-b pb-1 mb-3">
+            Professional Experience
           </h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-1 text-sm text-gray-700">
-            <span>JavaScript / Node.js</span>
-            <span>Next.js / React</span>
-            <span>MongoDB / SQL</span>
-            <span>Golang</span>
-            <span>Docker / Docker Compose</span>
-            <span>Nginx / Ubuntu</span>
-            <span>GitHub Webhooks / CI/CD</span>
-            <span>Microservices</span>
-            <span>JWT / Role-Based Access</span>
-            <span>WebSockets</span>
-            <span>RESTful API Design</span>
-            <span>Tailwind CSS</span>
+
+          <div>
+            <p className="font-medium text-gray-800 text-sm">
+              Freelance Full Stack Developer <span className="text-gray-500">| Remote</span>
+            </p>
+            <p className="text-gray-600 text-sm mb-2">2022 — Present</p>
+            <ul className="list-disc list-inside text-gray-700 text-sm space-y-1">
+              <li>
+                Delivered multiple full-stack web applications for clients across
+                e-commerce, portfolio, and automation domains.
+              </li>
+              <li>
+                Designed and deployed backend systems using Node.js, Express,
+                MongoDB, and RESTful APIs.
+              </li>
+              <li>
+                Integrated authentication, real-time features, and third-party
+                services like Stripe and Firebase.
+              </li>
+              <li>
+                Managed deployments using Docker, Nginx, and CI/CD pipelines with
+                GitHub Actions and Webhooks.
+              </li>
+              <li>
+                Collaborated directly with clients to gather requirements,
+                implement features, and ensure on-time delivery.
+              </li>
+            </ul>
           </div>
         </section>
 
@@ -122,16 +150,7 @@ const Resume = () => {
                   ))}
                 </ul>
                 <div className="flex gap-3 mt-2 text-blue-600 text-sm">
-                  {project.github && (
-                    <a
-                      href={project.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-1 hover:underline"
-                    >
-                      <Github size={14} /> Code
-                    </a>
-                  )}
+
                   {project.demo && (
                     <a
                       href={project.demo}
@@ -139,7 +158,7 @@ const Resume = () => {
                       rel="noopener noreferrer"
                       className="flex items-center gap-1 hover:underline"
                     >
-                      <Globe size={14} /> Demo
+                      <Globe size={14} /> Demo: {project.demo.replace(/^https?:\/\//, '')}
                     </a>
                   )}
                 </div>
@@ -159,6 +178,7 @@ const Resume = () => {
             </p>
             <p className="text-gray-600 text-sm">
               SZABIST University — CGPA: 3.8 | 3 Semesters completed, Two Merit Scholarships
+              <br />
               Expected Graduation: January 2028
             </p>
           </div>
@@ -192,20 +212,11 @@ const Resume = () => {
           }
         }
         @page {
-          margin: 1cm;
-          /* remove default browser header/footer */
-          @top-left {
-            content: none;
-          }
-          @top-right {
-            content: none;
-          }
-          @bottom-left {
-            content: none;
-          }
-          @bottom-right {
-            content: none;
-          }
+          margin: 1cm 0, 1cm 0;
+          @top-left { content: none; }
+          @top-right { content: none; }
+          @bottom-left { content: none; }
+          @bottom-right { content: none; }
         }
       `}</style>
     </div>
