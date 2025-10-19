@@ -19,63 +19,68 @@ const Resume = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto resume-container bg-white shadow-lg rounded-lg p-8">
+    <div className="min-h-screen bg-gray-50 p-4">
+      <button
+        ref={btnRef}
+        onClick={handleDownload}
+        className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700"
+      >
+        <Download size={16} /> Download PDF
+      </button>
+      <div className="max-w-4xl mx-auto resume-container bg-white shadow-lg rounded-lg p-2">
         {/* Header */}
-        <header className="flex justify-between items-start mb-6">
-          <div>
+        <header className="flex justify-between items-start mb-3">
+          <div className="m-auto flex justify-center flex-col items-center text-center">
             <h1 className="text-3xl font-bold text-gray-900">Abdul Ghaffar</h1>
-            <p className="text-gray-700 text-sm mt-1">
+            <p className="text-gray-700 text-sm">
               Backend-Focused Full Stack Developer
             </p>
-            <div className="flex flex-col gap-1 mt-2 text-sm text-gray-600">
-              <a
-                href="mailto:agscontact777@gmail.com"
-                className="flex items-center gap-1 hover:text-blue-600"
-              >
-                <Mail size={14} /> agscontact777@gmail.com
-              </a>
-              
+            <div className="flex flex-col gap-1 mt-1 text-sm text-gray-600">
+              <div className="w-fit flex justify-center gap-3 text-center">
+                <a
+                  href="mailto:agscontact777@gmail.com"
+                  className="flex items-center gap-1 hover:text-blue-600"
+                >
+                  <Mail size={14} /> agscontact777@gmail.com
+                </a>
 
-              <a
-                href="https://github.com/abdul-ghaffar01"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-1 hover:text-blue-600"
-              >
-                <Github size={14} /> github.com/abdul-ghaffar01
-              </a>
-              
 
-              <a
-                href="https://www.linkedin.com/in/abdul-ghaffar01/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-1 hover:text-blue-600"
-              >
-                <Linkedin size={14} /> linkedin.com/in/abdul-ghaffar01
-              </a>
-              
+                <a
+                  href="https://github.com/abdul-ghaffar01"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1 hover:text-blue-600"
+                >
+                  <Github size={14} /> github.com/abdul-ghaffar01
+                </a>
+              </div>
 
-              <a
-                href="https://iabdulghaffar.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-1 hover:text-blue-600"
-              >
-                🌐 iabdulghaffar.com
-              </a>
+              <div className="w-fit flex justify-center gap-3 m-auto text-center">
+
+                <a
+                  href="https://www.linkedin.com/in/abdul-ghaffar01/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1 hover:text-blue-600"
+                >
+                  <Linkedin size={14} /> linkedin.com/in/abdul-ghaffar01
+                </a>
+
+
+                <a
+                  href="https://iabdulghaffar.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1 hover:text-blue-600"
+                >
+                  🌐 iabdulghaffar.com
+                </a>
+              </div>
             </div>
 
           </div>
 
-          <button
-            ref={btnRef}
-            onClick={handleDownload}
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700"
-          >
-            <Download size={16} /> Download PDF
-          </button>
+
         </header>
 
         {/* Summary */}
@@ -93,6 +98,24 @@ const Resume = () => {
             scholarships.
           </p>
         </section>
+
+        {/* Skills */}
+        <section className="mb-6">
+          <h2 className="text-lg font-semibold text-gray-800 border-b pb-1 mb-2">
+            Technical Skills
+          </h2>
+          <p className="text-gray-700 text-sm leading-relaxed">
+            <span className="font-medium text-gray-800">Languages & Frameworks:</span>
+            JavaScript (ES6+), TypeScript, Node.js, Express.js, React, Next.js, Tailwind CSS
+            <br />
+            <span className="font-medium text-gray-800">Databases & Tools:</span>
+            MongoDB, MySQL, PostgreSQL, REST APIs, Git, Linux, Docker, Nginx
+            <br />
+            <span className="font-medium text-gray-800">Core Skills:</span>
+            System Design, Cloud Deployment, Automation, Problem Solving, Debugging
+          </p>
+        </section>
+
 
         {/* Experience */}
         <section className="mb-6">
@@ -121,10 +144,6 @@ const Resume = () => {
               <li>
                 Managed deployments using Docker, Nginx, and CI/CD pipelines with
                 GitHub Actions and Webhooks.
-              </li>
-              <li>
-                Collaborated directly with clients to gather requirements,
-                implement features, and ensure on-time delivery.
               </li>
             </ul>
           </div>
@@ -162,6 +181,7 @@ const Resume = () => {
                     </a>
                   )}
                 </div>
+                {project.id === "p1" && (<br />)}
               </div>
             ))}
           </div>
@@ -212,7 +232,7 @@ const Resume = () => {
           }
         }
         @page {
-          margin: 1cm 0, 1cm 0;
+          margin: 0;
           @top-left { content: none; }
           @top-right { content: none; }
           @bottom-left { content: none; }
