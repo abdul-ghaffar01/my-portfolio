@@ -1,5 +1,33 @@
 const projectsData = [
     {
+        id: "p9",
+        title: "E-Learning Management System",
+        short: "A complete e-learning platform with authentication, course creation, video lessons, quizzes, student tracking, and an admin dashboard.",
+        img: "/projects/elearning.png",
+        featured: true,
+        status: "ongoing",
+        tags: ["Next.js", "Golang", "PostgreSQL", "TailwindCSS", "REST API"],
+        date: "2025-02-01",
+        github: "https://github.com/abdul-ghaffar01/elearning",
+        demo: "https://elearning.iabdulghaffar.com",
+        docs: {
+            summary:
+                "A full e-learning platform built using Next.js for the frontend and Golang for backend APIs. It includes user authentication, course management, lesson playback, quizzes, student progress tracking, and an admin dashboard for instructors.",
+            how: [
+                "Designed a scalable PostgreSQL schema for users, courses, lessons, quizzes, and enrollments.",
+                "Built a secure REST API in Golang with JWT authentication and role-based access (admin, instructor, student).",
+                "Developed a clean and responsive UI in Next.js with TailwindCSS, including dashboards for students and instructors.",
+                "Implemented video lessons, quiz management, and progress tracking.",
+                "Used middleware, validations, and best practices for robust backend and smooth frontend performance."
+            ],
+            architecture: [
+                "Frontend: Next.js + TailwindCSS",
+                "Backend: Golang (Gin/Fiber) + PostgreSQL",
+                "Deployment: Nginx reverse proxy + Standalone Golang server + GitHub Actions CI/CD"
+            ],
+            images: ["/projects/elearning.png"]
+        }
+    }, {
         id: "p8",
         title: "Modern Blog System with Admin panel",
         short: "A feature-rich blogging platform with categories, featured posts, modern UI, and automated deployments.",

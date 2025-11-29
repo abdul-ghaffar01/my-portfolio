@@ -32,7 +32,7 @@ const Projects = () => {
 
       {/* Projects List - Only Top 3 */}
       <div className="relative z-10 mt-16 flex flex-col gap-20 px-6 sm:px-10 md:px-16 lg:px-24 max-w-7xl mx-auto">
-        {projectsData.slice(0, 3).map((project, index) => (
+        {projectsData.slice(0, 4).map((project, index) => (
           <ProjectItem key={index} project={project} left={index % 2 === 0} />
         ))}
       </div>
