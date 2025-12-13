@@ -1,3 +1,4 @@
+"use client"
 import Navbar from "../navbar/Navbar";
 import Image from "next/image";
 import SkillPopups from "./SkillPopups";
